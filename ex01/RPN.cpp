@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:37:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/13 19:51:55 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/13 20:18:16 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,38 @@ RPN::RPN(std::string input)
 	int					num;
 	char				c;
 
-	while (input_stream.peek() != -1)
+	try
 	{
-		if (std::isdigit(input_stream.peek()))
+		while (input_stream.peek() != -1)
 		{
-			input_stream >> num;
-			expr.push(num);
-		}
-		else
-		{
-			if (input_stream.peek() == '+')
-				addition();
-			else if (input_stream.peek() == '-')
-				substraction();
-			else if (input_stream.peek() == '*')
-				multiplication();
-			else if (input_stream.peek() == '/')
-				division();
-			else if (!std::isspace(input_stream.peek()))
+			if (std::isdigit(input_stream.peek()))
 			{
-				//clearing the stack
-				while (!expr.empty())
-					expr.pop();
-				break;
+				input_stream >> num;
+				expr.push(num);
 			}
-			input_stream.get(c);
+			else
+			{
+					if (input_stream.peek() == '+')
+						addition();
+					else if (input_stream.peek() == '-')
+						substraction();
+					else if (input_stream.peek() == '*')
+						multiplication();
+					else if (input_stream.peek() == '/')
+						division();
+					else if (!std::isspace(input_stream.peek()))
+						throw(std::runtime_error("Invalid expression"));
+					input_stream.get(c);
+			}
 		}
+		if (expr.size() != 1)
+		throw(std::runtime_error("Invalid expression"));
+	}
+	catch(const std::exception& e)
+	{
+		//Clearing the whole stack
+		while (!expr.empty())
+			expr.pop();
 	}
 }
 
@@ -68,7 +74,9 @@ RPN & RPN::operator= (const RPN &other)
 
 void RPN::addition()
 {
-	//if empty? throw
+	if (expr.size() < 2)
+		throw(std::runtime_error("Not enough numbers to do the operation"));
+
 	int sum;
 
 	sum = expr.top();
@@ -80,7 +88,9 @@ void RPN::addition()
 
 void RPN::substraction()
 {
-	//if empty? throw
+	if (expr.size() < 2)
+		throw(std::runtime_error("Not enough numbers to do the operation"));
+
 	int minuend;
 	int subtrahend;
 
@@ -93,7 +103,9 @@ void RPN::substraction()
 
 void RPN::multiplication()
 {
-	//if empty? throw
+	if (expr.size() < 2)
+		throw(std::runtime_error("Not enough numbers to do the operation"));
+
 	int product;
 
 	product = expr.top();
@@ -105,7 +117,9 @@ void RPN::multiplication()
 
 void RPN::division()
 {
-	//if empty? throw
+	if (expr.size() < 2)
+		throw(std::runtime_error("Not enough numbers to do the operation"));
+
 	int divident;
 	int divisor;
 

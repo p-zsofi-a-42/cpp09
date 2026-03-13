@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:39:34 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/13 19:49:45 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/13 20:19:18 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ void	test_2()
 void	test_3()
 {
 	std::cout << LILA_B << "Test 3: invalid expresssions" << ENDCLR << std::endl;
+
+	RPN("+").printResult();
+	RPN("1+++").printResult();
+	RPN("").printResult();
+	RPN("1 + 1").printResult();
+	RPN("9 9 * 9").printResult();
 }
 
 int	main( int argc, char *argv[] )
@@ -41,8 +47,8 @@ int	main( int argc, char *argv[] )
 	{
 		std::cout << LILA_B << "Give 1 argument for which test you want to see"
 					"\n 1: subject's main"
-					//"\n 2: valid expresssions"
-					//"\n 3: invalid expresssions"
+					"\n 2: valid expresssions"
+					"\n 3: invalid expresssions"
 					//"\n 4: "
 					// "\n 5: " 
 					// "\n 6: "
@@ -66,12 +72,12 @@ int	main( int argc, char *argv[] )
 		case 1:	
 			test_1();
 			break;
- 		// case 2:	
-		// 	test_2();
-		// 	break;
-		// case 3:	
-		// 	test_3();
-		// 	break;
+ 		case 2:	
+			test_2();
+			break;
+		case 3:	
+			test_3();
+			break;
 		// case 4:	
 		// 	test_4();
 		// 	break;

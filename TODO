@@ -1,4 +1,4 @@
-[ ] throw if empty 
-[ ] throw for result
+[X] throw if empty 
+[X] throw for result
 [ ] bigger than int result
 [ ] invalid lines
