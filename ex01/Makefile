@@ -1,7 +1,8 @@
 #----------------------------------FILES----------------------------------------
 SRC_MAN	=	\
-			main.cpp\
 			RPN.cpp\
+			tests.cpp\
+#			main.cpp\
 
 OBJ_DIR		= build
 BUG_DIR		= build_debug

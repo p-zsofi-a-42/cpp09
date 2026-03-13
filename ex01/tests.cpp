@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:39:34 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/13 17:51:11 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/13 19:28:40 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,34 @@
 #include <sstream>		//stringstream
 #include "RPN.hpp"
 
+void	test_1()
+{
+	std::cout << LILA_B << "Test 1: subject's main" << ENDCLR << std::endl;
+
+	RPN("8 9 * 9 - 9 - 9 - 4 - 1 +");
+	RPN("7 7 * 7 -");
+	RPN("1 2 * 2 / 2 * 2 4 - +");
+	RPN("(1 + 1)");
+}
+
+void	test_2()
+{
+	std::cout << LILA_B << "Test 2: valid expresssions" << ENDCLR << std::endl;
+}
+
+void	test_3()
+{
+	std::cout << LILA_B << "Test 3: invalid expresssions" << ENDCLR << std::endl;
+}
+
 int	main( int argc, char *argv[] )
 {
 	if (argc != 2)
 	{
 		std::cout << LILA_B << "Give 1 argument for which test you want to see"
-					//"\n 1: "
-					//"\n 2: "
-					//"\n 3: "
+					"\n 1: subject's main"
+					//"\n 2: valid expresssions"
+					//"\n 3: invalid expresssions"
 					//"\n 4: "
 					// "\n 5: " 
 					// "\n 6: "
@@ -43,9 +63,9 @@ int	main( int argc, char *argv[] )
 
 	switch (testnum)
 	{
-		// case 1:	
-		// 	test_1();
-		// 	break;
+		case 1:	
+			test_1();
+			break;
  		// case 2:	
 		// 	test_2();
 		// 	break;
