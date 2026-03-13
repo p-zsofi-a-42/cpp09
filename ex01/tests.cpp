@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:39:34 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/13 19:28:40 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/13 19:49:45 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	test_1()
 {
 	std::cout << LILA_B << "Test 1: subject's main" << ENDCLR << std::endl;
 
-	RPN("8 9 * 9 - 9 - 9 - 4 - 1 +");
-	RPN("7 7 * 7 -");
-	RPN("1 2 * 2 / 2 * 2 4 - +");
-	RPN("(1 + 1)");
+	RPN("8 9 * 9 - 9 - 9 - 4 - 1 +").printResult();
+	RPN("7 7 * 7 -").printResult();
+	RPN("1 2 * 2 / 2 * 2 4 - +").printResult();
+	RPN("(1 + 1)").printResult();
 }
 
 void	test_2()

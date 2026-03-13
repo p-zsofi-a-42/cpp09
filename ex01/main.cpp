@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:51:02 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/13 18:06:14 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/13 19:50:12 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int	main( int argc, char *argv[] )
 	std::string	input(argv[1]);
 
 	RPN expression(input);
-//	std::cout << expression.calculation() << std::endl;
+	expression.printResult();
 	return 0;
 }

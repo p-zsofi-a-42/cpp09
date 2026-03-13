@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:32:45 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/13 18:29:36 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/13 19:52:23 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,19 @@ class RPN
 		RPN();
 		std::stack<int> expr;
 
+		void addition();
+		void substraction();
+		void multiplication();
+		void division();
+
 	public:
 		RPN(std::string input);
 		~RPN();
 		RPN(const RPN &other);
 
 		RPN &operator= (const RPN &other);
+
+		void	printResult();
 };
 
 #endif
