@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:39:34 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/20 14:18:50 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/20 14:57:24 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,17 @@ void	test_2()
 	std::cout << LILA_B << "Test 2: valid expresssions" << ENDCLR << std::endl;
 	RPN("2 3 4 * +").printResult();
 	RPN("1 1 1 1 1 1 1 1 1 1 + + + + + + + + +").printResult();
-	RPN("1 9 -").printResult();									//negative result
-	RPN("5 2 /").printResult();									//decimal result : 2.5
-	RPN("5 2 / 2 *").printResult();								//2.5 * 2
-	RPN("9 9 * 9 * 9 * 9 * 9 * 9 * 9 * 9 * 9 *").printResult();	//overflow
+	RPN("1 9 -").printResult();					//negative result
+	RPN("5 2 /").printResult();					//decimal result : 2.5
+	RPN("5 2 / 2 *").printResult();				//2.5 * 2
 
+	std::cout << LILA << "> overflow checks: change all __DBL_MAX__ to 100; then run these tests" << ENDCLR << std::endl;
+	RPN("9 9 1 + * 9 + 1 +").printResult();		//result: 100
+	RPN("9 9 1 + * 9 + 2 +").printResult();		//result: 101	// addition overflow
+	RPN("0 9 9 1 + * - 9 - 1 -").printResult();	//result: -100
+	RPN("0 9 9 1 + * - 9 - 2 -").printResult();	//result: -101	// substraction overflow
+	RPN("5 9 1 + * 2 *").printResult();			//result: 100
+	RPN("5 9 1 + * 2 * 2 *").printResult();		//result: 200	// multiplication overflow
 }
 
 void	test_3()

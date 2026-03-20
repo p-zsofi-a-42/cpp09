@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:37:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/13 20:22:12 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/20 14:56:35 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,12 @@ void RPN::addition()
 	if (expr.size() < 2)
 		throw(std::runtime_error("Not enough numbers to do the operation"));
 
-	int sum;
+	double sum;
 
 	sum = expr.top();
 	expr.pop();
+	if (__DBL_MAX__ - expr.top() < sum)
+		throw(std::runtime_error("Expression is overflowing"));
 	sum += expr.top();
 	expr.pop();
 	expr.push(sum);
@@ -91,13 +93,15 @@ void RPN::substraction()
 	if (expr.size() < 2)
 		throw(std::runtime_error("Not enough numbers to do the operation"));
 
-	int minuend;
-	int subtrahend;
+	double minuend;		//first number
+	double subtrahend;	//second number
 
 	subtrahend = expr.top();
 	expr.pop();
 	minuend = expr.top();
 	expr.pop();
+	if (-__DBL_MAX__ + subtrahend > minuend)
+		throw(std::runtime_error("Expression is underflowing"));
 	expr.push(minuend - subtrahend);
 }
 
@@ -106,10 +110,12 @@ void RPN::multiplication()
 	if (expr.size() < 2)
 		throw(std::runtime_error("Not enough numbers to do the operation"));
 
-	int product;
+	double product;
 
 	product = expr.top();
 	expr.pop();
+	if (__DBL_MAX__ / expr.top() < product)
+		throw(std::runtime_error("Expression is overflowing"));
 	product *= expr.top();
 	expr.pop();
 	expr.push(product);
@@ -120,8 +126,8 @@ void RPN::division()
 	if (expr.size() < 2)
 		throw(std::runtime_error("Not enough numbers to do the operation"));
 
-	int divident;
-	int divisor;
+	double divident;	//first number
+	double divisor;		//second number
 
 	divisor = expr.top();
 	expr.pop();

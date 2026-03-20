@@ -1,5 +1,5 @@
 [X] throw if empty 
 [X] throw for result
-[ ] bigger than int result
+[X] bigger than int result
 [ ] invalid lines
-[ ] decimal results
+[X] decimal results
