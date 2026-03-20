@@ -35,21 +35,21 @@ RPN::RPN(std::string input)
 			}
 			else
 			{
-					if (input_stream.peek() == '+')
-						addition();
-					else if (input_stream.peek() == '-')
-						substraction();
-					else if (input_stream.peek() == '*')
-						multiplication();
-					else if (input_stream.peek() == '/')
-						division();
-					else if (!std::isspace(input_stream.peek()))
-						throw(std::runtime_error("Invalid expression"));
-					input_stream.get(c);
+				if (input_stream.peek() == '+')
+					addition();
+				else if (input_stream.peek() == '-')
+					substraction();
+				else if (input_stream.peek() == '*')
+					multiplication();
+				else if (input_stream.peek() == '/')
+					division();
+				else if (!std::isspace(input_stream.peek()))
+					throw(std::runtime_error("Invalid expression"));
+				input_stream.get(c);
 			}
 		}
 		if (expr.size() != 1)
-		throw(std::runtime_error("Invalid expression"));
+			throw(std::runtime_error("Invalid expression"));
 	}
 	catch(const std::exception& e)
 	{
