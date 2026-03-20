@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:39:34 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/13 20:19:18 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/20 14:18:50 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,28 @@ void	test_1()
 void	test_2()
 {
 	std::cout << LILA_B << "Test 2: valid expresssions" << ENDCLR << std::endl;
+	RPN("2 3 4 * +").printResult();
+	RPN("1 1 1 1 1 1 1 1 1 1 + + + + + + + + +").printResult();
+	RPN("1 9 -").printResult();									//negative result
+	RPN("5 2 /").printResult();									//decimal result : 2.5
+	RPN("5 2 / 2 *").printResult();								//2.5 * 2
+	RPN("9 9 * 9 * 9 * 9 * 9 * 9 * 9 * 9 * 9 *").printResult();	//overflow
+
 }
 
 void	test_3()
 {
 	std::cout << LILA_B << "Test 3: invalid expresssions" << ENDCLR << std::endl;
 
-	RPN("+").printResult();
-	RPN("1+++").printResult();
-	RPN("").printResult();
-	RPN("1 + 1").printResult();
-	RPN("9 9 * 9").printResult();
+	RPN("").printResult();			//empty
+	RPN("+").printResult();			//no nums
+	RPN("1 +").printResult();		//missing nums
+	RPN("1 + 1").printResult();		//invalid format
+	RPN("9 9 * 9").printResult();	//left over num w/o operation
+	RPN("9 9 - -").printResult();	//too many operation
+	RPN("9 9 --").printResult();	//too many operation
+	RPN("9 9 <").printResult();		//invalid char
+	RPN("99+").printResult();		//no spaces
 }
 
 int	main( int argc, char *argv[] )
