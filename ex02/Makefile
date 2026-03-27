@@ -1,8 +1,8 @@
 #----------------------------------FILES----------------------------------------
 SRC_MAN	=	\
-#			PmergeMe.cpp\
+			main.cpp\
+			PmergeMe.cpp\
 #			tests.cpp\
-#			main.cpp\
 
 OBJ_DIR		= build
 BUG_DIR		= build_debug

@@ -1,0 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/26 15:41:57 by zpalotas          #+#    #+#             */
+/*   Updated: 2026/03/27 14:43:28 by zpalotas         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "PmergeMe.hpp"
+
+int main(int argc, char **argv)
+{
+	if (argc < 2)
+		return 1;
+	
+	std::stringstream input;
+
+	argv++;
+	while (*argv)
+	{
+		input << *argv << " ";
+		argv++;
+	}
+	PmergeMe test(input);
+	test.FormPairs();
+}
