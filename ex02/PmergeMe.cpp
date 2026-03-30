@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/27 15:23:00 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/30 17:50:20 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ PmergeMe::PmergeMe()
 
 PmergeMe::PmergeMe(std::stringstream &input)
 {
+	recursion_lvl_ = 0;
+	comparison_counter_ = 0;
 	int element;
 	while (!input.eof() && !input.fail())
 	{
@@ -65,14 +67,14 @@ void PmergeMe::FormPairs()
 		result_sequence.push_back(myPair);
 		start_sequence.pop_front();
 		start_sequence.pop_front();
-		counter++;
-		pair_size++;
+		comparison_counter_++;
+		recursion_lvl_++;
 	}
 	if (start_sequence.size())
 
 	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
 
-	std::cout << "\n" << counter << std::endl;
+	std::cout << "\n" << comparison_counter_ << std::endl;
 }
 
 void	myPrint(int value)

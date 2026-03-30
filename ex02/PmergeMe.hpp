@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/27 15:14:05 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/30 17:50:20 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ class PmergeMe
 		std::list<std::pair<int, int>  > result_sequence;
 		std::list<int> reserve;
 
-		int	counter; //counts comparisons
-		int	pair_size; //or recursion lvl, how many elements belong to a pair at start 1-1 then 2-2
+		int	comparison_counter_; //counts comparisons
+		int	recursion_lvl_; //pair size = 2^recusion_lvl, how many elements belong to a pair at start 1-1 then 2-2
 	
 	public:
 		PmergeMe(std::stringstream &input);
