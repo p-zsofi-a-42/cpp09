@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/31 15:02:57 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/03/31 18:29:38 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,23 @@
 # include <algorithm>
 # include "colors.hpp"
 
+# ifndef DEBUG
+#  define DEBUG false
+# endif
+
 class PmergeMe
 {
 	private:
 		PmergeMe();
 
+		typedef std::list< std::pair< std::list<int>, std::list<int> > > my_pair_list;
 		std::list<int> input_sequence;
-		std::list<std::pair<std::list<int>, std::list<int>>  > start_sequence;
+		my_pair_list start_sequence;
 		std::list<int> main;
 		std::list<int> pend;
-		std::list<std::pair<std::list<int>, std::list<int>>  > result_sequence;
-		std::list<int> reserve;
+		my_pair_list result_sequence;
+		my_pair_list reserve;
 
-		int	comparison_counter_; //counts comparisons
 		int	recursion_lvl_; //pair size = 2^recusion_lvl, how many elements belong to a pair at start 1-1 then 2-2
 	
 		void FormPairs(); //TODO priv
@@ -50,10 +54,11 @@ class PmergeMe
 		PmergeMe &operator= (const PmergeMe &other);
 
 		void sort();
+		int	comparison_counter_; //counts comparisons //TODO make getter
 };
 	
 void	myPrint(int value);
-void	myPrintPair(std::pair<int, int>value);
+void	myPrintPair(std::pair< std::list<int>, std::list<int> > value);
 
 #endif
 
