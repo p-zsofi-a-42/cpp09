@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/03 14:25:29 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/03 18:52:56 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ PmergeMe::PmergeMe(std::stringstream &input)
 	}
 	std::for_each(input_sequence.begin(), input_sequence.end(), myPrint);
 	std::cout << std::endl;
+	current_pair_size_ = 1;
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -78,6 +79,7 @@ void PmergeMe::FormPairs() // only on first lvl
 			reserve.push_front(myPair); //after this loop condition will end the loop
 		}
 	}
+//	current_pair_size_ *= 2;
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -152,15 +154,96 @@ void PmergeMe::sort()
 		if (result_sequence.size() >= 2)
 		{
 			resultList();
+			current_pair_size_ *= 2;
 			recursion_lvl_++;
 			sort();
 		}
+		else
+			if (DEBUG)	{std::cout << "👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾at lvl: " << recursion_lvl_ << "with group sizes of: " << result_sequence.size()  << std::endl;}
 	}
-
-	//part2
+	std::cout << "🤡size: " << current_pair_size_ << "\n";
+	part2();
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
+void PmergeMe::divide()
+{
+	std::cout << "START\n";
+	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
+	std::cout << std::endl;
+	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	my_pair_list::iterator it;
+	my_pair_list::iterator next;
+	
+	if (!reserve.empty() && reserve.begin()->first.size() == current_pair_size_)
+	{
+		result_sequence.push_back(*(reserve.begin()));
+		reserve.pop_front();
+		if (DEBUG)	{std::cout << "popped:!!!!!!!!!!!!!1\n ";}
+	}
+	std::cout << "START MORE size: " << current_pair_size_ << "\n";
+	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
+	std::cout << std::endl;
+	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
+	{
+		next = it; 
+		next++; 
+		result_sequence.insert(next, *it); //copying the same element I want to split it.first elements and have them in the begin().first and second. and have og_it.second in the copy.first and second
+		it++;;
+	}
+	std::cout << "after repeat copy"<< result_sequence.size() << "\n";
+	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
+	std::cout << std::endl;
+	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
+	{
+		std::list<int>::iterator middle_of_the_list_in_pair;
+
+		middle_of_the_list_in_pair = it->first.begin();
+		for (unsigned int i = 0; i != current_pair_size_ / 2; i++)	//my custom std::next or advance
+			middle_of_the_list_in_pair++;
+		
+		//if (DEBUG)	{std::cout << "TESTING MIDDLE_of_the_list_in_pair element first: " << *it->first.begin() << " element middle_of_the_list_in_pair: " << *middle_of_the_list_in_pair <<std::endl;}
+		it->second.clear();
+		it->first.splice(it->second.begin(),	//insert before here
+						it->first,				//insert from where
+						middle_of_the_list_in_pair,	//element to move
+						it->first.end());	//element to move until(exclusive)
+		if (DEBUG)	{myPrintPair(*it);}
+		
+		next = it; 
+		next++; 	//next is the copy
+		
+		middle_of_the_list_in_pair = next->second.begin();
+		for (unsigned int i = 0; i != current_pair_size_ / 2; i++)	//my custom std::next or advance
+			middle_of_the_list_in_pair++;
+		
+		//if (DEBUG)	{std::cout << "TESTING MIDDLE_of_the_list_in_pair element first: " << *next->first.begin() << " element middle_of_the_list_in_pair: " << *middle_of_the_list_in_pair <<std::endl;}
+		next->first.clear();
+		next->second.splice(next->first.begin(),	//insert before here
+						next->second,				//insert from where
+						next->second.begin(),	//element to move
+						middle_of_the_list_in_pair);	//element to move until(exclusive)
+		if (DEBUG)	{myPrintPair(*next); std::cout << std::endl;}
+
+		it++;; //to skip "next"
+		current_pair_size_ /= 2;
+	}
+	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+}
+
+void PmergeMe::part2()
+{
+	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+
+		if (result_sequence.begin()->first.size() > 1)
+		{
+			divide();
+			std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
+			std::for_each(reserve.begin(), reserve.end(), myPrintPair);
+			std::cout << std::endl;
+		}
+	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+}
 
 void	myPrint(int value)
 {
