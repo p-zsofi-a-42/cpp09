@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/03 18:52:56 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/03 19:18:16 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,8 +188,11 @@ void PmergeMe::divide()
 	{
 		next = it; 
 		next++; 
-		result_sequence.insert(next, *it); //copying the same element I want to split it.first elements and have them in the begin().first and second. and have og_it.second in the copy.first and second
-		it++;;
+		if (it->second.front() != -1)
+		{
+			result_sequence.insert(next, *it); //copying the same element I want to split it.first elements and have them in the begin().first and second. and have og_it.second in the copy.first and second
+			it++;;
+		}
 	}
 	std::cout << "after repeat copy"<< result_sequence.size() << "\n";
 	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
@@ -213,21 +216,24 @@ void PmergeMe::divide()
 		next = it; 
 		next++; 	//next is the copy
 		
-		middle_of_the_list_in_pair = next->second.begin();
-		for (unsigned int i = 0; i != current_pair_size_ / 2; i++)	//my custom std::next or advance
-			middle_of_the_list_in_pair++;
-		
-		//if (DEBUG)	{std::cout << "TESTING MIDDLE_of_the_list_in_pair element first: " << *next->first.begin() << " element middle_of_the_list_in_pair: " << *middle_of_the_list_in_pair <<std::endl;}
-		next->first.clear();
-		next->second.splice(next->first.begin(),	//insert before here
-						next->second,				//insert from where
-						next->second.begin(),	//element to move
-						middle_of_the_list_in_pair);	//element to move until(exclusive)
-		if (DEBUG)	{myPrintPair(*next); std::cout << std::endl;}
+		if (next != result_sequence.end())
+		{
+			middle_of_the_list_in_pair = next->second.begin();
+			for (unsigned int i = 0; i != current_pair_size_ / 2; i++)	//my custom std::next or advance
+				middle_of_the_list_in_pair++;
+			
+			//if (DEBUG)	{std::cout << "TESTING MIDDLE_of_the_list_in_pair element first: " << *next->first.begin() << " element middle_of_the_list_in_pair: " << *middle_of_the_list_in_pair <<std::endl;}
+			next->first.clear();
+			next->second.splice(next->first.begin(),	//insert before here
+							next->second,				//insert from where
+							next->second.begin(),	//element to move
+							middle_of_the_list_in_pair);	//element to move until(exclusive)
+			if (DEBUG)	{myPrintPair(*next); std::cout << std::endl;}
 
-		it++;; //to skip "next"
-		current_pair_size_ /= 2;
+			it++;; //to skip "next"
+		}
 	}
+	current_pair_size_ /= 2;
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -235,7 +241,7 @@ void PmergeMe::part2()
 {
 	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 
-		if (result_sequence.begin()->first.size() > 1)
+		if (current_pair_size_ > 1)
 		{
 			divide();
 			std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
