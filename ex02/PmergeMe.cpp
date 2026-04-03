@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/31 18:56:18 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:25:29 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void PmergeMe::resultList()
 	my_pair_list::iterator next;
 	
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
-		it->first.merge(it->second);
+		it->first.insert(it->first.end(), it->second.begin(), it->second.end());
 
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 	{
