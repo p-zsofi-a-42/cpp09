@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/03 19:18:16 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/03 19:21:48 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void PmergeMe::FormPairs() // only on first lvl
 			reserve.push_front(myPair); //after this loop condition will end the loop
 		}
 	}
-//	current_pair_size_ *= 2;
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -161,16 +160,14 @@ void PmergeMe::sort()
 		else
 			if (DEBUG)	{std::cout << "👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾at lvl: " << recursion_lvl_ << "with group sizes of: " << result_sequence.size()  << std::endl;}
 	}
-	std::cout << "🤡size: " << current_pair_size_ << "\n";
+	if (DEBUG)	{std::cout << "🤡size: " << current_pair_size_ << "\n";}
 	part2();
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 void PmergeMe::divide()
 {
-	std::cout << "START\n";
-	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
-	std::cout << std::endl;
+	if (DEBUG)	{std::cout << "START\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	my_pair_list::iterator it;
 	my_pair_list::iterator next;
@@ -181,9 +178,7 @@ void PmergeMe::divide()
 		reserve.pop_front();
 		if (DEBUG)	{std::cout << "popped:!!!!!!!!!!!!!1\n ";}
 	}
-	std::cout << "START MORE size: " << current_pair_size_ << "\n";
-	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
-	std::cout << std::endl;
+	if (DEBUG)	{std::cout << "START MORE size: " << current_pair_size_ << "\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);	std::cout << std::endl;}
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 	{
 		next = it; 
@@ -194,9 +189,7 @@ void PmergeMe::divide()
 			it++;;
 		}
 	}
-	std::cout << "after repeat copy"<< result_sequence.size() << "\n";
-	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
-	std::cout << std::endl;
+	if (DEBUG)	{std::cout << "after repeat copy"<< result_sequence.size() << "\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);	std::cout << std::endl;}
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 	{
 		std::list<int>::iterator middle_of_the_list_in_pair;
@@ -205,7 +198,6 @@ void PmergeMe::divide()
 		for (unsigned int i = 0; i != current_pair_size_ / 2; i++)	//my custom std::next or advance
 			middle_of_the_list_in_pair++;
 		
-		//if (DEBUG)	{std::cout << "TESTING MIDDLE_of_the_list_in_pair element first: " << *it->first.begin() << " element middle_of_the_list_in_pair: " << *middle_of_the_list_in_pair <<std::endl;}
 		it->second.clear();
 		it->first.splice(it->second.begin(),	//insert before here
 						it->first,				//insert from where
@@ -222,7 +214,6 @@ void PmergeMe::divide()
 			for (unsigned int i = 0; i != current_pair_size_ / 2; i++)	//my custom std::next or advance
 				middle_of_the_list_in_pair++;
 			
-			//if (DEBUG)	{std::cout << "TESTING MIDDLE_of_the_list_in_pair element first: " << *next->first.begin() << " element middle_of_the_list_in_pair: " << *middle_of_the_list_in_pair <<std::endl;}
 			next->first.clear();
 			next->second.splice(next->first.begin(),	//insert before here
 							next->second,				//insert from where
