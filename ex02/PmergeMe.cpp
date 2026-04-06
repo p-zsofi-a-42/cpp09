@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/03 19:21:48 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/06 20:21:31 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,17 +228,79 @@ void PmergeMe::divide()
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
+void PmergeMe::insertPend()
+{
+	main.splice(main.begin(), pend, pend.begin());
+	
+	static size_t Jacob_n = 3;
+	size_t Jacobsthal_insertion;
+
+	for (std::list< std::list<int> >::iterator it = pend.begin(); it != pend.end(); it++)
+	{
+		std::cout << "📍[";
+		std::for_each(it->begin(), it->end(), myPrintInt);
+		std::cout << "]\n";
+	}
+	for (std::list< std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
+	{
+		std::cout << "📍[";
+		std::for_each(it->begin(), it->end(), myPrintInt);
+		std::cout << "]\n";
+	}
+	if (DEBUG)	{std::cout << "📍 Pend size " << pend.size()<< std::endl;}
+	while (!pend.empty())
+	{
+		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
+		if (DEBUG)	{std::cout << "📍 Jecob n: " << Jacob_n << " insert: " << Jacobsthal_insertion<< std::endl;}
+
+		while (Jacobsthal_insertion != 0 && !pend.empty())
+		{
+			std::list< std::list<int> >::iterator it = pend.begin();
+			if (pend.size() >= Jacobsthal_insertion)
+			{
+				std::advance(it, Jacobsthal_insertion-1);
+				// for (size_t i = 0; i < Jacobsthal_insertion; i++)
+				// 	it++;
+			}
+			else
+			{
+				it = pend.end();
+				it--;
+			}
+			std::cout << "my value: " << (*it).back() << std::endl;
+			main.splice(std::lower_bound(main.begin(), main.end(),*it), //TODO add custom comparison to increment counter
+						pend,
+						it);
+			Jacobsthal_insertion--;
+		}
+		Jacob_n++;
+	}
+}
+
 void PmergeMe::part2()
 {
 	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 
-		if (current_pair_size_ > 1)
-		{
-			divide();
-			std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
-			std::for_each(reserve.begin(), reserve.end(), myPrintPair);
-			std::cout << std::endl;
-		}
+	if (current_pair_size_ > 1)
+	{
+		divide();
+		std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
+		std::for_each(reserve.begin(), reserve.end(), myPrintPair);
+		std::cout << std::endl;
+	}
+	for (my_pair_list::iterator it = result_sequence.begin(); it != result_sequence.end(); it++)
+	{
+		pend.push_back(it->first);
+		main.push_back(it->second);
+	}
+	insertPend();
+	for (std::list< std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
+	{
+		std::cout << "[";
+		std::for_each(it->begin(), it->end(), myPrintInt);
+		std::cout << ")";
+	}
+
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 

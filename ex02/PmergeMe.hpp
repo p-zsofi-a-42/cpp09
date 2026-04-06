@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/03 19:22:45 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/06 19:58:40 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sstream>		//stringstream
 # include <string>
 # include <list>
+# include <cmath>
 # include <utility>		//pair type
 //# include <stack>
 # include <algorithm>
@@ -26,6 +27,30 @@
 # ifndef DEBUG
 #  define DEBUG false
 # endif
+
+class Jacobstahl
+{
+	private:
+		Jacobstahl();
+		Jacobstahl(const Jacobstahl &other)
+		{
+			(void) other;
+		}
+		Jacobstahl &operator= (const Jacobstahl &other)
+		{	(void) other;
+			return *this;};
+		
+	public:
+		static size_t element_n(int n)
+		{
+			return ((std::pow(2, n) - std::pow(-1, n)) / 3);
+		};
+		static size_t insertion_n(int n)
+		{
+			return (Jacobstahl::element_n(n) - Jacobstahl::element_n(n - 1));
+		};
+		~Jacobstahl(){};
+};
 
 class PmergeMe
 {
@@ -36,8 +61,8 @@ class PmergeMe
 		typedef std::list< my_pair > my_pair_list;
 		std::list<int> input_sequence;
 		my_pair_list start_sequence;
-		std::list<int> main;
-		std::list<int> pend;
+		std::list< std::list<int> > main;
+		std::list< std::list<int> > pend;
 		my_pair_list result_sequence;
 		my_pair_list reserve;
 
@@ -48,6 +73,7 @@ class PmergeMe
 		void compare(); //TODO priv
 		void resultList(); //TODO priv
 		void part2(); //TODO priv
+		void insertPend(); //TODO priv
 		void divide(); //TODO priv
 
 	public:
@@ -62,6 +88,7 @@ class PmergeMe
 };
 	
 void	myPrint(int value);
+void	myPrintInt(int value);
 void	myPrintPair(std::pair< std::list<int>, std::list<int> > value);
 
 #endif

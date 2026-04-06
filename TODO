@@ -5,3 +5,5 @@
 [X] decimal results
 
 merge insert explanation:https://dev.to/emuminov/human-explanation-and-step-by-step-visualisation-of-the-ford-johnson-algorithm-5g91
+
+division shoul not be done inplace but into pend, otherwise its gonna be a nightmare to separate the "seconds" again
