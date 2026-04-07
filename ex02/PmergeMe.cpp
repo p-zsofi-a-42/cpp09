@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/07 16:55:55 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/07 20:34:09 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,97 +171,111 @@ void PmergeMe::sort()
 void PmergeMe::divide()
 {
 	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
-	std::list< std::list<int> >::iterator it;
-	std::list< std::list<int> >::iterator next;
+	my_pair_list::iterator it;
 	
-	for (it = main.begin(); it != main.end(); it++)
+	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 	{
 		std::list<int>::iterator middle_of_the_list_in_pair;
 
-		middle_of_the_list_in_pair = it->begin();
+		middle_of_the_list_in_pair = it->second.begin();
 		std::advance(middle_of_the_list_in_pair, current_pair_size_ / 2);
 		
-		my_pair smaller_pair;
-		smaller_pair.second.splice(smaller_pair.second.begin(),	//insert before here
-									*it,				//insert from where
-									middle_of_the_list_in_pair,	//element to move
-									it->end());	//element to move until(exclusive)
-		smaller_pair.first = *it;
-		result_sequence.push_back(smaller_pair);
+		it->first.clear();
+		it->first.splice(it->first.begin(),
+							it->second,
+							it->second.begin(),
+							middle_of_the_list_in_pair);
 	}
-	main.clear();
 	current_pair_size_ /= 2;
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 void PmergeMe::insertPend()
-{	
-	static size_t Jacob_n = 3;
-	size_t Jacobsthal_insertion;
-
-	while (!pend.empty())
-	{
-		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
-
-		while (Jacobsthal_insertion != 0 && !pend.empty())
-		{
-			std::list< std::list<int> >::iterator it = pend.begin();
-			if (pend.size() >= Jacobsthal_insertion)
-				std::advance(it, Jacobsthal_insertion-1);
-			else
-			{
-				it = pend.end();
-				it--;
-			}
-			main.splice(std::lower_bound(main.begin(), main.end(),*it, functor),
-						pend,
-						it);
-			Jacobsthal_insertion--;
-		}
-		Jacob_n++;
-	}
-}
-
-void PmergeMe::form_pend_at_start()
 {
+	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	std::list<int> temp;
+
+	my_pair automatically_inserted_first(temp, result_sequence.begin()->first);
+	result_sequence.push_front(automatically_inserted_first);
+	
 	my_pair_list::iterator it = result_sequence.begin();
-	main.push_back(it->first);
-	main.push_back(it->second);
 	it++;
-	while(it != result_sequence.end())
-	{
-		pend.push_back(it->first);
-		main.push_back(it->second);
-		it++;
-	}
+	it->first.clear();
+	it++;
+	
 	if (!reserve.empty() && reserve.begin()->first.size() == current_pair_size_)
 	{
-		pend.push_back(reserve.begin()->first);
-		reserve.pop_front();
+		result_sequence.splice(result_sequence.end(),
+								reserve,
+								reserve.begin());
 	}
-	if (DEBUG) myPrintListList(main, "👉main");
-	if (DEBUG) myPrintListList(main, "👇pend");
+	if (DEBUG) {std::cout << "middle\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+
+	size_t Jacob_n = 3;
+	size_t Jacobsthal_insertion;
+	
+	my_pair inserted_pend;
+	while (it != result_sequence.end())
+	{
+		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
+		if (DEBUG)  std::cout << "🔶jacob: " << Jacob_n << " insert: " << Jacobsthal_insertion << "\n";
+
+		size_t i = 0;
+		while(i < Jacobsthal_insertion && it != result_sequence.end())
+		{
+			it++;
+			i++;
+		}
+		it--;
+
+		while (Jacobsthal_insertion != 0 && it != result_sequence.begin())
+		{
+			inserted_pend.first = temp;
+			inserted_pend.second = it->first;
+			if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
+			if (it->second.front() == -1)
+			{
+				result_sequence.insert(std::lower_bound(result_sequence.begin(), result_sequence.end(), it->first, functor),
+									inserted_pend);
+				it = result_sequence.end(); //to not invalidate iterator with the pop
+				result_sequence.pop_back();
+			}
+			else
+			{
+				result_sequence.insert(std::lower_bound(result_sequence.begin(), it, it->first, functor),
+									inserted_pend);
+				it->first.clear();
+			}
+			Jacobsthal_insertion--;
+			if (Jacobsthal_insertion)
+			{
+				it--;
+				while(it->first.empty() && it != result_sequence.begin())
+					it--;
+			}
+		}
+		while (it != result_sequence.end() && it->first.empty())
+			it++;
+		Jacob_n++;
+	}
+	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 void PmergeMe::part2()
 {
 	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << " pair size: "<< current_pair_size_<< std::endl;}
+	std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;
 
-	form_pend_at_start();
-	if (!pend.empty())
+	if (!result_sequence.empty())
 		insertPend();
-	
-	if (DEBUG) myPrintListList(main, "📍main");
-	if (DEBUG) myPrintListList(main, "🔻pend");
 
-	result_sequence.clear();
 	if (current_pair_size_ > 1)
 		divide();
 	else
 	{
 		input_sequence.clear();
-		for (std::list<std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
-			input_sequence.splice(input_sequence.end(), *it);
+		for (my_pair_list::iterator it = result_sequence.begin(); it != result_sequence.end(); it++)
+			input_sequence.splice(input_sequence.end(), it->second);
 		current_pair_size_ = 0;
 
 		std::cout << "🍀[";
@@ -300,15 +314,15 @@ void	myPrintPair(std::pair< std::list<int>, std::list<int> > value)
 	std::cout << "]";
 }
 
-bool PmergeMe::compare::operator()(std::list<int> sequenceElement, std::list<int> toCompare)
+bool PmergeMe::compare::operator()(my_pair sequenceElement, std::list<int> toCompare)
 {
 	return (obj->myLess(sequenceElement, toCompare));
 }
 
-bool PmergeMe::myLess(std::list<int> sequenceElement, std::list<int> toCompare)
+bool PmergeMe::myLess(my_pair sequenceElement, std::list<int> toCompare)
 {
 	comparison_counter_++;
-	if (sequenceElement.back() < toCompare.back())
+	if (sequenceElement.second.back() < toCompare.back())
 		return true;
 	return false;
 }
