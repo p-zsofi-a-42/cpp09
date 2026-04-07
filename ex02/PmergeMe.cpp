@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/07 16:26:11 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/07 16:38:22 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ void PmergeMe::sort()
 		else
 			if (DEBUG)	{std::cout << "👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾at lvl: " << recursion_lvl_ << "with group sizes of: " << result_sequence.size()  << std::endl;}
 	}
-	if (DEBUG)	{std::cout << "🤡size: " << current_pair_size_ << "\n";}
 	if (current_pair_size_ != 0)
 		part2();
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
@@ -168,7 +167,6 @@ void PmergeMe::sort()
 
 void PmergeMe::divide()
 {
-	if (DEBUG)	{std::cout << "START\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	std::list< std::list<int> >::iterator it;
 	std::list< std::list<int> >::iterator next;
@@ -194,17 +192,13 @@ void PmergeMe::divide()
 }
 
 void PmergeMe::insertPend()
-{
-	//main.splice(main.begin(), pend, pend.begin());
-	
+{	
 	static size_t Jacob_n = 3;
 	size_t Jacobsthal_insertion;
 
-//	if (DEBUG)	{std::cout << "📍 Pend size " << pend.size()<< std::endl;}
 	while (!pend.empty())
 	{
 		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
-//		if (DEBUG)	{std::cout << "📍 Jecob n: " << Jacob_n << " insert: " << Jacobsthal_insertion<< std::endl;}
 
 		while (Jacobsthal_insertion != 0 && !pend.empty())
 		{
@@ -216,8 +210,6 @@ void PmergeMe::insertPend()
 				it = pend.end();
 				it--;
 			}
-			std::cout << "my value: " << (*it).back() << std::endl;
-			std::cout << "place value: " << (std::lower_bound(main.begin(), main.end(),*it, myLess))->back() << std::endl;
 			main.splice(std::lower_bound(main.begin(), main.end(),*it, myLess), //TODO add custom comparison to increment counter
 						pend,
 						it);
@@ -235,7 +227,6 @@ void PmergeMe::form_pend_at_start()
 	it++;
 	while(it != result_sequence.end())
 	{
-		std::cout << "✨";
 		pend.push_back(it->first);
 		main.push_back(it->second);
 		it++;
@@ -245,19 +236,8 @@ void PmergeMe::form_pend_at_start()
 		pend.push_back(reserve.begin()->first);
 		reserve.pop_front();
 	}
-	for (std::list< std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
-	{
-		std::cout << "👉main[";
-		std::for_each(it->begin(), it->end(), myPrintInt);
-		std::cout << "]\n";
-	}
-	for (std::list< std::list<int> >::iterator it = pend.begin(); it != pend.end(); it++)
-	{
-		std::cout << "👇pend[";
-		std::for_each(it->begin(), it->end(), myPrintInt);
-		std::cout << "]\n";
-	}
-
+	if (DEBUG) myPrintListList(main, "👉main");
+	if (DEBUG) myPrintListList(main, "👇pend");
 }
 
 void PmergeMe::part2()
@@ -267,25 +247,13 @@ void PmergeMe::part2()
 	form_pend_at_start();
 	if (!pend.empty())
 		insertPend();
-	for (std::list< std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
-	{
-		std::cout << "📍main[";
-		std::for_each(it->begin(), it->end(), myPrintInt);
-		std::cout << "]\n";
-	}
-	for (std::list< std::list<int> >::iterator it = pend.begin(); it != pend.end(); it++)
-	{
-		std::cout << "📍pend[";
-		std::for_each(it->begin(), it->end(), myPrintInt);
-		std::cout << "]\n";
-	}
+	
+	if (DEBUG) myPrintListList(main, "📍main");
+	if (DEBUG) myPrintListList(main, "🔻pend");
 
 	result_sequence.clear();
 	if (current_pair_size_ > 1)
-	{
 		divide();
-		std::cout << "START\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;
-	}
 	else
 	{
 		input_sequence.clear();
@@ -293,10 +261,11 @@ void PmergeMe::part2()
 			input_sequence.splice(input_sequence.end(), *it);
 		current_pair_size_ = 0;
 
-		std::cout << "🍀main[";
+		std::cout << "🍀[";
 		std::for_each(input_sequence.begin(), input_sequence.end(), myPrintInt);
 		std::cout << "]\n";
 	}
+	std::cout << "RESULT\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;
 
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
@@ -308,6 +277,15 @@ void	myPrint(int value)
 void	myPrintInt(int value)
 {
 	std::cout <<value << "➝";
+}
+void	myPrintListList(std::list< std::list<int> > listList, std::string id)
+{
+	for (std::list< std::list<int> >::iterator it = listList.begin(); it != listList.end(); it++)
+	{
+		std::cout << id << "[";
+		std::for_each(it->begin(), it->end(), myPrintInt);
+		std::cout << "]\n";
+	}
 }
 
 void	myPrintPair(std::pair< std::list<int>, std::list<int> > value)
