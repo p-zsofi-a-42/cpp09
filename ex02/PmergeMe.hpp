@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/07 16:38:29 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/07 16:48:03 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,13 @@ class PmergeMe
 		void insertPend();
 		void divide();
 
-/* 
 		struct compare
 		{
-			void	operator()(std::list< std::list<int> > main, std::list<int> toCompare);
-		} functor; */
+			PmergeMe	*obj;
+			bool		operator()(std::list<int> sequenceElement, std::list<int> toCompare);
+		} functor;
+
+		bool 	myLess(std::list<int> sequenceElement, std::list<int> toCompare);
 
 	public:
 		PmergeMe(std::stringstream &input);
@@ -97,7 +99,6 @@ class PmergeMe
 void	myPrint(int value);
 void	myPrintInt(int value);
 void	myPrintPair(std::pair< std::list<int>, std::list<int> > value);
-bool 	myLess(std::list<int> sequenceElement, std::list<int> toCompare);
 void	myPrintListList(std::list< std::list<int> > listList, std::string id);
 
 #endif

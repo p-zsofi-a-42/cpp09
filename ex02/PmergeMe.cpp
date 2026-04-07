@@ -6,17 +6,20 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/07 16:38:22 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/07 16:55:55 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
 PmergeMe::PmergeMe()
-{}
+{
+	functor.obj = this;
+}
 
 PmergeMe::PmergeMe(std::stringstream &input)
 {
+	functor.obj = this;
 	recursion_lvl_ = 0;
 	comparison_counter_ = 0;
 	int element;
@@ -210,7 +213,7 @@ void PmergeMe::insertPend()
 				it = pend.end();
 				it--;
 			}
-			main.splice(std::lower_bound(main.begin(), main.end(),*it, myLess), //TODO add custom comparison to increment counter
+			main.splice(std::lower_bound(main.begin(), main.end(),*it, functor),
 						pend,
 						it);
 			Jacobsthal_insertion--;
@@ -296,14 +299,15 @@ void	myPrintPair(std::pair< std::list<int>, std::list<int> > value)
 	std::for_each(value.second.begin(), value.second.end(), myPrintInt);
 	std::cout << "]";
 }
-/* 
-void PmergeMe::compare::operator()(std::list< std::list<int> > main, std::list<int> toCompare)
+
+bool PmergeMe::compare::operator()(std::list<int> sequenceElement, std::list<int> toCompare)
 {
-	PmergeMe::myLess(main, toCompare);
-} */
-bool myLess(std::list<int> sequenceElement, std::list<int> toCompare)
+	return (obj->myLess(sequenceElement, toCompare));
+}
+
+bool PmergeMe::myLess(std::list<int> sequenceElement, std::list<int> toCompare)
 {
-	//TODO comparison counter
+	comparison_counter_++;
 	if (sequenceElement.back() < toCompare.back())
 		return true;
 	return false;
