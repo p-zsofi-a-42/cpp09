@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/07 14:58:59 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/07 16:26:11 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,9 @@ void PmergeMe::sort()
 		else
 			if (DEBUG)	{std::cout << "👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾at lvl: " << recursion_lvl_ << "with group sizes of: " << result_sequence.size()  << std::endl;}
 	}
-	if (!DEBUG)	{std::cout << "🤡size: " << current_pair_size_ << "\n";}
-	part2();
+	if (DEBUG)	{std::cout << "🤡size: " << current_pair_size_ << "\n";}
+	if (current_pair_size_ != 0)
+		part2();
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -169,90 +170,41 @@ void PmergeMe::divide()
 {
 	if (DEBUG)	{std::cout << "START\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
-	my_pair_list::iterator it;
-	my_pair_list::iterator next;
+	std::list< std::list<int> >::iterator it;
+	std::list< std::list<int> >::iterator next;
 	
-
-	if (DEBUG)	{std::cout << "START MORE size: " << current_pair_size_ << "\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);	std::cout << std::endl;}
-	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
-	{
-		next = it; 
-		next++; 
-		if (it->second.front() != -1)
-		{
-			result_sequence.insert(next, *it); //copying the same element I want to split it.first elements and have them in the begin().first and second. and have og_it.second in the copy.first and second
-			it++;;
-		}
-	}
-	if (DEBUG)	{std::cout << "after repeat copy"<< result_sequence.size() << "\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);	std::cout << std::endl;}
-	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
+	for (it = main.begin(); it != main.end(); it++)
 	{
 		std::list<int>::iterator middle_of_the_list_in_pair;
 
-		middle_of_the_list_in_pair = it->first.begin();
-		for (unsigned int i = 0; i != current_pair_size_ / 2; i++)	//my custom std::next or advance
-			middle_of_the_list_in_pair++;
+		middle_of_the_list_in_pair = it->begin();
+		std::advance(middle_of_the_list_in_pair, current_pair_size_ / 2);
 		
-		it->second.clear();
-		it->first.splice(it->second.begin(),	//insert before here
-						it->first,				//insert from where
-						middle_of_the_list_in_pair,	//element to move
-						it->first.end());	//element to move until(exclusive)
-		if (DEBUG)	{myPrintPair(*it);}
-		
-		next = it; 
-		next++; 	//next is the copy
-		
-		if (next != result_sequence.end())
-		{
-			middle_of_the_list_in_pair = next->second.begin();
-			for (unsigned int i = 0; i != current_pair_size_ / 2; i++)	//my custom std::next or advance
-				middle_of_the_list_in_pair++;
-			
-			next->first.clear();
-			next->second.splice(next->first.begin(),	//insert before here
-							next->second,				//insert from where
-							next->second.begin(),	//element to move
-							middle_of_the_list_in_pair);	//element to move until(exclusive)
-			if (DEBUG)	{myPrintPair(*next); std::cout << std::endl;}
-
-			it++;; //to skip "next"
-		}
+		my_pair smaller_pair;
+		smaller_pair.second.splice(smaller_pair.second.begin(),	//insert before here
+									*it,				//insert from where
+									middle_of_the_list_in_pair,	//element to move
+									it->end());	//element to move until(exclusive)
+		smaller_pair.first = *it;
+		result_sequence.push_back(smaller_pair);
 	}
+	main.clear();
 	current_pair_size_ /= 2;
-	if (!reserve.empty() && reserve.begin()->first.size() == current_pair_size_)
-	{
-		result_sequence.push_back(*(reserve.begin()));
-		reserve.pop_front();
-			{std::cout << "popped:!!!!!!!!!!!!!1\n ";}
-	}
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 void PmergeMe::insertPend()
 {
-	main.splice(main.begin(), pend, pend.begin());
+	//main.splice(main.begin(), pend, pend.begin());
 	
 	static size_t Jacob_n = 3;
 	size_t Jacobsthal_insertion;
 
-	for (std::list< std::list<int> >::iterator it = pend.begin(); it != pend.end(); it++)
-	{
-		std::cout << "📍pend[";
-		std::for_each(it->begin(), it->end(), myPrintInt);
-		std::cout << "]\n";
-	}
-	for (std::list< std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
-	{
-		std::cout << "📍main[";
-		std::for_each(it->begin(), it->end(), myPrintInt);
-		std::cout << "]\n";
-	}
-	if (DEBUG)	{std::cout << "📍 Pend size " << pend.size()<< std::endl;}
+//	if (DEBUG)	{std::cout << "📍 Pend size " << pend.size()<< std::endl;}
 	while (!pend.empty())
 	{
 		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
-		if (DEBUG)	{std::cout << "📍 Jecob n: " << Jacob_n << " insert: " << Jacobsthal_insertion<< std::endl;}
+//		if (DEBUG)	{std::cout << "📍 Jecob n: " << Jacob_n << " insert: " << Jacobsthal_insertion<< std::endl;}
 
 		while (Jacobsthal_insertion != 0 && !pend.empty())
 		{
@@ -275,29 +227,75 @@ void PmergeMe::insertPend()
 	}
 }
 
+void PmergeMe::form_pend_at_start()
+{
+	my_pair_list::iterator it = result_sequence.begin();
+	main.push_back(it->first);
+	main.push_back(it->second);
+	it++;
+	while(it != result_sequence.end())
+	{
+		std::cout << "✨";
+		pend.push_back(it->first);
+		main.push_back(it->second);
+		it++;
+	}
+	if (!reserve.empty() && reserve.begin()->first.size() == current_pair_size_)
+	{
+		pend.push_back(reserve.begin()->first);
+		reserve.pop_front();
+	}
+	for (std::list< std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
+	{
+		std::cout << "👉main[";
+		std::for_each(it->begin(), it->end(), myPrintInt);
+		std::cout << "]\n";
+	}
+	for (std::list< std::list<int> >::iterator it = pend.begin(); it != pend.end(); it++)
+	{
+		std::cout << "👇pend[";
+		std::for_each(it->begin(), it->end(), myPrintInt);
+		std::cout << "]\n";
+	}
+
+}
+
 void PmergeMe::part2()
 {
-	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	if (DEBUG)	{std::cout << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << " pair size: "<< current_pair_size_<< std::endl;}
 
+	form_pend_at_start();
+	if (!pend.empty())
+		insertPend();
+	for (std::list< std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
+	{
+		std::cout << "📍main[";
+		std::for_each(it->begin(), it->end(), myPrintInt);
+		std::cout << "]\n";
+	}
+	for (std::list< std::list<int> >::iterator it = pend.begin(); it != pend.end(); it++)
+	{
+		std::cout << "📍pend[";
+		std::for_each(it->begin(), it->end(), myPrintInt);
+		std::cout << "]\n";
+	}
+
+	result_sequence.clear();
 	if (current_pair_size_ > 1)
 	{
 		divide();
-		std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
-		std::for_each(reserve.begin(), reserve.end(), myPrintPair);
-		std::cout << std::endl;
+		std::cout << "START\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;
 	}
-	for (my_pair_list::iterator it = result_sequence.begin(); it != result_sequence.end(); it++)
+	else
 	{
-		pend.push_back(it->first);
-		if (it->second.front() != -1)
-			main.push_back(it->second);
-	}
-	insertPend();
-	for (std::list< std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
-	{
-		std::cout << "[";
-		std::for_each(it->begin(), it->end(), myPrintInt);
-		std::cout << ")";
+		input_sequence.clear();
+		for (std::list<std::list<int> >::iterator it = main.begin(); it != main.end(); it++)
+			input_sequence.splice(input_sequence.end(), *it);
+		current_pair_size_ = 0;
+
+		std::cout << "🍀main[";
+		std::for_each(input_sequence.begin(), input_sequence.end(), myPrintInt);
+		std::cout << "]\n";
 	}
 
 	if (DEBUG)	{std::cout << "🏁 Exited : " << __FUNCTION__ << std::endl;}

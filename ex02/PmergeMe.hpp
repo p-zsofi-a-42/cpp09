@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/07 14:23:38 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/07 15:13:09 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ class PmergeMe
 		void FormPairs();
 		void compare();
 		void resultList();
+		void form_pend_at_start();
 		void part2();
 		void insertPend();
 		void divide();
