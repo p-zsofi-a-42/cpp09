@@ -18,7 +18,7 @@ WHITE="\e[0;37m"
 RESET="\e[0m"
 
 while true; do
-	echo -e "${YELLOW_B}Which prgram to test? [00][01][02]: ${RESET}"
+	echo -e "${YELLOW_B}Which exercise to test? [00][01][02]: ${RESET}"
 	read -p "" PROJECT
 	case $PROJECT in
 		00 ) PROGRAM=./ex00/btc; 		TEST_DIR=tests/tests_ex00; break;;
@@ -42,18 +42,36 @@ for input in $TEST_DIR/*.input; do
 
 	# Run program, store the prints in the variable output
 	output=$($PROGRAM $args)
-
-	# Normalize whitespace (optional but helpful)
+	# Ignore last 4 lines of the output (which is comparison counter and time taken
+	output_sort=$(echo "$output" | head -n -4)
+	output_counter=$(echo "$output" | tail -n 1)
+	
+	# save content of expected file
 	expected_output=$(cat "$expected")
+	expected_output_sort=$(echo "$expected_output" | head -n -4)
+	max_limit=$(echo "$expected_output" | tail -n 1)
+	num_of_args=$(echo "$expected_output" | tail -n 3 | head -n 1)
 
 	echo -e "--------------------------------------------------------------------"
-	if [ "$output" == "$expected_output" ]; then
-		echo -e "${YELLOW_B}"	"\b$name ✅"
-		((pass_counter++))
+	if [ "$output_sort" == "$expected_output_sort" ]; then
+		echo -e -n "${YELLOW_B}"	"\b$name ✅" "${RESET}"
+		if [ "$output_counter" == "$max_limit" ]; then
+			echo "✅"
+			echo -e "${GREEN}"	"\b\tNumber of elements: $num_of_args" \
+								"max limit: $max_limit" \
+								"program: $output_counter"
+			((pass_counter++))
+		else
+			echo "❌"
+			echo -e "${RED}"	"\b\tNumber of elements: $num_of_args" \
+								"max limit: $max_limit" \
+								"program: $output_counter"
+			((fail_counter++))
+		fi
 	else
 		echo -e "${YELLOW_B}"	"\b$name ❌"
-		echo -e "${WHITE_B}""\t\bExpected:\n"	"\b${WHITE}"	"\b$expected_output"
-		echo -e	"${RED_B}"	"\t\bGot:\n"		"\b${RED}"	"\b$output"			"\b${RESET}"
+		echo -e "${WHITE_B}""\t\bExpected:\n"	"\b${WHITE}"	"\b$expected_output_sort"
+		echo -e	"${RED_B}"	"\t\bGot:\n"		"\b${RED}"		"\b$output_sort"	"\b${RESET}"
 		((fail_counter++))
 	fi
 done
