@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/07 21:18:46 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/07 21:18:47 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/07 21:28:16 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ int main(int argc, char **argv)
 	int num;
 	while (n--)
 	{
-		num = std::rand(); //NOTE wo't go to int may, so limits should be checked manually
-		while (num > 100)
-			num /= 10;
+		num = std::rand(); //NOTE won't go to int max, so limits should be checked manually
+	//	while (num > 100) num /= 10;
 		file_to_write << num;
 		file_to_write << " ";
 	}
