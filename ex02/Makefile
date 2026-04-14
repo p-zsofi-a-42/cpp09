@@ -2,6 +2,7 @@
 SRC_MAN	=	\
 			main.cpp\
 			PmergeMe.cpp\
+			Jacobstahl.cpp\
 #			tests.cpp\
 
 OBJ_DIR		= build

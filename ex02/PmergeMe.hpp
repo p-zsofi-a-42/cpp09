@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/07 20:29:00 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/14 19:25:51 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,43 +18,15 @@
 # include <sstream>		//stringstream
 # include <string>
 # include <list>
-# include <cmath>
 # include <utility>		//pair type
 //# include <stack>
 # include <algorithm>
 # include "colors.hpp"
+# include "Jacobstahl.hpp"
 
 # ifndef DEBUG
 #  define DEBUG false
 # endif
-
-class Jacobstahl
-{
-	private:
-		Jacobstahl();
-		Jacobstahl(const Jacobstahl &other)
-		{
-			(void) other;
-		}
-		Jacobstahl &operator= (const Jacobstahl &other)
-		{	(void) other;
-			return *this;};
-		
-	public:
-		static size_t element_n(int n)
-		{
-			if (n == 0)
-				return (0);
-			if (n == 1)
-				return (1);
-			return ((std::pow(2, n) - std::pow(-1, n)) / 3);
-		};
-		static size_t insertion_n(int n)
-		{
-			return (Jacobstahl::element_n(n) - Jacobstahl::element_n(n - 1));
-		};
-		~Jacobstahl(){};
-};
 
 class PmergeMe
 {
