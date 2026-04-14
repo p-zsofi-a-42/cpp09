@@ -60,7 +60,7 @@ for input in $TEST_DIR/*.input; do
 	echo -e "--------------------------------------------------------------------"
 	if [ "$output_sort" == "$expected_output_sort" ]; then
 		echo -e -n "${YELLOW_B}"	"\b$name ✅" "${RESET}"
-		if [ "$output_counter" == "$max_limit" ]; then
+		if [ "$output_counter" -le "$max_limit" ]; then
 			echo "✅"
 			echo -e "${GREEN}"	"\b\tNumber of elements: $num_of_args" \
 								"max limit: $max_limit" \
@@ -73,6 +73,7 @@ for input in $TEST_DIR/*.input; do
 								"program: $output_counter"
 			((fail_counter++))
 		fi
+		echo -e	"${WHITE}"	"\t\bGot:\n"		"\b${WHITE}"		"\b$output_sort"	"\b${RESET}"
 	else
 		echo -e "${YELLOW_B}"	"\b$name ❌"
 		echo -e "${WHITE_B}""\t\bExpected:\n"	"\b${WHITE}"	"\b$expected_output_sort"
