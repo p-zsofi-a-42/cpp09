@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/08 16:14:54 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/14 19:07:40 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,8 @@ void PmergeMe::FormPairs() // only on first lvl
 		{
 			std::list<int> temp_it_list;
 			temp_it_list.push_back(*it);
-			std::list<int> temp_unpaired_list;
-			temp_unpaired_list.push_back(-1);
-			myPair = std::make_pair(temp_it_list, temp_unpaired_list);
+			std::list<int> temp_empty_list;
+			myPair = std::make_pair(temp_it_list, temp_empty_list);
 			reserve.push_front(myPair); //after this loop condition will end the loop
 		}
 	}
@@ -129,9 +128,8 @@ void PmergeMe::resultList()
 		}
 		else
 		{
-			std::list<int> temp_unpaired_list;
-			temp_unpaired_list.push_back(-1);
-			it->second = temp_unpaired_list; //unpaired
+			std::list<int> temp_empty_list;
+			it->second = temp_empty_list; //unpaired
 			reserve.push_front(*it);
 			result_sequence.pop_back();
 			break;
@@ -167,8 +165,14 @@ void PmergeMe::sort()
 		else
 			if (DEBUG)	{std::cout << "👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾at lvl: " << recursion_lvl_ << "with group sizes of: " << result_sequence.size()  << std::endl;}
 	}
-	if (current_pair_size_ != 0)
+	if (result_sequence.empty() && !reserve.empty())
+	{
+		result_sequence = reserve;
 		part2();
+	}
+	else if (current_pair_size_ != 0)
+		part2();
+
 	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -237,9 +241,9 @@ void PmergeMe::insertPend()
 			inserted_pend.first = temp;
 			inserted_pend.second = it->first;
 			if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
-			if (it->second.front() == -1)
+			if (it->second.empty())
 			{
-				result_sequence.insert(std::lower_bound(result_sequence.begin(), result_sequence.end(), it->first, functor),
+				result_sequence.insert(std::lower_bound(result_sequence.begin(), it, it->first, functor),
 									inserted_pend);
 				it = result_sequence.end(); //to not invalidate iterator with the pop
 				result_sequence.pop_back();
@@ -257,6 +261,7 @@ void PmergeMe::insertPend()
 				while(it->first.empty() && it != result_sequence.begin())
 					it--;
 			}
+			if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 		}
 		while (it != result_sequence.end() && it->first.empty())
 			it++;
