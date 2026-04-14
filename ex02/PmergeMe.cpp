@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/14 19:07:40 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/14 19:17:17 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,7 +302,7 @@ void	myPrint(int value)
 }
 void	myPrintInt(int value)
 {
-	std::cout <<value << "➝";
+	std::cout <<value << " ➝ ";
 }
 void	myPrintListList(std::list< std::list<int> > listList, std::string id)
 {

@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:41:13 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/08 20:16:19 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/14 19:16:50 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 	
 	std::cout << "Before: ";
 	for (std::vector<int>::iterator it = expected.begin(); it != expected.end(); it++)
-		std::cout << *it << "➝";
+		std::cout << *it << " ➝ ";
 	std::cout << std::endl;
 	
 	//Sorting with STL sort
@@ -60,7 +60,7 @@ int main(int argc, char **argv)
 	std::cout << "After:  ";
 	for (std::vector<int>::iterator it = expected.begin(); it != expected.end(); it++)
 		//std::cout << "[" << *it << "]";
-		std::cout << *it << "➝";
+		std::cout << *it << " ➝ ";
 	std::cout << std::endl;
 
 //Calculating max limit
