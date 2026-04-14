@@ -27,6 +27,11 @@ while true; do
 	esac
 done
 
+# Creating test program util executable
+make -C tests/tests_ex$PROJECT
+# Creating program executable
+make -C ex$PROJECT
+
 pass_counter=0
 fail_counter=0
 
