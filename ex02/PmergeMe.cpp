@@ -234,13 +234,14 @@ void PmergeMe::insertPend()
 		if (DEBUG)  std::cout << "🔶jacob: " << Jacob_n << " insert: " << Jacobsthal_insertion << "\n";
 
 		// Advance as many elements as the Jacobstahl insertion requires (or ony until the end of the list)
-		size_t i = 0;
-		while(i < Jacobsthal_insertion && it != result_sequence.end())
+		for (size_t i = 0; i < Jacobsthal_insertion; i++)
 		{
 			it++;
-			i++;
+			if (it == result_sequence.end())
+				break;
 		}
-		it--;
+		if (it != result_sequence.begin())
+			it--;
 
 		// Insert all pend elements (stored in it.first) into the result sequence. Inserted elements will have an empty list as .first() 
 		while (Jacobsthal_insertion != 0 && !it->first.empty())
@@ -248,19 +249,16 @@ void PmergeMe::insertPend()
 			inserted_pend.first = emptyList;
 			inserted_pend.second = it->first;
 			if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
+			result_sequence.insert(std::lower_bound(result_sequence.begin(), it, it->first, functor),
+									inserted_pend);
+			// in case this node was originally an unpaired one, we don!t need the empty node
 			if (it->second.empty())
 			{
-				result_sequence.insert(std::lower_bound(result_sequence.begin(), it, it->first, functor),
-									inserted_pend);
 				it = result_sequence.end(); //to not invalidate iterator with the pop
 				result_sequence.pop_back();
 			}
 			else
-			{
-				result_sequence.insert(std::lower_bound(result_sequence.begin(), it, it->first, functor),
-									inserted_pend);
 				it->first.clear();
-			}
 			Jacobsthal_insertion--;
 			if (Jacobsthal_insertion)
 			{
