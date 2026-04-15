@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/15 18:29:30 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/15 20:01:50 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,7 @@ void PmergeMe::sort()
 	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
+/** Breaks up each node into pairs that are half the length */
 void PmergeMe::divide()
 {
 	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
@@ -209,6 +210,9 @@ void PmergeMe::divide()
 	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
+/** Inserts (finds the correct place) for each pend element (.first() of each pair)
+ * Uses Jacobstahl sequence to optimize this process
+ */
 void PmergeMe::insertPend()
 {
 	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
@@ -224,8 +228,8 @@ void PmergeMe::insertPend()
 	}
 	if (DEBUG) {std::cout << "middle\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 
-	size_t Jacob_n = 2;
-	size_t Jacobsthal_insertion;
+	size_t Jacob_n = 2; //helper to keep track of which element of the J.sequence we!re using for our insertion logic
+	size_t Jacobsthal_insertion; // how many elements we're inserting on this insertion round
 	
 	my_pair inserted_pend;
 	while (it != result_sequence.end())
@@ -263,11 +267,13 @@ void PmergeMe::insertPend()
 			if (Jacobsthal_insertion)
 			{
 				it--;
+				// skip the ones that were originally a pend element (we know this bc og pends have an empty list as .first(), if there is a first() then its a pend element to insert )
 				while(it->first.empty() && it != result_sequence.begin())
 					it--;
 			}
 			if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 		}
+		//iterate until an element that has a pend. (has smth in .first())
 		while (it != result_sequence.end() && it->first.empty())
 			it++;
 		Jacob_n++;
@@ -285,6 +291,7 @@ void PmergeMe::part2()
 
 	if (current_pair_size_ > 1)
 		divide();
+	// Each node only has one number, thus the sorting has finished.
 	else
 	{
 		input_sequence.clear();
