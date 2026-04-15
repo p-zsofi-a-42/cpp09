@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/14 19:17:17 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/15 17:56:40 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 	return (*this);
 }
 
-void PmergeMe::FormPairs() // only on first lvl
+void PmergeMe::formFirstPairs() // only on first lvl
 {
 	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	std::list<int>::iterator it;
@@ -87,11 +87,10 @@ void PmergeMe::FormPairs() // only on first lvl
 	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
-void PmergeMe::compare()
+void PmergeMe::compareAndFlip()
 {
 	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	my_pair_list::iterator it;
-	my_pair_list::iterator next;
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 	{
 		if (it->first.back() > it->second.back())
@@ -104,18 +103,25 @@ void PmergeMe::compare()
 		if (DEBUG)	{std::cout << "first: " << it->first.back() << " second: " << it->second.back() << std::endl;}
 		comparison_counter_++;
 	}
+	if (DEBUG)	{std::cout << "result: ";
+				std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
+				std::for_each(reserve.begin(), reserve.end(), myPrintPair);
+				std::cout << std::endl;
+				}
 	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
-void PmergeMe::resultList()
+void PmergeMe::mergePairs()
 {
 	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	my_pair_list::iterator it;
 	my_pair_list::iterator next;
 	
+	// Merging the current pairs into the "first" slot of the pair
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 		it->first.insert(it->first.end(), it->second.begin(), it->second.end());
 
+	// Copying every second (now merged) element to the "second" slot of the element before it. Then deleting its node
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 	{
 		next = it;
@@ -138,33 +144,38 @@ void PmergeMe::resultList()
 	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
+void PmergeMe::checkAndMerge()
+{
+	// If there are still more than 2 groups then further recursion is needed to reduce it
+	if (result_sequence.size() >= 2)
+	{
+		// Merge two groups -next to eachother- together into one bigger group
+		mergePairs();
+		current_pair_size_ *= 2;
+		recursion_lvl_++;
+		sort();
+	}
+	// End of part1, groups cannot be merged together more than this
+	else
+		if (DEBUG)	{std::cout << "👾 END OF PART 1 at lvl: " << recursion_lvl_ << " with group sizes of: " << result_sequence.size()  << std::endl;}
+}
 void PmergeMe::sort()
 {
 	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	if (recursion_lvl_ == 0)
 	{
-		FormPairs();
+		formFirstPairs();
 		recursion_lvl_++;
-		sort();
+		sort(); //recursion
 	}
 	else
 	{
-		compare();
-		if (DEBUG)	{std::cout << "result: ";
-					std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
-					std::for_each(reserve.begin(), reserve.end(), myPrintPair);
-					std::cout << std::endl;
-					}
-		if (result_sequence.size() >= 2)
-		{
-			resultList();
-			current_pair_size_ *= 2;
-			recursion_lvl_++;
-			sort();
-		}
-		else
-			if (DEBUG)	{std::cout << "👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾👾at lvl: " << recursion_lvl_ << "with group sizes of: " << result_sequence.size()  << std::endl;}
+		// Compare the group representatives and flip if needed
+		compareAndFlip();
+		// Merges the groups then calls recursion if further merging is needed
+		checkAndMerge(); 
 	}
+	// Case: only one element as input arg
 	if (result_sequence.empty() && !reserve.empty())
 	{
 		result_sequence = reserve;
