@@ -11,7 +11,7 @@ PROG_EXP		= expected_generator
 PROG_RND		= random_generator
 
 CXX				= c++
-C_FLAGS			= -Wall -Wextra -Werror -std=c++98 $(DEP_FLAGS)
+C_FLAGS			= -g -Wall -Wextra -Werror -std=c++98 $(DEP_FLAGS)
 
 #---------------------------------COLORS----------------------------------------
 GREEN_B	= "\033[1;32m"

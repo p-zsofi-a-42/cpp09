@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:41:13 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/14 19:16:50 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/15 21:02:38 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ int main(int argc, char **argv)
 		}
 		else if(!input.eof())
 		{
-			std::cout << "ERROR" << std::endl;
+			std::cout << "\nERROR" << std::endl;
+			return 1;
+		}
+		if (element < 0)
+		{
+			std::cout << "\nERROR" << std::endl;
 			return 1;
 		}
 	}

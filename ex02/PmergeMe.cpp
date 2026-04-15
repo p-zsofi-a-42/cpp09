@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/15 20:01:50 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/15 20:41:44 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ PmergeMe::PmergeMe()
 	functor.obj = this;
 }
 
+/** @throws runtime_error: if input has non-positive ints */
 PmergeMe::PmergeMe(std::stringstream &input)
 {
 	functor.obj = this;
@@ -28,6 +29,10 @@ PmergeMe::PmergeMe(std::stringstream &input)
 		input >> element;
 		if (!input.fail())
 			input_sequence.push_back(element);
+		else if(!input.eof())
+			throw (std::runtime_error("Unexpected element in the input"));
+		if (element < 0)
+			throw (std::runtime_error("The input can only have non-negative ints"));
 	}
 	current_pair_size_ = 1;
 	
