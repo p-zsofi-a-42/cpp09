@@ -4,5 +4,6 @@
 [ ] invalid lines
 [X] decimal results
 [ ] dubplicates cause error
-
+[X] lot of input args get cut
+[ ] jacob protect against neg
 merge insert explanation:https://dev.to/emuminov/human-explanation-and-step-by-step-visualisation-of-the-ford-johnson-algorithm-5g91

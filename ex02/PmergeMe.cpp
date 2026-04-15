@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/15 17:56:40 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/15 18:29:30 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,16 +212,10 @@ void PmergeMe::divide()
 void PmergeMe::insertPend()
 {
 	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
-	std::list<int> temp;
-
-	my_pair automatically_inserted_first(temp, result_sequence.begin()->first);
-	result_sequence.push_front(automatically_inserted_first);
-	
 	my_pair_list::iterator it = result_sequence.begin();
-	it++;
-	it->first.clear();
-	it++;
+	std::list<int> emptyList;
 	
+	// if the reserve has an element that was unpaired and thus didn't move on with the result sequence, but now has the same length element as the members of the current lvl of the result seq. then insert it now
 	if (!reserve.empty() && reserve.begin()->first.size() == current_pair_size_)
 	{
 		result_sequence.splice(result_sequence.end(),
@@ -230,7 +224,7 @@ void PmergeMe::insertPend()
 	}
 	if (DEBUG) {std::cout << "middle\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 
-	size_t Jacob_n = 3;
+	size_t Jacob_n = 2;
 	size_t Jacobsthal_insertion;
 	
 	my_pair inserted_pend;
@@ -239,6 +233,7 @@ void PmergeMe::insertPend()
 		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
 		if (DEBUG)  std::cout << "🔶jacob: " << Jacob_n << " insert: " << Jacobsthal_insertion << "\n";
 
+		// Advance as many elements as the Jacobstahl insertion requires (or ony until the end of the list)
 		size_t i = 0;
 		while(i < Jacobsthal_insertion && it != result_sequence.end())
 		{
@@ -247,9 +242,10 @@ void PmergeMe::insertPend()
 		}
 		it--;
 
-		while (Jacobsthal_insertion != 0 && it != result_sequence.begin())
+		// Insert all pend elements (stored in it.first) into the result sequence. Inserted elements will have an empty list as .first() 
+		while (Jacobsthal_insertion != 0 && !it->first.empty())
 		{
-			inserted_pend.first = temp;
+			inserted_pend.first = emptyList;
 			inserted_pend.second = it->first;
 			if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
 			if (it->second.empty())

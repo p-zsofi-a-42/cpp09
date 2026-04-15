@@ -13,7 +13,7 @@ A visual explanation af what is happening can be viewed on this [Miro board](htt
 - It has to make comparisons under the maximum limit, otherwise the implementation would be incorrect (explained on the Miro board)
 
 # Current state
-For typical case the algorithm performs well, however it has issues with duplicates, and high element count.<br />
+For typical case the algorithm performs well, however it has issues with duplicates.<br />
 There is no parsing implemented yet to check for invalid inputs. 
 
 # Tester

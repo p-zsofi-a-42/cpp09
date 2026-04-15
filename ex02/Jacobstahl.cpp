@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/14 19:19:20 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/14 19:26:15 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/15 18:29:49 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ size_t Jacobstahl::element_n(int n)
 	if (n == 0)
 		return (0);
 	if (n == 1)
+		return (0);
+	if (n == 2)
 		return (1);
 	return ((std::pow(2, n) - std::pow(-1, n)) / 3);
 };
