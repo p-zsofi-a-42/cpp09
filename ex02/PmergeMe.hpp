@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:52:51 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:57:21 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ class PmergeMe
 		PmergeMe();
 
 		typedef std::list< pendMain >	my_pair_list;
-		std::list<int>	sort_sequence;
-		my_pair_list	result_sequence;
-		my_pair_list	reserve;
+		std::list<int>	sort_sequence_;
+		my_pair_list	result_sequence_;
+		my_pair_list	reserve_;
 
 		unsigned int	current_pair_size_;	//needed bc until cpp11 size() can perform unexpectedly(not updated) when using splice()
 		int				recursion_lvl_;

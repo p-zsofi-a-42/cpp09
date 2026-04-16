@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:55:02 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:57:21 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ PmergeMe::PmergeMe(std::stringstream &input)
 	{
 		input >> element;
 		if (!input.fail())
-			sort_sequence.push_back(element);
+			sort_sequence_.push_back(element);
 		else if(!input.eof())
 			throw (std::runtime_error("Unexpected element in the input"));
 		if (element < 0)
@@ -38,7 +38,7 @@ PmergeMe::PmergeMe(std::stringstream &input)
 	}
 	current_pair_size_ = 1;
 
-	/*🪲*/ if (DEBUG)	{std::for_each(sort_sequence.begin(), sort_sequence.end(), myPrint);	std::cout << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::for_each(sort_sequence_.begin(), sort_sequence_.end(), myPrint);	std::cout << std::endl;}
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -66,26 +66,26 @@ void PmergeMe::formFirstPairs() // only on first lvl
 	
 	std::list<int>::iterator it;
 	std::list<int>::iterator next;
-	for (it = sort_sequence.begin(); it != sort_sequence.end(); it++)
+	for (it = sort_sequence_.begin(); it != sort_sequence_.end(); it++)
 	{
 		next = it;
 		next++;
-		if (next != sort_sequence.end())
+		if (next != sort_sequence_.end())
 		{
 			std::list<int> temp_it_list;
 			temp_it_list.push_back(*it);
 			std::list<int> temp_next_list;
 			temp_next_list.push_back(*next);
-			result_sequence.push_back(pendMain::pair(temp_it_list, temp_next_list));
+			result_sequence_.push_back(pendMain::pair(temp_it_list, temp_next_list));
 			it++; //needs to iterate here too not just in the loop to skip the "next"
 			
-			/*🪲*/ if (DEBUG)	{std::cout <<"forming pairs: "<< std::endl;	myPrintPair(result_sequence.back()); std::cout << std::endl;}
+			/*🪲*/ if (DEBUG)	{std::cout <<"forming pairs: "<< std::endl;	myPrintPair(result_sequence_.back()); std::cout << std::endl;}
 		}
 		else
 		{
 			std::list<int> temp_it_list;
 			temp_it_list.push_back(*it);
-			reserve.push_front(pendMain::pairEmptyMain(temp_it_list)); //after this loop condition will end the loop
+			reserve_.push_front(pendMain::pairEmptyMain(temp_it_list)); //after this loop condition will end the loop
 		}
 	}
 	
@@ -97,7 +97,7 @@ void PmergeMe::compareAndFlip()
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
 	my_pair_list::iterator it;
-	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
+	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 	{
 		if (it->pend_.back() > it->main_.back())
 			it->flip();
@@ -106,8 +106,8 @@ void PmergeMe::compareAndFlip()
 		/*🪲*/ if (DEBUG)	{std::cout << "first: " << it->pend_.back() << " second: " << it->main_.back() << std::endl;}
 	}
 	/*🪲*/ if (DEBUG)	{std::cout << "result: ";
-				std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
-				std::for_each(reserve.begin(), reserve.end(), myPrintPair);
+				std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair);
+				std::for_each(reserve_.begin(), reserve_.end(), myPrintPair);
 				std::cout << std::endl;	}
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
@@ -119,24 +119,24 @@ void PmergeMe::mergePairs()
 	my_pair_list::iterator it;
 	my_pair_list::iterator next;
 	// Fusing the current pair together into the "pend_" slot of the pair
-	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
+	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 		it->merge();
 
 	// Copying every main_ (now merged) element to the "main_" slot of the element before it. Then deleting its node
-	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
+	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 	{
 		next = it;
 		next++;
-		if (next != result_sequence.end())
+		if (next != result_sequence_.end())
 		{
 			it->copyToMain(*next);
-			result_sequence.erase(next);
+			result_sequence_.erase(next);
 			//now we have a list of  pairs with doube the size
 		}
 		else
 		{
-			reserve.push_front(pendMain::pairEmptyMain(it->pend_));
-			result_sequence.pop_back();
+			reserve_.push_front(pendMain::pairEmptyMain(it->pend_));
+			result_sequence_.pop_back();
 			break;
 		}
 	}
@@ -147,7 +147,7 @@ void PmergeMe::mergePairs()
 void PmergeMe::checkAndMerge()
 {
 	// If there are still more than 2 groups then further recursion is needed to reduce it
-	if (result_sequence.size() >= 2)
+	if (result_sequence_.size() >= 2)
 	{
 		// Merge two groups -next to eachother- together into one bigger group
 		mergePairs();
@@ -157,7 +157,7 @@ void PmergeMe::checkAndMerge()
 	}
 	// End of part1, groups cannot be merged together more than this
 	else
-		/*🪲*/ if (DEBUG)	{std::cout << "👾 END OF PART 1 at lvl: " << recursion_lvl_ << " with group sizes of: " << result_sequence.size()  << std::endl;}
+		/*🪲*/ if (DEBUG)	{std::cout << "👾 END OF PART 1 at lvl: " << recursion_lvl_ << " with group sizes of: " << result_sequence_.size()  << std::endl;}
 }
 
 void PmergeMe::sort()
@@ -178,9 +178,9 @@ void PmergeMe::sort()
 		checkAndMerge(); 
 	}
 	// Case: only one element as input arg
-	if (result_sequence.empty() && !reserve.empty())
+	if (result_sequence_.empty() && !reserve_.empty())
 	{
-		result_sequence = reserve;
+		result_sequence_ = reserve_;
 		part2();
 	}
 	else if (current_pair_size_ != 0)
@@ -198,7 +198,7 @@ void PmergeMe::divide()
 
 	my_pair_list::iterator it;	
 	// Halves every main_ element and creates a new, smaller pend and main from it
-	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
+	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 		it->divide(current_pair_size_);
 	current_pair_size_ /= 2;
 	
@@ -212,14 +212,14 @@ void PmergeMe::insertPend()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
-	my_pair_list::iterator it = result_sequence.begin();
+	my_pair_list::iterator it = result_sequence_.begin();
 	std::list<int> emptyList;
 
 	size_t Jacob_n = 2; //helper to keep track of which element of the J.sequence we!re using for our insertion logic
 	size_t Jacobsthal_insertion; // how many elements we're inserting on this insertion round
 	
 	pendMain inserted_pend;
-	while (it != result_sequence.end())
+	while (it != result_sequence_.end())
 	{
 		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
 		/*🪲*/ if (DEBUG)  std::cout << "🔶jacob: " << Jacob_n << " insert: " << Jacobsthal_insertion << "\n";
@@ -233,20 +233,20 @@ void PmergeMe::insertPend()
 			//it pend becomes the new main
 			inserted_pend = pendMain::pairEmptyPend(it->pend_);
 			/*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
-			result_sequence.insert(std::lower_bound(result_sequence.begin(), it, it->pend_, functor),
+			result_sequence_.insert(std::lower_bound(result_sequence_.begin(), it, it->pend_, functor),
 									inserted_pend);
 			// in case this node was originally an unpaired one, we don!t need the empty node
 			if (it->main_.empty())
 			{
-				it = result_sequence.end(); //to not invalidate iterator with the pop
-				result_sequence.pop_back();
+				it = result_sequence_.end(); //to not invalidate iterator with the pop
+				result_sequence_.pop_back();
 			}
 			else
 				it->pend_.clear();
 			if (--Jacobsthal_insertion)
 				decremetUntilPendFound(it);
 			
-			/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+			/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
 		}
 		incremetUntilPendFound(it);
 		Jacob_n++;
@@ -257,27 +257,27 @@ void PmergeMe::insertPend()
 
 /** Insert an unpaired element from "reserve"
  *  "Reserve" stores the elements that had no pair and thus 
- *  didn't move on to the next lvl with the rest of the result_sequence.
+ *  didn't move on to the next lvl with the rest of the result_sequence_.
  * 	Now in part2, if it has the same size as the current elements in the pairs, insert it at the end.
  */
 void PmergeMe::insertUnpaired()
 {
-	if (!reserve.empty() && reserve.begin()->pend_.size() == current_pair_size_)
+	if (!reserve_.empty() && reserve_.begin()->pend_.size() == current_pair_size_)
 	{
-		result_sequence.splice(result_sequence.end(),
-								reserve,
-								reserve.begin());
+		result_sequence_.splice(result_sequence_.end(),
+								reserve_,
+								reserve_.begin());
 	}
 
-	/*🪲*/ if (DEBUG) {std::cout << "After reserve insertion\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+	/*🪲*/ if (DEBUG) {std::cout << "After reserve insertion\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
 }
 
 void PmergeMe::part2()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << " pair size: "<< current_pair_size_<< std::endl;}
-	/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
 
-	if (!result_sequence.empty())
+	if (!result_sequence_.empty())
 	{
 		insertUnpaired();
 		insertPend();
@@ -288,13 +288,13 @@ void PmergeMe::part2()
 	// Each node only has one number, thus the sorting has finished.
 	else
 	{
-		sort_sequence.clear();
-		for (my_pair_list::iterator it = result_sequence.begin(); it != result_sequence.end(); it++)
-			sort_sequence.splice(sort_sequence.end(), it->main_);
+		sort_sequence_.clear();
+		for (my_pair_list::iterator it = result_sequence_.begin(); it != result_sequence_.end(); it++)
+			sort_sequence_.splice(sort_sequence_.end(), it->main_);
 		current_pair_size_ = 0;
 	}
 
-	/*🪲*/ if (DEBUG)	{std::cout << "RESULT\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cout << "RESULT\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -307,7 +307,7 @@ int PmergeMe::getComparisonCounter() const
 
 const std::list<int> & PmergeMe::getSortSequence() const
 {
-	return (sort_sequence);
+	return (sort_sequence_);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -320,10 +320,10 @@ void PmergeMe::safeAdvance(my_pair_list::iterator &it, size_t Jacobsthal_inserti
 	for (size_t i = 0; i < Jacobsthal_insertion; i++)
 	{
 		it++;
-		if (it == result_sequence.end())
+		if (it == result_sequence_.end())
 			break;
 	}
-	if (it != result_sequence.begin())
+	if (it != result_sequence_.begin())
 		it--;
 }
 
@@ -335,7 +335,7 @@ void PmergeMe::safeAdvance(my_pair_list::iterator &it, size_t Jacobsthal_inserti
 void PmergeMe::decremetUntilPendFound(my_pair_list::iterator &it)
 {
 	it--;
-	while(it->pend_.empty() && it != result_sequence.begin())
+	while(it->pend_.empty() && it != result_sequence_.begin())
 		it--;
 }
 /** Increment the iterator until an unprocessed pend element is found. 
@@ -345,7 +345,7 @@ void PmergeMe::decremetUntilPendFound(my_pair_list::iterator &it)
 */
 void PmergeMe::incremetUntilPendFound(my_pair_list::iterator &it)
 {
-	while (it->pend_.empty() && it != result_sequence.end() )
+	while (it->pend_.empty() && it != result_sequence_.end() )
 		it++;
 }
 
