@@ -28,9 +28,9 @@ while true; do
 done
 
 # Creating test program util executable
-make -C tests/tests_ex$PROJECT
+make re -C tests/tests_ex$PROJECT
 # Creating program executable
-make -C ex$PROJECT
+make re -C ex$PROJECT
 
 pass_counter=0
 fail_counter=0
