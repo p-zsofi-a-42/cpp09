@@ -6,12 +6,14 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 14:05:14 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 15:59:33 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:53:31 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pendMain.hpp"
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~orthodox canonical requirement
 pendMain::pendMain()
 {
 	std::list<int> empty;
@@ -39,7 +41,8 @@ pendMain & pendMain::operator= (const pendMain &other)
 
 	return *this;
 }
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~pairing
 pendMain pendMain::pair(std::list<int> pend, std::list<int> main)
 {
 	return (pendMain(pend, main));
@@ -59,6 +62,8 @@ pendMain pendMain::pairEmptyMain(std::list<int> pend)
 
 }
 
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~manipulation
 void pendMain::flip()
 {
 	std::list<int> temp = pend_;
