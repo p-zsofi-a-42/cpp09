@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:57:21 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 18:08:28 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "colors.hpp"
 # include "Jacobstahl.hpp"
 # include "pendMain.hpp"
+# include "printer.hpp"
 
 # ifndef DEBUG
 #  define DEBUG false
@@ -74,11 +75,6 @@ class PmergeMe
 		int						getComparisonCounter() const;
 		const std::list<int> &	getSortSequence() const;
 };
-	
-void	myPrint(int value);
-void	myPrintInt(int value);
-void	myPrintPair(pendMain value);
-void	myPrintListList(std::list< std::list<int> > listList, std::string id);
 
 #endif
 

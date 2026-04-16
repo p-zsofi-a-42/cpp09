@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:57:21 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 18:03:18 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,34 +350,7 @@ void PmergeMe::incremetUntilPendFound(my_pair_list::iterator &it)
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~print utils
-void	myPrint(int value)
-{
-	std::cout << "[" << value << "]";
-}
-void	myPrintInt(int value)
-{
-	std::cout <<value << " ➝ ";
-}
-void	myPrintListList(std::list< std::list<int> > listList, std::string id)
-{
-	for (std::list< std::list<int> >::iterator it = listList.begin(); it != listList.end(); it++)
-	{
-		std::cout << id << "[";
-		std::for_each(it->begin(), it->end(), myPrintInt);
-		std::cout << "]\n";
-	}
-}
-
-void	myPrintPair(pendMain value)
-{
-	std::cout << "["; 
-	std::for_each(value.pend_.begin(), value.pend_.end(), myPrintInt);
-	std::cout << " , ";
-	std::for_each(value.main_.begin(), value.main_.end(), myPrintInt);
-	std::cout << "]";
-}
-
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~custom comparison counter utils
 bool PmergeMe::compare::operator()(pendMain sequenceElement, std::list<int> toCompare)
 {
 	return (obj->myLess(sequenceElement, toCompare));

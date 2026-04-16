@@ -4,6 +4,7 @@ SRC_MAN	=	\
 			PmergeMe.cpp\
 			Jacobstahl.cpp\
 			pendMain.cpp\
+			printer.cpp\
 #			tests.cpp\
 
 OBJ_DIR		= build
