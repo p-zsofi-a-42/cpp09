@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 15:40:16 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:06:38 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,7 @@ void PmergeMe::compareAndFlip()
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 	{
 		if (it->pend_.back() > it->main_.back())
-		{
-			std::list<int> temp = it->pend_;
-			it->pend_ = it->main_;
-			it->main_ = temp;
-			if (DEBUG)	{std::cout << "flipped\n";}
-		}
+			it->flip();
 		if (DEBUG)	{std::cout << "first: " << it->pend_.back() << " second: " << it->main_.back() << std::endl;}
 		comparison_counter_++;
 	}
@@ -135,9 +130,7 @@ void PmergeMe::mergePairs()
 		}
 		else
 		{
-			std::list<int> temp_empty_list;
-			it->main_ = temp_empty_list; //unpaired
-			reserve.push_front(*it);
+			reserve.push_front(pendMain::pairEmptyMain(it->pend_));
 			result_sequence.pop_back();
 			break;
 		}
@@ -194,19 +187,10 @@ void PmergeMe::divide()
 	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	my_pair_list::iterator it;
 	
+	// Halves every main_ element and creates a new, smaller pend and main from it
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
-	{
-		std::list<int>::iterator middle_of_the_list_in_pair;
+		it->divide(current_pair_size_);
 
-		middle_of_the_list_in_pair = it->main_.begin();
-		std::advance(middle_of_the_list_in_pair, current_pair_size_ / 2);
-		
-		it->pend_.clear();
-		it->pend_.splice(it->pend_.begin(),
-							it->main_,
-							it->main_.begin(),
-							middle_of_the_list_in_pair);
-	}
 	current_pair_size_ /= 2;
 	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }

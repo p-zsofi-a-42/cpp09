@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 13:57:10 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 15:40:40 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 15:59:05 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 # define PENDMAIN_HPP
 
 //# include <climits>
-//# include <iostream>
+# include <iostream>
 //# include <string>
 # include <list>
 //# include <algorithm>
 # include "colors.hpp"
 
-//# ifndef DEBUG
-//#  define DEBUG false
-//# endif
+# ifndef DEBUG
+#  define DEBUG false
+# endif
 
 class pendMain
 {
@@ -41,6 +41,9 @@ class pendMain
 		static pendMain pair(std::list<int> pend, std::list<int> main);
 		static pendMain pairEmptyPend(std::list<int> main);
 		static pendMain pairEmptyMain(std::list<int> pend);
+		
+		void flip();
+		void divide(int current_pair_size_);
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 14:05:14 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 15:31:39 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 15:59:33 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,24 @@ pendMain pendMain::pairEmptyMain(std::list<int> pend)
 	std::list<int> empty;
 	return (pendMain(pend, empty));
 
+}
+
+void pendMain::flip()
+{
+	std::list<int> temp = pend_;
+	pend_ = main_;
+	main_ = temp;
+	if (DEBUG)	{std::cout << "flipped\n";}
+}
+
+void pendMain::divide(int current_pair_size_)
+{
+	std::list<int>::iterator middle_of_the_list_in_pair = main_.begin();
+	std::advance(middle_of_the_list_in_pair, current_pair_size_ / 2);
+
+	pend_.clear();
+	pend_.splice(pend_.begin(),
+					main_,
+					main_.begin(),
+					middle_of_the_list_in_pair);
 }
