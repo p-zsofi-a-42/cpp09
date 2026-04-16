@@ -6,18 +6,15 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 13:57:10 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:01:34 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:45:12 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PENDMAIN_HPP
 # define PENDMAIN_HPP
 
-//# include <climits>
 # include <iostream>
-//# include <string>
 # include <list>
-//# include <algorithm>
 # include "colors.hpp"
 
 # ifndef DEBUG
