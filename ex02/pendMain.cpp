@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 14:05:14 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:04:10 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:32:44 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void pendMain::flip()
 	std::list<int> temp = pend_;
 	pend_ = main_;
 	main_ = temp;
-	if (DEBUG)	{std::cout << "flipped\n";}
+	
+	/*🪲*/ if (DEBUG)	{std::cout << "flipped\n";}
 }
 
 void pendMain::divide(int current_pair_size_)

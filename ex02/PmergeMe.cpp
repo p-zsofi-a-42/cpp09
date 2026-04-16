@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:04:14 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:32:40 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ PmergeMe::PmergeMe(std::stringstream &input)
 	std::cout << "Before: ";
 	std::for_each(input_sequence.begin(), input_sequence.end(), myPrintInt);
 	std::cout << std::endl;
-	if (DEBUG)	{std::for_each(input_sequence.begin(), input_sequence.end(), myPrint);	std::cout << std::endl;}
-	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::for_each(input_sequence.begin(), input_sequence.end(), myPrint);	std::cout << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 PmergeMe::~PmergeMe()
@@ -65,7 +65,8 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &other)
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~part 1
 void PmergeMe::formFirstPairs() // only on first lvl
 {
-	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	
 	std::list<int>::iterator it;
 	std::list<int>::iterator next;
 	for (it = input_sequence.begin(); it != input_sequence.end(); it++)
@@ -79,8 +80,9 @@ void PmergeMe::formFirstPairs() // only on first lvl
 			std::list<int> temp_next_list;
 			temp_next_list.push_back(*next);
 			result_sequence.push_back(pendMain::pair(temp_it_list, temp_next_list));
-			if (DEBUG)	{std::cout <<"forming pairs: "<< std::endl;	myPrintPair(result_sequence.back()); std::cout << std::endl;}
 			it++; //needs to iterate here too not just in the loop to skip the "next"
+			
+			/*🪲*/ if (DEBUG)	{std::cout <<"forming pairs: "<< std::endl;	myPrintPair(result_sequence.back()); std::cout << std::endl;}
 		}
 		else
 		{
@@ -89,34 +91,36 @@ void PmergeMe::formFirstPairs() // only on first lvl
 			reserve.push_front(pendMain::pairEmptyMain(temp_it_list)); //after this loop condition will end the loop
 		}
 	}
-	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+	
+	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 void PmergeMe::compareAndFlip()
 {
-	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	
 	my_pair_list::iterator it;
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 	{
 		if (it->pend_.back() > it->main_.back())
 			it->flip();
-		if (DEBUG)	{std::cout << "first: " << it->pend_.back() << " second: " << it->main_.back() << std::endl;}
 		comparison_counter_++;
+	
+		/*🪲*/ if (DEBUG)	{std::cout << "first: " << it->pend_.back() << " second: " << it->main_.back() << std::endl;}
 	}
-	if (DEBUG)	{std::cout << "result: ";
+	/*🪲*/ if (DEBUG)	{std::cout << "result: ";
 				std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair);
 				std::for_each(reserve.begin(), reserve.end(), myPrintPair);
-				std::cout << std::endl;
-				}
-	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+				std::cout << std::endl;	}
+	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 void PmergeMe::mergePairs()
 {
-	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	
 	my_pair_list::iterator it;
 	my_pair_list::iterator next;
-	
 	// Fusing the current pair together into the "pend_" slot of the pair
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 		it->merge();
@@ -139,7 +143,8 @@ void PmergeMe::mergePairs()
 			break;
 		}
 	}
-	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+
+	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 void PmergeMe::checkAndMerge()
@@ -155,11 +160,13 @@ void PmergeMe::checkAndMerge()
 	}
 	// End of part1, groups cannot be merged together more than this
 	else
-		if (DEBUG)	{std::cout << "👾 END OF PART 1 at lvl: " << recursion_lvl_ << " with group sizes of: " << result_sequence.size()  << std::endl;}
+		/*🪲*/ if (DEBUG)	{std::cout << "👾 END OF PART 1 at lvl: " << recursion_lvl_ << " with group sizes of: " << result_sequence.size()  << std::endl;}
 }
+
 void PmergeMe::sort()
 {
-	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	
 	if (recursion_lvl_ == 0)
 	{
 		formFirstPairs();
@@ -182,7 +189,7 @@ void PmergeMe::sort()
 	else if (current_pair_size_ != 0)
 		part2();
 
-	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -190,15 +197,15 @@ void PmergeMe::sort()
 /** Breaks up each node into pairs that are half the length */
 void PmergeMe::divide()
 {
-	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
-	my_pair_list::iterator it;
-	
+	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+
+	my_pair_list::iterator it;	
 	// Halves every main_ element and creates a new, smaller pend and main from it
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 		it->divide(current_pair_size_);
-
 	current_pair_size_ /= 2;
-	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+	
+	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 /** Inserts (finds the correct place) for each pend element (.first() of each pair)
@@ -206,7 +213,8 @@ void PmergeMe::divide()
  */
 void PmergeMe::insertPend()
 {
-	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
+	
 	my_pair_list::iterator it = result_sequence.begin();
 	std::list<int> emptyList;
 	
@@ -217,7 +225,8 @@ void PmergeMe::insertPend()
 								reserve,
 								reserve.begin());
 	}
-	if (DEBUG) {std::cout << "middle\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+	
+	/*🪲*/ if (DEBUG) {std::cout << "middle\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 
 	size_t Jacob_n = 2; //helper to keep track of which element of the J.sequence we!re using for our insertion logic
 	size_t Jacobsthal_insertion; // how many elements we're inserting on this insertion round
@@ -226,7 +235,7 @@ void PmergeMe::insertPend()
 	while (it != result_sequence.end())
 	{
 		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
-		if (DEBUG)  std::cout << "🔶jacob: " << Jacob_n << " insert: " << Jacobsthal_insertion << "\n";
+		/*🪲*/ if (DEBUG)  std::cout << "🔶jacob: " << Jacob_n << " insert: " << Jacobsthal_insertion << "\n";
 
 		// Advance ahed for reverse insertion
 		safeAdvance(it, Jacobsthal_insertion);
@@ -236,7 +245,7 @@ void PmergeMe::insertPend()
 		{
 			//it pend becomes the new main
 			inserted_pend = pendMain::pairEmptyPend(it->pend_);
-			if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
+			/*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
 			result_sequence.insert(std::lower_bound(result_sequence.begin(), it, it->pend_, functor),
 									inserted_pend);
 			// in case this node was originally an unpaired one, we don!t need the empty node
@@ -249,18 +258,20 @@ void PmergeMe::insertPend()
 				it->pend_.clear();
 			if (--Jacobsthal_insertion)
 				decremetUntilPendFound(it);
-			if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+			
+			/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 		}
 		incremetUntilPendFound(it);
 		Jacob_n++;
 	}
-	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+	
+	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 void PmergeMe::part2()
 {
-	if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << " pair size: "<< current_pair_size_<< std::endl;}
-	if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << " pair size: "<< current_pair_size_<< std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 
 	if (!result_sequence.empty())
 		insertPend();
@@ -279,9 +290,9 @@ void PmergeMe::part2()
 		std::for_each(input_sequence.begin(), input_sequence.end(), myPrintInt);
 		std::cout << std::endl;
 	}
-	if (DEBUG)	{std::cout << "RESULT\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 
-	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cout << "RESULT\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
