@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 16:37:06 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:20:58 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,16 @@ class PmergeMe
 		int	recursion_lvl_; //pair size = 2^recusion_lvl, how many elements belong to a pair at start 1-1 then 2-2
 		int	comparison_counter_;
 	
+		//part1
 		void checkAndMerge();
 		void mergePairs();
-		void formFirstPairs();
 		void compareAndFlip();
-		void part2();
-		void insertPend();
+		void formFirstPairs();
+		//part2
 		void divide();
+		void insertPend();
+		void insertUnpaired();
+		void part2();
 
 		struct compare
 		{

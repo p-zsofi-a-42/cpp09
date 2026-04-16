@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:32:40 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:37:20 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,16 +217,6 @@ void PmergeMe::insertPend()
 	
 	my_pair_list::iterator it = result_sequence.begin();
 	std::list<int> emptyList;
-	
-	// if the reserve has an element that was unpaired and thus didn't move on with the result sequence, but now has the same length element as the members of the current lvl of the result seq. then insert it now
-	if (!reserve.empty() && reserve.begin()->pend_.size() == current_pair_size_)
-	{
-		result_sequence.splice(result_sequence.end(),
-								reserve,
-								reserve.begin());
-	}
-	
-	/*🪲*/ if (DEBUG) {std::cout << "middle\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 
 	size_t Jacob_n = 2; //helper to keep track of which element of the J.sequence we!re using for our insertion logic
 	size_t Jacobsthal_insertion; // how many elements we're inserting on this insertion round
@@ -268,13 +258,33 @@ void PmergeMe::insertPend()
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
+/** Insert an unpaired element from "reserve"
+ *  "Reserve" stores the elements that had no pair and thus 
+ *  didn't move on to the next lvl with the rest of the result_sequence.
+ * 	Now in part2, if it has the same size as the current elements in the pairs, insert it at the end.
+ */
+void PmergeMe::insertUnpaired()
+{
+	if (!reserve.empty() && reserve.begin()->pend_.size() == current_pair_size_)
+	{
+		result_sequence.splice(result_sequence.end(),
+								reserve,
+								reserve.begin());
+	}
+
+	/*🪲*/ if (DEBUG) {std::cout << "After reserve insertion\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
+}
+
 void PmergeMe::part2()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << " pair size: "<< current_pair_size_<< std::endl;}
 	/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 
 	if (!result_sequence.empty())
+	{
+		insertUnpaired();
 		insertPend();
+	}
 
 	if (current_pair_size_ > 1)
 		divide();
