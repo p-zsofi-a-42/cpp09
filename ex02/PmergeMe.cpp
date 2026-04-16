@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:37:20 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:55:02 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,15 @@ PmergeMe::PmergeMe(std::stringstream &input)
 	{
 		input >> element;
 		if (!input.fail())
-			input_sequence.push_back(element);
+			sort_sequence.push_back(element);
 		else if(!input.eof())
 			throw (std::runtime_error("Unexpected element in the input"));
 		if (element < 0)
 			throw (std::runtime_error("The input can only have non-negative ints"));
 	}
 	current_pair_size_ = 1;
-	
-	std::cout << "Before: ";
-	std::for_each(input_sequence.begin(), input_sequence.end(), myPrintInt);
-	std::cout << std::endl;
-	/*🪲*/ if (DEBUG)	{std::for_each(input_sequence.begin(), input_sequence.end(), myPrint);	std::cout << std::endl;}
+
+	/*🪲*/ if (DEBUG)	{std::for_each(sort_sequence.begin(), sort_sequence.end(), myPrint);	std::cout << std::endl;}
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -69,11 +66,11 @@ void PmergeMe::formFirstPairs() // only on first lvl
 	
 	std::list<int>::iterator it;
 	std::list<int>::iterator next;
-	for (it = input_sequence.begin(); it != input_sequence.end(); it++)
+	for (it = sort_sequence.begin(); it != sort_sequence.end(); it++)
 	{
 		next = it;
 		next++;
-		if (next != input_sequence.end())
+		if (next != sort_sequence.end())
 		{
 			std::list<int> temp_it_list;
 			temp_it_list.push_back(*it);
@@ -291,14 +288,10 @@ void PmergeMe::part2()
 	// Each node only has one number, thus the sorting has finished.
 	else
 	{
-		input_sequence.clear();
+		sort_sequence.clear();
 		for (my_pair_list::iterator it = result_sequence.begin(); it != result_sequence.end(); it++)
-			input_sequence.splice(input_sequence.end(), it->main_);
+			sort_sequence.splice(sort_sequence.end(), it->main_);
 		current_pair_size_ = 0;
-
-		std::cout << "After:  ";
-		std::for_each(input_sequence.begin(), input_sequence.end(), myPrintInt);
-		std::cout << std::endl;
 	}
 
 	/*🪲*/ if (DEBUG)	{std::cout << "RESULT\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
@@ -307,9 +300,14 @@ void PmergeMe::part2()
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~getter
-int PmergeMe::getComparisonCounter()
+int PmergeMe::getComparisonCounter() const
 {
 	return (comparison_counter_);
+}
+
+const std::list<int> & PmergeMe::getSortSequence() const
+{
+	return (sort_sequence);
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

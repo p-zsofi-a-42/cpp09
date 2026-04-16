@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:44:38 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:52:51 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ class PmergeMe
 		PmergeMe();
 
 		typedef std::list< pendMain >	my_pair_list;
-		std::list<int>	input_sequence;
+		std::list<int>	sort_sequence;
 		my_pair_list	result_sequence;
 		my_pair_list	reserve;
 
@@ -71,7 +71,8 @@ class PmergeMe
 		PmergeMe &operator= (const PmergeMe &other);
 
 		void	sort();
-		int		getComparisonCounter();
+		int						getComparisonCounter() const;
+		const std::list<int> &	getSortSequence() const;
 };
 	
 void	myPrint(int value);

@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:41:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 16:10:43 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:55:00 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,17 @@ int main(int argc, char **argv)
 	try
 	{
 		PmergeMe test(input);
+
+		std::cout << "Before: ";
+		std::for_each(test.getSortSequence().begin(), test.getSortSequence().end(), myPrintInt);
+		std::cout << std::endl;
+
 		test.sort();
+
+		std::cout << "After:  ";
+		std::for_each(test.getSortSequence().begin(), test.getSortSequence().end(), myPrintInt);
+		std::cout << std::endl;
+
 		std::cout << "\ntime with std::list " << std::endl;
 		std::cout << "time with std:: " << std::endl;
 		std::cout << "Comparisons made:\n"
