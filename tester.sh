@@ -76,14 +76,17 @@ for input in $TEST_DIR/*.input; do
 									"program: $output_counter"
 				((fail_counter++))
 			fi
+		else
+			((pass_counter++))
+			echo ""
 		fi
-		echo -e	"${WHITE_B}"	"\t\bInput:\n"		"\b${WHITE}"		"\b$args"	"\b${RESET}"
-		echo -e	"${WHITE_B}"	"\t\bGot:\n"		"\b${WHITE}"		"\b$output_sort"	"\b${RESET}"
+		echo -e	"${WHITE_B}"	"\b\tInput:\n"		"\b${WHITE}"		"\b$args"	"\b${RESET}"
+		echo -e	"${WHITE_B}"	"\b\tGot:\n"		"\b${WHITE}"		"\b$output_sort"	"\b${RESET}"
 	else
 		echo -e "${YELLOW_B}"	"\b$name ❌"
-		echo -e	"${WHITE_B}"	"\t\bInput:\n"		"\b${WHITE}"		"\b$args"	"\b${RESET}"
-		echo -e "${WHITE_B}""\t\bExpected:\n"	"\b${WHITE}"	"\b$expected_output_sort"
-		echo -e	"${RED_B}"	"\t\bGot:\n"		"\b${RED}"		"\b$output_sort"	"\b${RESET}"
+		echo -e	"${WHITE_B}"	"\b\tInput:\n"		"\b${WHITE}"		"\b$args"	"\b${RESET}"
+		echo -e "${WHITE_B}""\b\tExpected:\n"	"\b${WHITE}"	"\b$expected_output_sort"
+		echo -e	"${RED_B}"	"\b\tGot:\n"		"\b${RED}"		"\b$output_sort"	"\b${RESET}"
 		((fail_counter++))
 	fi
 done
