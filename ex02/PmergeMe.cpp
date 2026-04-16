@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 16:52:11 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:04:14 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,18 +117,18 @@ void PmergeMe::mergePairs()
 	my_pair_list::iterator it;
 	my_pair_list::iterator next;
 	
-	// Merging the current pairs into the "first" slot of the pair
+	// Fusing the current pair together into the "pend_" slot of the pair
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
-		it->pend_.insert(it->pend_.end(), it->main_.begin(), it->main_.end());
+		it->merge();
 
 	// Copying every main_ (now merged) element to the "main_" slot of the element before it. Then deleting its node
 	for (it = result_sequence.begin(); it != result_sequence.end(); it++)
 	{
 		next = it;
-		next++; 
+		next++;
 		if (next != result_sequence.end())
 		{
-			it->main_ = next->pend_;
+			it->copyToMain(*next);
 			result_sequence.erase(next);
 			//now we have a list of  pairs with doube the size
 		}

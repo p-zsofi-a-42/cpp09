@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 14:05:14 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 16:53:31 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:04:10 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,15 @@ void pendMain::divide(int current_pair_size_)
 					main_,
 					main_.begin(),
 					middle_of_the_list_in_pair);
+}
+
+/** Fuses/inserts the "main" slot of the pair after the "pend" */
+void pendMain::merge()
+{
+	pend_.insert(pend_.end(), main_.begin(), main_.end());
+}
+
+void pendMain::copyToMain(pendMain &other)
+{
+	main_ = other.pend_;
 }

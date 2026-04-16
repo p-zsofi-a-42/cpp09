@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 13:57:10 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 15:59:05 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 17:01:34 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ class pendMain
 		
 		void flip();
 		void divide(int current_pair_size_);
+		void merge();
+		void copyToMain(pendMain &other);
 };
 
 #endif
