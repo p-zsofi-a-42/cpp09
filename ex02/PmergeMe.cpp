@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 16:10:34 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:45:41 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,15 +222,8 @@ void PmergeMe::insertPend()
 		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
 		if (DEBUG)  std::cout << "🔶jacob: " << Jacob_n << " insert: " << Jacobsthal_insertion << "\n";
 
-		// Advance as many elements as the Jacobstahl insertion requires (or ony until the end of the list)
-		for (size_t i = 0; i < Jacobsthal_insertion; i++)
-		{
-			it++;
-			if (it == result_sequence.end())
-				break;
-		}
-		if (it != result_sequence.begin())
-			it--;
+		// Advance ahed for reverse insertion
+		safeAdvance(it, Jacobsthal_insertion);
 
 		// Insert all pend elements (stored in it.pend_) into the result sequence. Inserted elements will have an empty list as .pend_() 
 		while (Jacobsthal_insertion != 0 && !it->pend_.empty())
@@ -248,19 +241,11 @@ void PmergeMe::insertPend()
 			}
 			else
 				it->pend_.clear();
-			Jacobsthal_insertion--;
-			if (Jacobsthal_insertion)
-			{
-				it--;
-				// skip the ones that were originally a pend element (we know this bc og pends have an empty list as .pend_(), if there is a pend_() then its a pend element to insert )
-				while(it->pend_.empty() && it != result_sequence.begin())
-					it--;
-			}
+			if (--Jacobsthal_insertion)
+				decremetUntilPendFound(it);
 			if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence.begin(), result_sequence.end(), myPrintPair); std::cout << std::endl;}
 		}
-		//iterate until an element that has a pend. (has smth in .pend_())
-		while (it != result_sequence.end() && it->pend_.empty())
-			it++;
+		incremetUntilPendFound(it);
 		Jacob_n++;
 	}
 	if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
@@ -297,6 +282,44 @@ int PmergeMe::getComparisonCounter()
 {
 	return (comparison_counter_);
 }
+
+/** Advances *it* ahead *Jacobsthal_insertion* - 1 number of times
+ *  Does not go beyond the end of the container
+ */
+void PmergeMe::safeAdvance(my_pair_list::iterator &it, size_t Jacobsthal_insertion)
+{
+	for (size_t i = 0; i < Jacobsthal_insertion; i++)
+	{
+		it++;
+		if (it == result_sequence.end())
+			break;
+	}
+	if (it != result_sequence.begin())
+		it--;
+}
+
+/** Decrement the iterator until an unprocessed pend element is found. 
+ *  - Elements can be originally a main part with a cleared pend slot (it.pend_ == empty()
+ *  - or originally pend part. Again, cleared pend slot and og pend list is now in main slot.
+ *  - or an unprocessed element with both main and pend slot <- what we're looking for 
+*/
+void PmergeMe::decremetUntilPendFound(my_pair_list::iterator &it)
+{
+	it--;
+	while(it->pend_.empty() && it != result_sequence.begin())
+		it--;
+}
+/** Increment the iterator until an unprocessed pend element is found. 
+ *  - Elements can be originally a main part with a cleared pend slot (it.pend_ == empty()
+ *  - or originally pend part. Again, cleared pend slot and og pend list is now in main slot.
+ *  - or an unprocessed element with both main and pend slot <- what we're looking for 
+*/
+void PmergeMe::incremetUntilPendFound(my_pair_list::iterator &it)
+{
+	while (it->pend_.empty() && it != result_sequence.end() )
+		it++;
+}
+
 
 void	myPrint(int value)
 {

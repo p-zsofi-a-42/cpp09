@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 16:11:56 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 16:37:06 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ class PmergeMe
 		} functor;
 
 		bool 	myLess(pendMain sequenceElement, std::list<int> toCompare);
+		void	safeAdvance(my_pair_list::iterator &it, size_t Jacobsthal_insertion);
+		void	decremetUntilPendFound(my_pair_list::iterator &it);
+		void	incremetUntilPendFound(my_pair_list::iterator &it);
 
 	public:
 		PmergeMe(std::stringstream &input);
