@@ -1,9 +1,11 @@
 [X] throw if empty 
 [X] throw for result
 [X] bigger than int result
-[ ] invalid lines
+[X] invalid lines
 [X] decimal results
-[ ] dubplicates cause error
+[X] dubplicates cause error
 [X] lot of input args get cut
-[ ] jacob protect against neg
+[X] jacob protect against neg
+[X] refactor pair type
+[ ] move the logically pair operations into pendMain class (merging dividing)
 merge insert explanation:https://dev.to/emuminov/human-explanation-and-step-by-step-visualisation-of-the-ford-johnson-algorithm-5g91

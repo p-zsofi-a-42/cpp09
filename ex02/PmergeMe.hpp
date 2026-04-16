@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/15 17:58:13 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 15:40:48 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@
 # include <sstream>		//stringstream
 # include <string>
 # include <list>
-# include <utility>		//pair type
-//# include <stack>
 # include <algorithm>
 # include "colors.hpp"
 # include "Jacobstahl.hpp"
+# include "pendMain.hpp"
 
 # ifndef DEBUG
 #  define DEBUG false
@@ -33,8 +32,7 @@ class PmergeMe
 	private:
 		PmergeMe();
 
-		typedef std::pair< std::list<int>, std::list<int> > my_pair;
-		typedef std::list< my_pair > my_pair_list;
+		typedef std::list< pendMain > my_pair_list;
 		std::list<int> input_sequence;
 		my_pair_list result_sequence;
 		my_pair_list reserve;
@@ -53,10 +51,10 @@ class PmergeMe
 		struct compare
 		{
 			PmergeMe	*obj;
-			bool		operator()(my_pair sequenceElement, std::list<int> toCompare);
+			bool		operator()(pendMain sequenceElement, std::list<int> toCompare);
 		} functor;
 
-		bool 	myLess(my_pair sequenceElement, std::list<int> toCompare);
+		bool 	myLess(pendMain sequenceElement, std::list<int> toCompare);
 
 	public:
 		PmergeMe(std::stringstream &input);
@@ -71,7 +69,7 @@ class PmergeMe
 	
 void	myPrint(int value);
 void	myPrintInt(int value);
-void	myPrintPair(std::pair< std::list<int>, std::list<int> > value);
+void	myPrintPair(pendMain value);
 void	myPrintListList(std::list< std::list<int> > listList, std::string id);
 
 #endif
