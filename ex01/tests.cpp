@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:39:34 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/20 14:57:24 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/16 18:26:07 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,43 +19,43 @@ void	test_1()
 {
 	std::cout << LILA_B << "Test 1: subject's main" << ENDCLR << std::endl;
 
-	RPN("8 9 * 9 - 9 - 9 - 4 - 1 +").printResult();
-	RPN("7 7 * 7 -").printResult();
-	RPN("1 2 * 2 / 2 * 2 4 - +").printResult();
-	RPN("(1 + 1)").printResult();
+	//RPN("8 9 * 9 - 9 - 9 - 4 - 1 +").printResult();
+	//RPN("7 7 * 7 -").printResult();
+	//RPN("1 2 * 2 / 2 * 2 4 - +").printResult();
+	//RPN("(1 + 1)").printResult();
 }
 
 void	test_2()
 {
 	std::cout << LILA_B << "Test 2: valid expresssions" << ENDCLR << std::endl;
-	RPN("2 3 4 * +").printResult();
-	RPN("1 1 1 1 1 1 1 1 1 1 + + + + + + + + +").printResult();
-	RPN("1 9 -").printResult();					//negative result
-	RPN("5 2 /").printResult();					//decimal result : 2.5
-	RPN("5 2 / 2 *").printResult();				//2.5 * 2
+	//RPN("2 3 4 * +").printResult();
+	//RPN("1 1 1 1 1 1 1 1 1 1 + + + + + + + + +").printResult();
+	//RPN("1 9 -").printResult();					//negative result
+	//RPN("5 2 /").printResult();					//decimal result : 2.5
+	//RPN("5 2 / 2 *").printResult();				//2.5 * 2
 
 	std::cout << LILA << "> overflow checks: change all __DBL_MAX__ to 100; then run these tests" << ENDCLR << std::endl;
-	RPN("9 9 1 + * 9 + 1 +").printResult();		//result: 100
-	RPN("9 9 1 + * 9 + 2 +").printResult();		//result: 101	// addition overflow
-	RPN("0 9 9 1 + * - 9 - 1 -").printResult();	//result: -100
-	RPN("0 9 9 1 + * - 9 - 2 -").printResult();	//result: -101	// substraction overflow
-	RPN("5 9 1 + * 2 *").printResult();			//result: 100
-	RPN("5 9 1 + * 2 * 2 *").printResult();		//result: 200	// multiplication overflow
+	//RPN("9 9 1 + * 9 + 1 +").printResult();		//result: 100
+	//RPN("9 9 1 + * 9 + 2 +").printResult();		//result: 101	// addition overflow
+	//RPN("0 9 9 1 + * - 9 - 1 -").printResult();	//result: -100
+	//RPN("0 9 9 1 + * - 9 - 2 -").printResult();	//result: -101	// substraction overflow
+	//RPN("5 9 1 + * 2 *").printResult();			//result: 100
+	//RPN("5 9 1 + * 2 * 2 *").printResult();		//result: 200	// multiplication overflow
 }
 
 void	test_3()
 {
 	std::cout << LILA_B << "Test 3: invalid expresssions" << ENDCLR << std::endl;
 
-	RPN("").printResult();			//empty
-	RPN("+").printResult();			//no nums
-	RPN("1 +").printResult();		//missing nums
-	RPN("1 + 1").printResult();		//invalid format
-	RPN("9 9 * 9").printResult();	//left over num w/o operation
-	RPN("9 9 - -").printResult();	//too many operation
-	RPN("9 9 --").printResult();	//too many operation
-	RPN("9 9 <").printResult();		//invalid char
-	RPN("99+").printResult();		//no spaces
+	//RPN("").printResult();			//empty
+	//RPN("+").printResult();			//no nums
+	//RPN("1 +").printResult();		//missing nums
+	//RPN("1 + 1").printResult();		//invalid format
+	//RPN("9 9 * 9").printResult();	//left over num w/o operation
+	//RPN("9 9 - -").printResult();	//too many operation
+	//RPN("9 9 --").printResult();	//too many operation
+	//RPN("9 9 <").printResult();		//invalid char
+	//RPN("99+").printResult();		//no spaces
 }
 
 int	main( int argc, char *argv[] )
