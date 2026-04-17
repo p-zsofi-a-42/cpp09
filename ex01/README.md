@@ -2,7 +2,7 @@
 > *This project is done by Zsofia A. Palotas as part of the 42 School common core curriculum*
 
 # Summary
-This porject is a [Reverse Polish Notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation) calculator.<br />
+This project is a [Reverse Polish Notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation) calculator.<br />
 You can try it out [here](https://www.rpn-calc.com/) and also see a breakdown of the operations.<br />
 The purpose of this notation is to write mathematical expressions **without the need for parentheses**. Placing operators after operands, makes it easy to process unambiguously in a stack-based manner.<br />
 

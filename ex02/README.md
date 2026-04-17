@@ -2,7 +2,7 @@
 > *This project is IN PROGRESS and is done by Zsofia A. Palotas as part of the 42 School common core curriculum*
 
 # Summary
-This porject is an implementation of the Ford-Johonson sorting algorithm.<br />
+This project is an implementation of the Ford-Johonson sorting algorithm.<br />
 The aim is to make the least amount of comparisons during the sorting.
 A visual explanation af what is happening can be viewed on this [Miro board](https://miro.com/app/board/uXjVGqjDL_s=/?share_link_id=910364214413) created by me
 <br />
