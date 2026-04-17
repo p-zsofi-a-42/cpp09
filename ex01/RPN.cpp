@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:37:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/20 14:56:35 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/17 17:42:17 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void RPN::division()
 void RPN::printResult()
 {
 	if (!expr.empty())
-		std::cout << GREEN_B << "result: " << expr.top() << ENDCLR << std::endl;
+		std::cout << "result: " << expr.top() << std::endl;
 	else
-		std::cerr << RED << "Error" << ENDCLR << std::endl;
+		std::cout << "Error" << std::endl;
 }
