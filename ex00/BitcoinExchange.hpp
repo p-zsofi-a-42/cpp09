@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/03/26 15:14:04 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/17 19:39:30 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <iostream>
 # include <sstream>		//stringstream
 # include <string>
+# include <map>
+# include <fstream>		// std::ifstream
 //# include <stack>
 //# include <algorithm>
 # include "colors.hpp"
@@ -24,9 +26,14 @@
 class BtcExchng
 {
 	private:
-	
-	public:
+		std::map<std::string, std::string> price_; //TOOO placeholder until date processing is implemented
+		std::map<std::string, std::string> transaction_;
 		BtcExchng();
+		void readPrices(const std::string prices);
+		void readTransactions(const std::string transactions);
+
+	public:
+		BtcExchng(const std::string prices, const std::string transactions);
 		~BtcExchng();
 		BtcExchng(const BtcExchng &other);
 

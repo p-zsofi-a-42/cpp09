@@ -1,8 +1,8 @@
 #----------------------------------FILES----------------------------------------
 SRC_MAN	=	\
-#			BitcoinExchange.cpp\
+			BitcoinExchange.cpp\
+			main.cpp\
 #			tests.cpp\
-#			main.cpp\
 
 OBJ_DIR		= build
 BUG_DIR		= build_debug
