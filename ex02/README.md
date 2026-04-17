@@ -13,8 +13,8 @@ A visual explanation af what is happening can be viewed on this [Miro board](htt
 - It has to make comparisons under the maximum limit, otherwise the implementation would be incorrect (explained on the Miro board)
 
 # Current state
-For typical case the algorithm performs well, however it has issues with duplicates.<br />
-There is no parsing implemented yet to check for invalid inputs. 
+The tasks requires to compare how two different containers would perform. This is not implemented yet.<br />
+1 test (empty input) seemingly fails because of how the tester script processes.   
 
 # Tester
 Tests for this projects are located in the tests/tests_ex02 subdirectory<br />

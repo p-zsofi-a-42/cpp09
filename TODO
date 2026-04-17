@@ -7,5 +7,5 @@
 [X] lot of input args get cut
 [X] jacob protect against neg
 [X] refactor pair type
-[ ] move the logically pair operations into pendMain class (merging dividing)
+[X] move the logically pair operations into pendMain class (merging dividing)
 merge insert explanation:https://dev.to/emuminov/human-explanation-and-step-by-step-visualisation-of-the-ford-johnson-algorithm-5g91
