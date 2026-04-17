@@ -41,53 +41,20 @@ for input in $TEST_DIR/*.input; do
 
 	# Read input as arguments
 	args=$(cat "$input")
-	#args="$(cat "$input")"
-
-	# Create the expected output with calling STL algorithm
-	./$TEST_DIR/expected_generator "${args[@]}" > "$expected"
 
 	# Run program, store the prints in the variable output
-	output=$($PROGRAM $args 2>/dev/null)
-	#utput=$($PROGRAM "${args[@]}" 2>/de/null)
-	# Ignore last 4 lines of the output (which is comparison counter and time taken
-	output_sort=$(echo "$output" | awk 'NR==2')
-	output_counter=$(echo "$output" | tail -n 1)
-	
-	# save content of expected file
-	expected_output=$(cat "$expected")
-	expected_output_sort=$(echo "$expected_output" | awk 'NR==2')
-	max_limit=$(echo "$expected_output" | tail -n 1)
-	num_of_args=$(echo "$expected_output" | tail -n 3 | head -n 1)
+	output=$($PROGRAM "${args}" 2>/dev/null)
 
-	echo -e "--------------------------------------------------------------------"
-	if [ "$output_sort" == "$expected_output_sort" ]; then
-		echo -e -n "${YELLOW_B}"	"\b$name ✅" "${RESET}"
-		if [ "$expected_output_sort" != "ERROR" ]; then
-			if [ "$output_counter" -le "$max_limit" ]; then
-				echo "✅"
-				echo -e "${GREEN}"	"\b\tNumber of elements: $num_of_args" \
-									"max limit: $max_limit" \
-									"program: $output_counter"
-				((pass_counter++))
-			else
-				echo "❌"
-				echo -e "${RED}"	"\b\tNumber of elements: $num_of_args" \
-									"max limit: $max_limit" \
-									"program: $output_counter"
-				((fail_counter++))
-			fi
-		else
-			((pass_counter++))
-			echo ""
-		fi
-		echo -e	"${WHITE_B}"	"\b\tInput:\n"		"\b${WHITE}"		"\b$args"	"\b${RESET}"
-		echo -e	"${WHITE_B}"	"\b\tGot:\n"		"\b${WHITE}"		"\b$output_sort"	"\b${RESET}"
-	else
-		echo -e "${YELLOW_B}"	"\b$name ❌"
-		echo -e	"${WHITE_B}"	"\b\tInput:\n"		"\b${WHITE}"		"\b$args"	"\b${RESET}"
-		echo -e "${WHITE_B}""\b\tExpected:\n"	"\b${WHITE}"	"\b$expected_output_sort"
-		echo -e	"${RED_B}"	"\b\tGot:\n"		"\b${RED}"		"\b$output_sort"	"\b${RESET}"
-		((fail_counter++))
+	if [ $PROJECT == "00" ]; then
+		echo "No tests yet"
+	elif [ $PROJECT == "01" ]; then
+		expected_output=$(cat "$expected")
+		source ./tests/tests_ex01/tester01.sh
+	elif [ $PROJECT == "02" ]; then
+		# Create the expected output with calling STL algorithm
+		./$TEST_DIR/expected_generator "${args[@]}" > "$expected"
+		expected_output=$(cat "$expected")
+		source ./tests/tests_ex02/tester02.sh
 	fi
 done
 
