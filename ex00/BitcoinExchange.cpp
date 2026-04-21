@@ -52,7 +52,7 @@ BtcExchng &BtcExchng::operator=(const BtcExchng &other)
 	return (*this);
 }
 
-void static my_get_time(std::stringstream &cell_date, tm &date)
+void static my_get_time(std::stringstream &cell_date, std::tm &date)
 {
 	char dash1, dash2;
 	cell_date >> date.tm_year >> dash1 >> date.tm_mon >> dash2 >> date.tm_mday;
@@ -67,7 +67,7 @@ void static my_get_time(std::stringstream &cell_date, tm &date)
 
 time_t BtcExchng::processDate(std::stringstream &cell_date)
 {
-	tm date = {};
+	std::tm date = {};
 	my_get_time(cell_date, date);
 	time_t date_converted = mktime(&date);
 	if (date_converted == -1)
