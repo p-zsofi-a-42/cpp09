@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/17 19:24:46 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/21 14:48:47 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:16:52 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@ int main(int argc, char* argv[])
 	//BtcExchng test(argv[1], argv[2]);
 	(void) argv;
 	BtcExchng test("cpp_09/data.csv", "input.txt");
-	test.evaluate();
 	return 0;
 }

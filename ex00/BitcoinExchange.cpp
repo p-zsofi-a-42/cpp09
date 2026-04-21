@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/21 15:43:16 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:45:48 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void static my_get_time(std::stringstream &cell_date, std::tm &date)
 {
 	char dash1, dash2;
 	cell_date >> date.tm_year >> dash1 >> date.tm_mon >> dash2 >> date.tm_mday;
-	if (cell_date.fail() && !cell_date.eof())
+	if (cell_date.fail())
 		throw (std::runtime_error("Date misformatted"));
 	if (date.tm_year && (dash1 != '-' || dash2 != '-'))
 		throw (std::runtime_error("Date misformatted. Separator is not a dash"));
@@ -80,9 +80,11 @@ double BtcExchng::processValue(std::stringstream &row_stream)
 	double		cell_price = 0.0;
 	row_stream >> cell_price;
 	if (!row_stream.eof())
-		throw (std::runtime_error("Unexpected characters after the value"));
+		throw (std::runtime_error("Unexpected characters near the value"));
 	if (row_stream.fail() && !row_stream.eof())
 		throw (std::runtime_error("Value is invalid"));
+	if (cell_price < 0)
+		throw (std::runtime_error("Value is negative"));
 	return cell_price;
 }
 
@@ -138,12 +140,15 @@ void BtcExchng::readTransactions(const std::string transactions)
 		{
 			time_t date_converted =	processDate(cell_date);
 			double			cell_amount = processValue(row_stream);
+			if (cell_amount > 1000)
+				throw (std::runtime_error("Value is too high"));
+			double cost = calculateTransaction(date_converted, cell_amount);
 
-			transaction_.insert(std::make_pair(date_converted, cell_amount));
+			transaction_.insert(std::make_pair(date_converted, cost)); //saving correct transactions
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << '\n';
+			std::cerr << RED << "Invalid transaction: " << e.what() << WHITE << " (" << row << ")" << ENDCLR << '\n';
 		}
 	}
 }
@@ -156,29 +161,26 @@ void static my_date_print(time_t date)
 				<< reversed_date->tm_mday;
 }
 
-void BtcExchng::evaluate()
+double BtcExchng::calculateTransaction(time_t date, double amount)
 {
 	std::cout << std::fixed;
 	std::cout.precision(1);
-	for (std::multimap<time_t, double>::iterator  it = transaction_.begin(); it != transaction_.end(); it++)
+			
+	std::map<time_t, double>::iterator exchange_rate_data;
+	exchange_rate_data = price_.upper_bound(date); //the first date  after it
+	if (exchange_rate_data != price_.begin())
+		exchange_rate_data--; //decrease it to be the date itself or a date before it
+	if (exchange_rate_data->first <= date)
 	{
-		
-		std::map<time_t, double>::iterator exchange_rate_data;
-		exchange_rate_data = price_.upper_bound(it->first); //the first date  after "it"
-		if (exchange_rate_data != price_.begin())
-			exchange_rate_data--; //decrease it to be the date itself or a date before "it"
-		if (exchange_rate_data->first <= it->first)
-		{
-			std::cout << GREEN << "🗓️  Date: " << ENDCLR ; my_date_print(it->first);
-			std::cout << GREEN << "\n\t🛒  Buying: " << ENDCLR << it->second;
-			std::cout << WHITE << "\n\t📊  Exchange date: " << ENDCLR ; my_date_print(exchange_rate_data->first);
-			std::cout << GREEN << "\n\t📊  Exchange rate: " << ENDCLR << exchange_rate_data->second;
-			std::cout << GREEN_B << "\n\t💸  Cost: " << ENDCLR << it->second * exchange_rate_data->second;
-			std::cout << std::endl;
-		}
-		else
-			std::cout << RED << "Incorect" << ENDCLR << std::endl;
-
-		
+		double cost = amount * exchange_rate_data->second;
+		std::cout << GREEN << "🗓️  Date: " << ENDCLR ; my_date_print(date);
+		std::cout << GREEN << "\n\t🛒  Buying: " << ENDCLR << amount;
+		std::cout << WHITE << "\n\t📊  Exchange date: " << ENDCLR ; my_date_print(exchange_rate_data->first);
+		std::cout << GREEN << "\n\t📊  Exchange rate: " << ENDCLR << exchange_rate_data->second;
+		std::cout << GREEN_B << "\n\t💸  Cost: " << ENDCLR << cost;
+		std::cout << std::endl;
+		return cost;
 	}
+	else
+		throw (std::runtime_error("Transaction date is too early"));
 }

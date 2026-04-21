@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/21 15:43:25 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:16:59 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ class BtcExchng
 		double processValue(std::stringstream &row_stream);
 		void readPrices(const std::string prices);
 		void readTransactions(const std::string transactions);
+		double calculateTransaction(time_t date, double amount);
 
 	public:
 		BtcExchng(const std::string prices, const std::string transactions);
@@ -47,7 +48,6 @@ class BtcExchng
 		BtcExchng(const BtcExchng &other);
 
 		BtcExchng &operator= (const BtcExchng &other);
-		void evaluate();
 };
 
 #endif
