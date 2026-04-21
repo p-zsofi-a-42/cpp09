@@ -3,7 +3,7 @@
 
 # Summary
 There are three separate projects in this module.
-1. Lookup the value of bitcoin on a  certain day - *Currently working on it*
+1. Lookup the value of bitcoin on a  certain day - *Testing*
 2. Reverse Polish Notation calculator - *Testing*
 3. Ford-Johonson algorithm - *Testing*
 

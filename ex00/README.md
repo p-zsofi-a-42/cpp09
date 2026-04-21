@@ -6,9 +6,9 @@ In this project we calculate the price of a BitCoin transaction based on the exc
 Both the excange rates and transactions has to be provided as an argument<br />
 
 ## Current state
-There is no lookup mechanism implemented yet.<br />
-The files are processed and the data is saved as simple strings instead of double or else.<br />
-There is no parsing yet. 
+For easy testing the program doesn't take a cutom input file yet.<br />
+Files are processed and input.txt is evaluated.br />
+Currently testing...
 
 # Tester
 There are no tests for this project.
