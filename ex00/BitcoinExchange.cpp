@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/21 17:06:25 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/21 17:16:01 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void BtcExchng::readPrices(const std::string prices)
 			std::cerr << e.what() << '\n';
 		}
 	}
+	file_to_read.close();
 }
 
 void BtcExchng::readTransactions(const std::string transactions)
@@ -162,6 +163,7 @@ void BtcExchng::readTransactions(const std::string transactions)
 			std::cerr << RED << "Invalid transaction: " << e.what() << WHITE << " (" << row << ")" << ENDCLR << '\n';
 		}
 	}
+	file_to_read.close();
 }
 
 void static my_date_print(time_t date)
