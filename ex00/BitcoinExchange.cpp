@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/21 16:45:48 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/21 17:06:25 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ BtcExchng::BtcExchng()
 
 BtcExchng::BtcExchng(const std::string prices, const std::string transactions)
 {
+	time(&todayDate_);
 	try
 	{
 		readPrices(prices);
@@ -62,16 +63,26 @@ void static my_get_time(std::stringstream &cell_date, std::tm &date)
 		throw (std::runtime_error("Date misformatted. Separator is not a dash"));
 	date.tm_year -= 1900;
 	date.tm_mon -= 1;
-	//TODO validate year, month day ranges
+
+	if (date.tm_year > 3000 || date.tm_mon > 11 || date.tm_mday > 31)
+		throw (std::runtime_error("Date is not in the calendar's range"));
 }
 
 time_t BtcExchng::processDate(std::stringstream &cell_date)
 {
 	std::tm date = {};
 	my_get_time(cell_date, date);
+	std::tm date_double_check = date;
 	time_t date_converted = mktime(&date);
+	bool valid_date = 	(date.tm_year == date_double_check.tm_year)
+						&& (date.tm_mon == date_double_check.tm_mon)
+						&& (date.tm_mday == date_double_check.tm_mday);
 	if (date_converted == -1)
 		throw (std::runtime_error("Date misformatted. Not a date"));
+	if (!valid_date)
+		throw (std::runtime_error("Date is not in the calendar's range"));
+	if (date_converted > todayDate_)
+		throw (std::runtime_error("Date is in the future"));
 	return date_converted;
 }
 

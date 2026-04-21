@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/21 16:16:59 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:48:41 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 class BtcExchng
 {
 	private:
+		time_t todayDate_;
 		std::map<time_t, double> price_;
 		std::multimap<time_t, double> transaction_;
 		BtcExchng();
