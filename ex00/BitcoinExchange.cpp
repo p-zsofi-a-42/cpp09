@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/20 17:19:35 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/21 14:18:57 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,35 @@ BtcExchng &BtcExchng::operator=(const BtcExchng &other)
 void static my_get_time(std::stringstream &cell_date, tm &date)
 {
 	char dash1, dash2;
-	cell_date >> date.tm_year ;
-	//std::cout << "\ntest Y: " << date.tm_year;
-	cell_date >> dash1;
-	//std::cout << " test dash: " << dash1;
-	cell_date  >> date.tm_mon ;
-	//std::cout << " test m: " << date.tm_mon;
-	cell_date>> dash2 ;
-	//std::cout << " test dash: " << dash2;
-	cell_date>> date.tm_mday;
-	//std::cout << " test d: " << date.tm_mday;
+	cell_date >> date.tm_year >> dash1 >> date.tm_mon >> dash2 >> date.tm_mday;
+	if (cell_date.fail() && !cell_date.eof())
+		throw (std::runtime_error("Date misformatted"));
+	if (date.tm_year && (dash1 != '-' || dash2 != '-'))
+		throw (std::runtime_error("Date misformatted. Separator is not a dash"));
 	date.tm_year -= 1900;
 	date.tm_mon -= 1;
+	//TODO validate year, month day ranges
 }
 
 time_t BtcExchng::processDate(std::stringstream &cell_date)
 {
 	tm date = {};
 	my_get_time(cell_date, date);
-	if (cell_date.fail() && !cell_date.eof())
-		throw (std::runtime_error("Date misformatted"));
 	time_t date_converted = mktime(&date);
 	if (date_converted == -1)
 		throw (std::runtime_error("Date misformatted. Not a date"));
 	return date_converted;
+}
+
+double BtcExchng::processValue(std::stringstream &row_stream)
+{
+	double		cell_price = 0.0;
+	row_stream >> cell_price;
+	if (!row_stream.eof())
+		throw (std::runtime_error("Unexpected characters after the value"));
+	if (row_stream.fail() && !row_stream.eof())
+		throw (std::runtime_error("Value is invalid"));
+	return cell_price;
 }
 
 void BtcExchng::readPrices(const std::string prices)
@@ -101,13 +106,8 @@ void BtcExchng::readPrices(const std::string prices)
 		try
 		{
 			time_t date_converted =	processDate(cell_date);
+			double		cell_price = processValue(row_stream);
 
-			double		cell_price = 0.0;
-			row_stream >> cell_price;
-			if (!row_stream.eof())
-				throw (std::runtime_error("Unexpected characters after the exchange rate"));
-			if (row_stream.fail() && !row_stream.eof())
-				throw (std::runtime_error("Exchange rate value is invalid"));
 			price_.insert(std::make_pair(date_converted, cell_price));
 		}
 		catch(const std::exception& e)
@@ -137,13 +137,8 @@ void BtcExchng::readTransactions(const std::string transactions)
 		try
 		{
 			time_t date_converted =	processDate(cell_date);
+			double			cell_amount = processValue(row_stream);
 
-			double			cell_amount = 0.0;
-			row_stream >> cell_amount;
-			if (!row_stream.eof())
-				throw (std::runtime_error("Unexpected characters in transactions line "));
-			if (row_stream.fail() && !row_stream.eof())
-				throw (std::runtime_error("Transactions amount is invalid"));
 			transaction_.insert(std::make_pair(date_converted, cell_amount));
 		}
 		catch(const std::exception& e)
