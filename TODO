@@ -11,11 +11,3 @@
 merge insert explanation:https://dev.to/emuminov/human-explanation-and-step-by-step-visualisation-of-the-ford-johnson-algorithm-5g91
 
 ex00
-incorrectly not failing:
-2022-1-2-3 | 1
-2022-1-1 blah blah blah | 1	
-2022-1-1- | 1
-2012-01-1 |
-
-incorrectly failing: 
-2012-01-1 |				(trailing)

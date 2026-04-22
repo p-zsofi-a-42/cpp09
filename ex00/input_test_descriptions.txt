@@ -10,17 +10,20 @@ date | value
 2012-01-11 | 1           			# trailing spaces (correct)
 2012-01-11|1						# no spaces (correct)
 2012-01-11	|	1					# tabs instead of spaces (correct)
+2009-01-02 | 1						# date is first of the database
+2022-03-29 | 1						# date is last of the database
+2022-03-30 | 1						# date is one after the last of the database
 									# empty line
 2012-01-11 | 1001					# over 1000
 2012-01-11 | 2147483648				# int overflow
 2012-01-11 | 4294967306				# int overflow to a valid value: 10
 2012-01-11 | -1						# negative
 2012-01-11 | -4294967286			# int underflow to valid 10
+2012-01-1 |							# missing value
 2001-1-1 | 1						# year before the dataset
 1-1-1 | 1							# year too early
 2022-01-11 | idk					# value not value
 idk | 1								# date not date
-2012-01-1 |							# missing value
 2022 | 1							# date not complete
 2022-1 | 1							# date not complete
 2022-1- | 1							# date not complete

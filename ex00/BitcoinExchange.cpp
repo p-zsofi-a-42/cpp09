@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/21 17:16:01 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/22 15:01:22 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,24 @@ time_t BtcExchng::processDate(std::stringstream &cell_date)
 		throw (std::runtime_error("Date is not in the calendar's range"));
 	if (date_converted > todayDate_)
 		throw (std::runtime_error("Date is in the future"));
+	std::string temp;
+	cell_date >> std::skipws >> temp; 
+	if (!cell_date.eof() || !temp.empty())
+		throw (std::runtime_error("Date misformatted"));
 	return date_converted;
 }
 
 double BtcExchng::processValue(std::stringstream &row_stream)
 {
+	int is_stream_empty = row_stream.peek();
+	if (is_stream_empty == EOF)
+		throw (std::runtime_error("Value is missing"));
+
 	double		cell_price = 0.0;
 	row_stream >> cell_price;
-	if (!row_stream.eof())
+	std::string temp;
+	row_stream >> std::skipws >> temp; 
+	if (!row_stream.eof() || !temp.empty())
 		throw (std::runtime_error("Unexpected characters near the value"));
 	if (row_stream.fail() && !row_stream.eof())
 		throw (std::runtime_error("Value is invalid"));
@@ -115,7 +125,7 @@ void BtcExchng::readPrices(const std::string prices)
 
 		std::string			cell;
 		getline(row_stream, cell, ',');
-		std::stringstream	cell_date(row);
+		std::stringstream	cell_date(cell);
 		try
 		{
 			time_t date_converted =	processDate(cell_date);
@@ -147,7 +157,7 @@ void BtcExchng::readTransactions(const std::string transactions)
 
 		std::string			cell;
 		getline(row_stream, cell, '|');
-		std::stringstream	cell_date(row);
+		std::stringstream	cell_date(cell);
 		try
 		{
 			time_t date_converted =	processDate(cell_date);
