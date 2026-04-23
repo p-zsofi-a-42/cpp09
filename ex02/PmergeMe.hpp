@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 18:08:28 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 19:19:44 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string>
 # include <list>
 # include <algorithm>
+# include <fstream>		//EOF
 # include "colors.hpp"
 # include "Jacobstahl.hpp"
 # include "pendMain.hpp"

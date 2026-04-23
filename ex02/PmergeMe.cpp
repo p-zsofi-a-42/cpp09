@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 18:03:18 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 19:21:18 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ PmergeMe::PmergeMe(std::stringstream &input)
 	recursion_lvl_ = 0;
 	comparison_counter_ = 0;
 	int element;
+
+	element = input.peek();
+	if (element == EOF)
+		throw (std::runtime_error("Input is empty"));
+
 	while (!input.eof() && !input.fail())
 	{
 		input >> element;
