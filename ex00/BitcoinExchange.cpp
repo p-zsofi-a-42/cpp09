@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 15:35:00 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 16:00:35 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ BtcExchng::BtcExchng(const std::string prices, const std::string transactions)
 	if (DEBUG)
 	{
 		for (std::map<time_t, double>::iterator it = price_.begin(); it != price_.end(); it++)
-			std::cout << "key: " << std::asctime(std::localtime(&it->first)) <<  " -> value: " << it->second << std::endl;
+		{	std::cout << "key: "; my_date_print(it->first); std::cout  <<  " -> value: " << it->second << std::endl;}
 		for (std::multimap<time_t, double>::iterator it = transaction_.begin(); it != transaction_.end(); it++)
-			std::cout << "key: " << std::asctime(std::localtime(&it->first)) <<  " | value: " << it->second << std::endl;
+		{	std::cout << "key: "; my_date_print(it->first); std::cout  <<  " | value: " << it->second << std::endl;}
 	}
 }
 	
@@ -196,15 +196,6 @@ void BtcExchng::readTransactions(const std::string transactions)
 	file_to_read.close();
 }
 
-/** Prints the date in the Y/m/d format */
-void static my_date_print(time_t date)
-{
-	std::tm *reversed_date = std::localtime(&date);
-	std::cout 	<< reversed_date->tm_year + 1900 << "/"
-				<< reversed_date->tm_mon + 1 << "/"
-				<< reversed_date->tm_mday;
-}
-
 /** Looks for the most recent exchange rate in the database, 
  * then multiplies it with the transaction value 
  * @throws if the transaction date is before the database start*/
@@ -230,4 +221,13 @@ double BtcExchng::calculateTransaction(time_t date, double amount)
 	}
 	else
 		throw (std::runtime_error("Transaction date is too early"));
+}
+
+/** Prints the date in the Y/m/d format */
+void BtcExchng::my_date_print(time_t date)
+{
+	std::tm *reversed_date = std::localtime(&date);
+	std::cout 	<< reversed_date->tm_year + 1900 << "/"
+				<< reversed_date->tm_mon + 1 << "/"
+				<< reversed_date->tm_mday;
 }
