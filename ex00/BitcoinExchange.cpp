@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/22 15:01:22 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 15:27:01 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ BtcExchng::BtcExchng(const std::string prices, const std::string transactions)
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << "Error: " << e.what() << '\n';
+		std::cerr << RED << "Error: " << e.what() << ENDCLR << '\n';
 		return;
 	}
 	if (DEBUG)
@@ -53,6 +53,8 @@ BtcExchng &BtcExchng::operator=(const BtcExchng &other)
 	return (*this);
 }
 
+/** Reads the string(stream) parts into the date parameter's members 
+ * @throws if date is invalid/misformatted */
 void static my_get_time(std::stringstream &cell_date, std::tm &date)
 {
 	char dash1, dash2;
@@ -68,12 +70,14 @@ void static my_get_time(std::stringstream &cell_date, std::tm &date)
 		throw (std::runtime_error("Date is not in the calendar's range"));
 }
 
+/** @throws if date is invalid/misformatted */
 time_t BtcExchng::processDate(std::stringstream &cell_date)
 {
 	std::tm date = {};
 	my_get_time(cell_date, date);
 	std::tm date_double_check = date;
 	time_t date_converted = mktime(&date);
+	// check to see if the converted date is still the same as the original (eg febr.31 fails)
 	bool valid_date = 	(date.tm_year == date_double_check.tm_year)
 						&& (date.tm_mon == date_double_check.tm_mon)
 						&& (date.tm_mday == date_double_check.tm_mday);
@@ -90,6 +94,7 @@ time_t BtcExchng::processDate(std::stringstream &cell_date)
 	return date_converted;
 }
 
+/** @throws if value is invalid/misformatted */
 double BtcExchng::processValue(std::stringstream &row_stream)
 {
 	int is_stream_empty = row_stream.peek();
@@ -102,6 +107,7 @@ double BtcExchng::processValue(std::stringstream &row_stream)
 	row_stream >> std::skipws >> temp; 
 	if (!row_stream.eof() || !temp.empty())
 		throw (std::runtime_error("Unexpected characters near the value"));
+	// The value is not representable as a double
 	if (row_stream.fail() && !row_stream.eof())
 		throw (std::runtime_error("Value is invalid"));
 	if (cell_price < 0)
@@ -109,6 +115,7 @@ double BtcExchng::processValue(std::stringstream &row_stream)
 	return cell_price;
 }
 
+/** @throws if file cannot be opened */
 void BtcExchng::readPrices(const std::string prices)
 {
 	std::ifstream file_to_read;
@@ -143,6 +150,9 @@ void BtcExchng::readPrices(const std::string prices)
 	file_to_read.close();
 }
 
+/** @throws if file cannot be opened 
+ * @throws if the transaction value is above 1000
+*/
 void BtcExchng::readTransactions(const std::string transactions)
 {
 	std::ifstream file_to_read;
@@ -179,6 +189,7 @@ void BtcExchng::readTransactions(const std::string transactions)
 	file_to_read.close();
 }
 
+/** Prints the date in the Y/m/d format */
 void static my_date_print(time_t date)
 {
 	std::tm *reversed_date = std::localtime(&date);
@@ -187,6 +198,9 @@ void static my_date_print(time_t date)
 				<< reversed_date->tm_mday;
 }
 
+/** Looks for the most recent exchange rate in the database, 
+ * then multiplies it with the transaction value 
+ * @throws if the transaction date is before the database start*/
 double BtcExchng::calculateTransaction(time_t date, double amount)
 {
 	std::cout << std::fixed;
