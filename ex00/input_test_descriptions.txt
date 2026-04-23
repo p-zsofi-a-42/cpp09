@@ -23,6 +23,7 @@ date | value
 2001-1-1 | 1						# year before the dataset
 1-1-1 | 1							# year too early
 2022-01-11 | idk					# value not value
+2012-01-11 | .2						# bad float format
 idk | 1								# date not date
 2022 | 1							# date not complete
 2022-1 | 1							# date not complete
