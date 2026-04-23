@@ -32,9 +32,9 @@ BtcExchng::BtcExchng(const std::string prices, const std::string transactions)
 	}
 	if (DEBUG)
 	{
-		for (std::map<time_t, double>::iterator it = price_.begin(); it != price_.end(); it++)
+		for (std::map<time_t, float>::iterator it = price_.begin(); it != price_.end(); it++)
 		{	std::cout << "key: "; my_date_print(it->first); std::cout  <<  " -> value: " << it->second << std::endl;}
-		for (std::multimap<time_t, double>::iterator it = transaction_.begin(); it != transaction_.end(); it++)
+		for (std::multimap<time_t, float>::iterator it = transaction_.begin(); it != transaction_.end(); it++)
 		{	std::cout << "key: "; my_date_print(it->first); std::cout  <<  " | value: " << it->second << std::endl;}
 	}
 }
@@ -101,15 +101,15 @@ time_t BtcExchng::processDate(std::stringstream &cell_date)
 }
 
 /** @throws if value is invalid/misformatted */
-double BtcExchng::processValue(std::stringstream &row_stream)
+float BtcExchng::processValue(std::stringstream &row_stream)
 {
 	int is_stream_empty = row_stream.peek();
 	if (is_stream_empty == EOF)
 		throw (std::runtime_error("Value is missing"));
 
-	double cell_price = 0.0;
+	float cell_price = 0.0;
 	row_stream >> cell_price;
-	// chack if the value is  representable as a double
+	// chack if the value is  representable as a float
 	if (row_stream.fail())
 		throw (std::runtime_error("Value is invalid"));
 	if (cell_price < 0)
@@ -145,7 +145,7 @@ void BtcExchng::readPrices(const std::string prices)
 		try
 		{
 			time_t date_converted =	processDate(cell_date);
-			double cell_price = processValue(row_stream);
+			float cell_price = processValue(row_stream);
 
 			price_.insert(std::make_pair(date_converted, cell_price));
 		}
@@ -181,10 +181,10 @@ void BtcExchng::readTransactions(const std::string transactions)
 		try
 		{
 			time_t date_converted =	processDate(cell_date);
-			double cell_amount = processValue(row_stream);
+			float cell_amount = processValue(row_stream);
 			if (cell_amount > 1000)
 				throw (std::runtime_error("Value is too high"));
-			double cost = calculateTransaction(date_converted, cell_amount);
+			float cost = calculateTransaction(date_converted, cell_amount);
 
 			transaction_.insert(std::make_pair(date_converted, cost)); //saving correct transactions
 		}
@@ -199,18 +199,18 @@ void BtcExchng::readTransactions(const std::string transactions)
 /** Looks for the most recent exchange rate in the database, 
  * then multiplies it with the transaction value 
  * @throws if the transaction date is before the database start*/
-double BtcExchng::calculateTransaction(time_t date, double amount)
+float BtcExchng::calculateTransaction(time_t date, float amount)
 {
 	std::cout << std::fixed;
 	std::cout.precision(1);
 			
-	std::map<time_t, double>::iterator exchange_rate_data;
+	std::map<time_t, float>::iterator exchange_rate_data;
 	exchange_rate_data = price_.upper_bound(date); //the first date  after it
 	if (exchange_rate_data != price_.begin())
 		exchange_rate_data--; //decrease it to be the date itself or a date before it
 	if (exchange_rate_data->first <= date)
 	{
-		double cost = amount * exchange_rate_data->second;
+		float cost = amount * exchange_rate_data->second;
 		std::cout << GREEN << "🗓️  Date: " << ENDCLR ; my_date_print(date);
 		std::cout << GREEN << "\n\t🛒  Buying: " << ENDCLR << amount;
 		std::cout << WHITE << "\n\t📊  Exchange date: " << ENDCLR ; my_date_print(exchange_rate_data->first);

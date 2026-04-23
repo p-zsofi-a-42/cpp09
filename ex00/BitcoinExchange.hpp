@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 16:04:29 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 16:16:34 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ class BtcExchng
 {
 	private:
 		time_t todayDate_;
-		std::map<time_t, double> price_;
-		std::multimap<time_t, double> transaction_;
+		std::map<time_t, float> price_;
+		std::multimap<time_t, float> transaction_;
 		BtcExchng();
 
 		time_t processDate(std::stringstream &cell_date);
-		double processValue(std::stringstream &row_stream);
+		float processValue(std::stringstream &row_stream);
 		void readPrices(const std::string prices);
 		void readTransactions(const std::string transactions);
-		double calculateTransaction(time_t date, double amount);
+		float calculateTransaction(time_t date, float amount);
 
 		void static my_date_print(time_t date);
 
