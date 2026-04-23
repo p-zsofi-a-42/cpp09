@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 15:27:01 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 15:35:00 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void static my_get_time(std::stringstream &cell_date, std::tm &date)
 		throw (std::runtime_error("Date misformatted"));
 	if (date.tm_year && (dash1 != '-' || dash2 != '-'))
 		throw (std::runtime_error("Date misformatted. Separator is not a dash"));
+	
 	date.tm_year -= 1900;
 	date.tm_mon -= 1;
 
@@ -102,7 +103,7 @@ double BtcExchng::processValue(std::stringstream &row_stream)
 	if (is_stream_empty == EOF)
 		throw (std::runtime_error("Value is missing"));
 
-	double		cell_price = 0.0;
+	double cell_price = 0.0;
 	row_stream >> cell_price;
 	// chack if the value is  representable as a double
 	if (row_stream.fail())
@@ -126,11 +127,11 @@ void BtcExchng::readPrices(const std::string prices)
 		throw (std::runtime_error("Database (exchange rates) cannot be opened"));
 	
 	//Discarding first, header line
-	std::string 	temp;
+	std::string  temp;
 	std::getline(file_to_read, temp, '\n');
 	while (!file_to_read.eof() && !file_to_read.fail())
 	{
-		std::string		row;
+		std::string			row;
 		std::getline(file_to_read, row);
 		std::stringstream	row_stream(row);
 
@@ -140,7 +141,7 @@ void BtcExchng::readPrices(const std::string prices)
 		try
 		{
 			time_t date_converted =	processDate(cell_date);
-			double		cell_price = processValue(row_stream);
+			double cell_price = processValue(row_stream);
 
 			price_.insert(std::make_pair(date_converted, cell_price));
 		}
@@ -166,7 +167,7 @@ void BtcExchng::readTransactions(const std::string transactions)
 	std::getline(file_to_read, temp, '\n');
 	while (!file_to_read.eof() && !file_to_read.fail())
 	{
-		std::string		row;
+		std::string			row;
 		std::getline(file_to_read, row);
 		std::stringstream	row_stream(row);
 
@@ -176,7 +177,7 @@ void BtcExchng::readTransactions(const std::string transactions)
 		try
 		{
 			time_t date_converted =	processDate(cell_date);
-			double			cell_amount = processValue(row_stream);
+			double cell_amount = processValue(row_stream);
 			if (cell_amount > 1000)
 				throw (std::runtime_error("Value is too high"));
 			double cost = calculateTransaction(date_converted, cell_amount);
