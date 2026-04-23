@@ -6,11 +6,13 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 16:06:55 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 16:24:20 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "BitcoinExchange.hpp"
+
+static int counter = 0;
 
 BtcExchng::BtcExchng()
 {
@@ -171,6 +173,7 @@ void BtcExchng::readTransactions(const std::string transactions)
 	std::getline(file_to_read, temp, '\n');
 	while (!file_to_read.eof() && !file_to_read.fail())
 	{
+		counter++;
 		std::string			row;
 		std::getline(file_to_read, row);
 		std::stringstream	row_stream(row);
@@ -190,6 +193,7 @@ void BtcExchng::readTransactions(const std::string transactions)
 		}
 		catch(const std::exception& e)
 		{
+			if (DEBUG) 	std::cerr << counter << " ";
 			std::cerr << RED << "Invalid transaction: " << e.what() << WHITE << " (" << row << ")" << ENDCLR << '\n';
 		}
 	}
@@ -211,6 +215,7 @@ float BtcExchng::calculateTransaction(time_t date, float amount)
 	if (exchange_rate_data->first <= date)
 	{
 		float cost = amount * exchange_rate_data->second;
+		if (DEBUG)	std::cout << counter << " ";
 		std::cout << GREEN << "🗓️  Date: " << ENDCLR ; my_date_print(date);
 		std::cout << GREEN << "\n\t🛒  Buying: " << ENDCLR << amount;
 		std::cout << WHITE << "\n\t📊  Exchange date: " << ENDCLR ; my_date_print(exchange_rate_data->first);
