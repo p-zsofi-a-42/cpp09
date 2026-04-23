@@ -43,7 +43,7 @@ for input in $TEST_DIR/*.input; do
 	args=$(cat "$input")
 
 	# Run program, store the prints in the variable output
-	output=$($PROGRAM "${args}" 2>/dev/null)
+	output=$($PROGRAM "${args}" 2>&1)
 
 	if [ $PROJECT == "00" ]; then
 		echo "No tests yet"

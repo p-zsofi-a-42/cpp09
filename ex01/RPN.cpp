@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:37:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/17 17:42:17 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 16:28:39 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,5 @@ void RPN::printResult()
 	if (!expr.empty())
 		std::cout << "result: " << expr.top() << std::endl;
 	else
-		std::cout << "Error" << std::endl;
+		std::cerr << "Error" << std::endl;
 }
