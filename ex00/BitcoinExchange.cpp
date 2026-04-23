@@ -113,6 +113,8 @@ void BtcExchng::readPrices(const std::string prices)
 {
 	std::ifstream file_to_read;
 	file_to_read.open(prices.c_str());
+	if (file_to_read.fail())
+		throw (std::runtime_error("Database (exchange rates) cannot be opened"));
 	
 	//Discarding first, header line
 	std::string 	temp;
@@ -145,7 +147,8 @@ void BtcExchng::readTransactions(const std::string transactions)
 {
 	std::ifstream file_to_read;
 	file_to_read.open(transactions.c_str());
-	
+	if (file_to_read.fail())
+		throw (std::runtime_error("File (transactions) cannot be opened"));
 	//Discarding first, header line
 	std::string 	temp;
 	std::getline(file_to_read, temp, '\n');
