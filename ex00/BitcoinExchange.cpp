@@ -13,7 +13,9 @@
 # include "BitcoinExchange.hpp"
 
 BtcExchng::BtcExchng()
-{}
+{
+	time(&todayDate_);
+}
 
 BtcExchng::BtcExchng(const std::string prices, const std::string transactions)
 {
@@ -42,6 +44,7 @@ BtcExchng::~BtcExchng()
 
 BtcExchng::BtcExchng(const BtcExchng &other)
 {
+	time(&todayDate_);
 	*this = other;
 }
 
@@ -49,7 +52,8 @@ BtcExchng &BtcExchng::operator=(const BtcExchng &other)
 {
 	if (this == &other)
 		return *this;
-	
+	 price_ = other.price_;
+	 transaction_ = other.transaction_;
 	return (*this);
 }
 
