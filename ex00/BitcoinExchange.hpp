@@ -6,24 +6,20 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 15:59:19 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 16:04:29 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BITCOINEXCHANGE_HPP
 # define BITCOINEXCHANGE_HPP
 
-# include <climits>
 # include <iostream>
 # include <sstream>		//stringstream
 # include <string>
 # include <map>
 # include <fstream>		// std::ifstream
-# include <iomanip>		//get_time
 # include <locale>		//get_time
 
-//# include <stack>
-//# include <algorithm>
 # include "colors.hpp"
 
 # ifndef DEBUG

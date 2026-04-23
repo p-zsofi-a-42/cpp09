@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 16:00:35 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 16:06:55 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 BtcExchng::BtcExchng()
 {
-	time(&todayDate_);
+	std::time(&todayDate_);
 }
 
 BtcExchng::BtcExchng(const std::string prices, const std::string transactions)
 {
-	time(&todayDate_);
+	std::time(&todayDate_);
 	try
 	{
 		readPrices(prices);
@@ -44,7 +44,7 @@ BtcExchng::~BtcExchng()
 
 BtcExchng::BtcExchng(const BtcExchng &other)
 {
-	time(&todayDate_);
+	std::time(&todayDate_);
 	*this = other;
 }
 
@@ -81,7 +81,7 @@ time_t BtcExchng::processDate(std::stringstream &cell_date)
 	std::tm date = {};
 	my_get_time(cell_date, date);
 	std::tm date_double_check = date;
-	time_t date_converted = mktime(&date);
+	time_t date_converted = std::mktime(&date);
 	if (date_converted == -1)
 		throw (std::runtime_error("Date misformatted. Not a date"));
 	// check to see if the converted date is still the same as the original (eg febr.31 fails)
