@@ -77,16 +77,17 @@ time_t BtcExchng::processDate(std::stringstream &cell_date)
 	my_get_time(cell_date, date);
 	std::tm date_double_check = date;
 	time_t date_converted = mktime(&date);
+	if (date_converted == -1)
+		throw (std::runtime_error("Date misformatted. Not a date"));
 	// check to see if the converted date is still the same as the original (eg febr.31 fails)
 	bool valid_date = 	(date.tm_year == date_double_check.tm_year)
 						&& (date.tm_mon == date_double_check.tm_mon)
 						&& (date.tm_mday == date_double_check.tm_mday);
-	if (date_converted == -1)
-		throw (std::runtime_error("Date misformatted. Not a date"));
 	if (!valid_date)
 		throw (std::runtime_error("Date is not in the calendar's range"));
 	if (date_converted > todayDate_)
 		throw (std::runtime_error("Date is in the future"));
+	// check if there is garbage after the date
 	std::string temp;
 	cell_date >> std::skipws >> temp; 
 	if (!cell_date.eof() || !temp.empty())
@@ -103,15 +104,16 @@ double BtcExchng::processValue(std::stringstream &row_stream)
 
 	double		cell_price = 0.0;
 	row_stream >> cell_price;
+	// chack if the value is  representable as a double
+	if (row_stream.fail())
+		throw (std::runtime_error("Value is invalid"));
+	if (cell_price < 0)
+		throw (std::runtime_error("Value is negative"));
+	// check if there is garbage after the value
 	std::string temp;
 	row_stream >> std::skipws >> temp; 
 	if (!row_stream.eof() || !temp.empty())
 		throw (std::runtime_error("Unexpected characters near the value"));
-	// The value is not representable as a double
-	if (row_stream.fail() && !row_stream.eof())
-		throw (std::runtime_error("Value is invalid"));
-	if (cell_price < 0)
-		throw (std::runtime_error("Value is negative"));
 	return cell_price;
 }
 
