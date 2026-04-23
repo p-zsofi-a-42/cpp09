@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 20:00:57 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 20:22:52 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@
 #  define DEBUG false
 # endif
 
-class PmergeMe
+template <typename containerT> class PmergeMe
 {
 	private:
 		PmergeMe();
 
-		typedef std::list< pendMain >	my_pair_list;
-		std::list<int>	sort_sequence_;
+		typedef containerT<pendMain>	my_pair_list;
+		containerT<int>	sort_sequence_;
 		my_pair_list	result_sequence_;
 		my_pair_list	reserve_;
 
@@ -59,10 +59,10 @@ class PmergeMe
 		struct compare
 		{
 			PmergeMe	*obj;
-			bool		operator()(pendMain sequenceElement, std::list<int> toCompare);
+			bool		operator()(pendMain sequenceElement, containerT<int> toCompare);
 		} functor;
 
-		bool 	myLess(pendMain sequenceElement, std::list<int> toCompare);
+		bool 	myLess(pendMain sequenceElement, containerT<int> toCompare);
 		void	safeAdvance(my_pair_list::iterator &it, size_t Jacobsthal_insertion);
 		void	decremetUntilPendFound(my_pair_list::iterator &it);
 		void	incremetUntilPendFound(my_pair_list::iterator &it);
@@ -70,15 +70,17 @@ class PmergeMe
 	public:
 		PmergeMe(std::stringstream &input);
 		~PmergeMe();
-		PmergeMe(const PmergeMe &other);
+		PmergeMe(const PmergeMe<containerT> &other);
 
-		PmergeMe &operator= (const PmergeMe &other);
+		PmergeMe<containerT> &operator= (const PmergeMe<containerT> &other);
 
 		void	sort();
 		int						getComparisonCounter() const;
-		const std::list<int> &	getSortSequence() const;
+		const containerT<int> &	getSortSequence() const;
 		struct timeval			getExecuionTime() const;
 };
+
+# include "PmergeMe.tpp"
 
 #endif
 
