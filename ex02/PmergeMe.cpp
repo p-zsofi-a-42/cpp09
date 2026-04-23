@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 19:21:18 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 20:00:02 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,7 @@ void PmergeMe::sort()
 	
 	if (recursion_lvl_ == 0)
 	{
+		gettimeofday(&execution_start_, NULL);
 		formFirstPairs();
 		recursion_lvl_++;
 		sort(); //recursion
@@ -313,6 +314,18 @@ int PmergeMe::getComparisonCounter() const
 const std::list<int> & PmergeMe::getSortSequence() const
 {
 	return (sort_sequence_);
+}
+
+struct timeval PmergeMe::getExecuionTime() const
+{
+	struct timeval time_now;
+	gettimeofday(&time_now, NULL);
+
+	struct timeval result;
+	result.tv_sec = time_now.tv_sec  - execution_start_.tv_sec;
+	result.tv_usec = time_now.tv_usec - execution_start_.tv_usec;
+
+	return result;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

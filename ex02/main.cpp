@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:41:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/16 17:55:00 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 19:54:46 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,12 @@ int main(int argc, char **argv)
 		std::for_each(test.getSortSequence().begin(), test.getSortSequence().end(), myPrintInt);
 		std::cout << std::endl;
 
-		std::cout << "\ntime with std::list " << std::endl;
+		struct timeval exec_time = test.getExecuionTime();
+		
+		std::cout << "\ntime with std::list " 
+					<< exec_time.tv_sec << " seconds "
+					<< exec_time.tv_usec << " microseconds "
+					<< std::endl;
 		std::cout << "time with std:: " << std::endl;
 		std::cout << "Comparisons made:\n"
 				<< test.getComparisonCounter() << std::endl;

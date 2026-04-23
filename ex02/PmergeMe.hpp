@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 19:19:44 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/23 20:00:57 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "Jacobstahl.hpp"
 # include "pendMain.hpp"
 # include "printer.hpp"
+# include <sys/time.h>		//gettimeofday
 
 # ifndef DEBUG
 #  define DEBUG false
@@ -42,6 +43,7 @@ class PmergeMe
 		unsigned int	current_pair_size_;	//needed bc until cpp11 size() can perform unexpectedly(not updated) when using splice()
 		int				recursion_lvl_;
 		int				comparison_counter_;
+		struct timeval	execution_start_;
 	
 		//part1
 		void checkAndMerge();
@@ -75,6 +77,7 @@ class PmergeMe
 		void	sort();
 		int						getComparisonCounter() const;
 		const std::list<int> &	getSortSequence() const;
+		struct timeval			getExecuionTime() const;
 };
 
 #endif
