@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 20:15:44 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 14:34:26 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~orthodox canonical requirement
-template<typename containerT>
+template <template <typename, typename> class containerT>
 PmergeMe<containerT>::PmergeMe()
 {
 	functor.obj = this;
 }
 
 /** @throws runtime_error: if input has non-positive ints */
-template<typename containerT>
+template <template <typename, typename> class containerT>
 PmergeMe<containerT>::PmergeMe(std::stringstream &input)
 {
 	functor.obj = this;
@@ -49,18 +49,18 @@ PmergeMe<containerT>::PmergeMe(std::stringstream &input)
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
-template<typename containerT>
+template <template <typename, typename> class containerT>
 PmergeMe<containerT>::~PmergeMe()
 {}
 
-template<typename containerT>
-PmergeMe<containerT>::PmergeMe(const PmergeMe<containerT> &other)
+template <template <typename, typename> class containerT>
+PmergeMe<containerT>::PmergeMe(const PmergeMe &other)
 {
 	*this = other;
 }
 
-template<typename containerT>
-PmergeMe<containerT> &PmergeMe<containerT>::operator=(const PmergeMe<containerT> &other)
+template <template <typename, typename> class containerT>
+PmergeMe<containerT> &PmergeMe<containerT>::operator=(const PmergeMe &other)
 {
 	if (this == &other)
 		return *this;
@@ -70,45 +70,45 @@ PmergeMe<containerT> &PmergeMe<containerT>::operator=(const PmergeMe<containerT>
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~part 1
-template<typename containerT>
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::formFirstPairs() // only on first lvl
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
-	containerT<int>::iterator it;
-	containerT<int>::iterator next;
+	typename PmergeMe<containerT>::containerInt::iterator it;
+	typename PmergeMe<containerT>::containerInt::iterator next;
 	for (it = sort_sequence_.begin(); it != sort_sequence_.end(); it++)
 	{
 		next = it;
 		next++;
 		if (next != sort_sequence_.end())
 		{
-			containerT<int> temp_it_list;
+			typename PmergeMe<containerT>::containerInt temp_it_list;
 			temp_it_list.push_back(*it);
-			containerT<int> temp_next_list;
+			typename PmergeMe<containerT>::containerInt temp_next_list;
 			temp_next_list.push_back(*next);
-			result_sequence_.push_back(pendMain::pair(temp_it_list, temp_next_list));
+			result_sequence_.push_back(pendMain<typename PmergeMe<containerT>::containerInt>::pair(temp_it_list, temp_next_list));
 			it++; //needs to iterate here too not just in the loop to skip the "next"
 			
-			/*🪲*/ if (DEBUG)	{std::cout <<"forming pairs: "<< std::endl;	myPrintPair(result_sequence_.back()); std::cout << std::endl;}
+			// /*🪲*/ if (DEBUG)	{std::cout <<"forming pairs: "<< std::endl;	myPrintPair(result_sequence_.back()); std::cout << std::endl;}
 		}
 		else
 		{
-			containerT<int> temp_it_list;
+			typename PmergeMe<containerT>::containerInt temp_it_list;
 			temp_it_list.push_back(*it);
-			reserve_.push_front(pendMain::pairEmptyMain(temp_it_list)); //after this loop condition will end the loop
+			reserve_.push_front(pendMain<typename PmergeMe<containerT>::containerInt>::pairEmptyMain(temp_it_list)); //after this loop condition will end the loop
 		}
 	}
 	
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
-template<typename containerT>
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::compareAndFlip()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
-	my_pair_list::iterator it;
+	typename PmergeMe<containerT>::my_pair_list::iterator it;
 	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 	{
 		if (it->pend_.back() > it->main_.back())
@@ -117,20 +117,20 @@ void PmergeMe<containerT>::compareAndFlip()
 	
 		/*🪲*/ if (DEBUG)	{std::cout << "first: " << it->pend_.back() << " second: " << it->main_.back() << std::endl;}
 	}
-	/*🪲*/ if (DEBUG)	{std::cout << "result: ";
-				std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair);
-				std::for_each(reserve_.begin(), reserve_.end(), myPrintPair);
-				std::cout << std::endl;	}
+	// /*🪲*/ if (DEBUG)	{std::cout << "result: ";
+	// 			std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair);
+	// 			std::for_each(reserve_.begin(), reserve_.end(), myPrintPair);
+	// 			std::cout << std::endl;	}
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
-template<typename containerT>
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::mergePairs()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
-	my_pair_list::iterator it;
-	my_pair_list::iterator next;
+	typename PmergeMe<containerT>::my_pair_list::iterator it;
+	typename PmergeMe<containerT>::my_pair_list::iterator next;
 	// Fusing the current pair together into the "pend_" slot of the pair
 	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 		it->merge();
@@ -148,7 +148,7 @@ void PmergeMe<containerT>::mergePairs()
 		}
 		else
 		{
-			reserve_.push_front(pendMain::pairEmptyMain(it->pend_));
+			reserve_.push_front(pendMain<typename PmergeMe<containerT>::containerInt>::pairEmptyMain(it->pend_));
 			result_sequence_.pop_back();
 			break;
 		}
@@ -157,7 +157,7 @@ void PmergeMe<containerT>::mergePairs()
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
-template<typename containerT>
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::checkAndMerge()
 {
 	// If there are still more than 2 groups then further recursion is needed to reduce it
@@ -174,7 +174,7 @@ void PmergeMe<containerT>::checkAndMerge()
 		/*🪲*/ if (DEBUG)	{std::cout << "👾 END OF PART 1 at lvl: " << recursion_lvl_ << " with group sizes of: " << result_sequence_.size()  << std::endl;}
 }
 
-template<typename containerT>
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::sort()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
@@ -208,12 +208,12 @@ void PmergeMe<containerT>::sort()
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~part 2
 /** Breaks up each node into pairs that are half the length */
-template<typename containerT>
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::divide()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 
-	my_pair_list::iterator it;	
+	typename PmergeMe<containerT>::my_pair_list::iterator it;	
 	// Halves every main_ element and creates a new, smaller pend and main from it
 	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 		it->divide(current_pair_size_);
@@ -225,18 +225,18 @@ void PmergeMe<containerT>::divide()
 /** Inserts (finds the correct place) for each pend element (.first() of each pair)
  * Uses Jacobstahl sequence to optimize this process
  */
-template<typename containerT>
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::insertPend()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
-	my_pair_list::iterator it = result_sequence_.begin();
-	containerT<int> emptyList;
+	typename PmergeMe<containerT>::my_pair_list::iterator it = result_sequence_.begin();
+	typename PmergeMe<containerT>::containerInt emptyList;
 
 	size_t Jacob_n = 2; //helper to keep track of which element of the J.sequence we!re using for our insertion logic
 	size_t Jacobsthal_insertion; // how many elements we're inserting on this insertion round
 	
-	pendMain inserted_pend;
+	pendMain<typename PmergeMe<containerT>::containerInt> inserted_pend;
 	while (it != result_sequence_.end())
 	{
 		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
@@ -249,22 +249,22 @@ void PmergeMe<containerT>::insertPend()
 		while (Jacobsthal_insertion != 0 && !it->pend_.empty())
 		{
 			//it pend becomes the new main
-			inserted_pend = pendMain::pairEmptyPend(it->pend_);
-			/*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
+			inserted_pend = pendMain<typename PmergeMe<containerT>::containerInt>::pairEmptyPend(it->pend_);
+			// /*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
 			result_sequence_.insert(std::lower_bound(result_sequence_.begin(), it, it->pend_, functor),
 									inserted_pend);
 			// in case this node was originally an unpaired one, we don!t need the empty node
 			if (it->main_.empty())
 			{
-				it = result_sequence_.end(); //to not invalidate iterator with the pop
 				result_sequence_.pop_back();
+				it = result_sequence_.end(); //to not invalidate iterator with the pop
 			}
 			else
 				it->pend_.clear();
 			if (--Jacobsthal_insertion)
 				decremetUntilPendFound(it);
 			
-			/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
+			// /*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
 		}
 		incremetUntilPendFound(it);
 		Jacob_n++;
@@ -278,24 +278,22 @@ void PmergeMe<containerT>::insertPend()
  *  didn't move on to the next lvl with the rest of the result_sequence_.
  * 	Now in part2, if it has the same size as the current elements in the pairs, insert it at the end.
  */
-template<typename containerT>
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::insertUnpaired()
 {
 	if (!reserve_.empty() && reserve_.begin()->pend_.size() == current_pair_size_)
 	{
-		result_sequence_.splice(result_sequence_.end(),
-								reserve_,
-								reserve_.begin());
+		result_sequence_.push_back(reserve_.front());
+		reserve_.pop_front();
 	}
-
-	/*🪲*/ if (DEBUG) {std::cout << "After reserve insertion\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
+	// /*🪲*/ if (DEBUG) {std::cout << "After reserve insertion\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
 }
 
-template<typename containerT>
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::part2()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << " pair size: "<< current_pair_size_<< std::endl;}
-	/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
+	// /*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
 
 	if (!result_sequence_.empty())
 	{
@@ -309,30 +307,32 @@ void PmergeMe<containerT>::part2()
 	else
 	{
 		sort_sequence_.clear();
-		for (my_pair_list::iterator it = result_sequence_.begin(); it != result_sequence_.end(); it++)
-			sort_sequence_.splice(sort_sequence_.end(), it->main_);
+		for (typename PmergeMe<containerT>::my_pair_list::iterator it = result_sequence_.begin(); it != result_sequence_.end(); it++)
+			if (!it->main_.empty())
+				sort_sequence_.push_back(*it->main_.begin());
 		current_pair_size_ = 0;
 	}
 
-	/*🪲*/ if (DEBUG)	{std::cout << "RESULT\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
+	// /*🪲*/ if (DEBUG)	{std::cout << "RESULT\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~getter
-template<typename containerT>
+template <template <typename, typename> class containerT>
 int PmergeMe<containerT>::getComparisonCounter() const
 {
 	return (comparison_counter_);
 }
 
-template<typename containerT>
-const containerT<int> & PmergeMe<containerT>::getSortSequence() const
+template <template <typename, typename> class containerT>
+const typename PmergeMe<containerT>::containerInt & 
+PmergeMe<containerT>::getSortSequence() const
 {
 	return (sort_sequence_);
 }
 
-template<typename containerT>
+template <template <typename, typename> class containerT>
 struct timeval PmergeMe<containerT>::getExecuionTime() const
 {
 	struct timeval time_now;
@@ -350,8 +350,10 @@ struct timeval PmergeMe<containerT>::getExecuionTime() const
 /** Advances *it* ahead *Jacobsthal_insertion* - 1 number of times
  *  Does not go beyond the end of the container
  */
-template<typename containerT>
-void PmergeMe<containerT>::safeAdvance(my_pair_list::iterator &it, size_t Jacobsthal_insertion)
+template <template <typename, typename> class containerT>
+void PmergeMe<containerT>::safeAdvance(
+		typename PmergeMe<containerT>::my_pair_list::iterator &it, 
+		size_t Jacobsthal_insertion)
 {
 	for (size_t i = 0; i < Jacobsthal_insertion; i++)
 	{
@@ -368,8 +370,8 @@ void PmergeMe<containerT>::safeAdvance(my_pair_list::iterator &it, size_t Jacobs
  *  - or originally pend part. Again, cleared pend slot and og pend list is now in main slot.
  *  - or an unprocessed element with both main and pend slot <- what we're looking for 
 */
-template<typename containerT>
-void PmergeMe<containerT>::decremetUntilPendFound(my_pair_list::iterator &it)
+template <template <typename, typename> class containerT>
+void PmergeMe<containerT>::decremetUntilPendFound(typename PmergeMe<containerT>::my_pair_list::iterator &it)
 {
 	it--;
 	while(it->pend_.empty() && it != result_sequence_.begin())
@@ -380,23 +382,23 @@ void PmergeMe<containerT>::decremetUntilPendFound(my_pair_list::iterator &it)
  *  - or originally pend part. Again, cleared pend slot and og pend list is now in main slot.
  *  - or an unprocessed element with both main and pend slot <- what we're looking for 
 */
-template<typename containerT>
-void PmergeMe<containerT>::incremetUntilPendFound(my_pair_list::iterator &it)
+template <template <typename, typename> class containerT>
+void PmergeMe<containerT>::incremetUntilPendFound(typename PmergeMe<containerT>::my_pair_list::iterator &it)
 {
-	while (it->pend_.empty() && it != result_sequence_.end() )
+	while (it != result_sequence_.end() && it->pend_.empty())
 		it++;
 }
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~custom comparison counter utils
-template<typename containerT>
-bool PmergeMe<containerT>::compare::operator()(pendMain sequenceElement, containerT<int> toCompare)
+template <template <typename, typename> class containerT>
+bool PmergeMe<containerT>::compare::operator()(pendMain<typename PmergeMe<containerT>::containerInt> sequenceElement, containerInt toCompare)
 {
 	return (obj->myLess(sequenceElement, toCompare));
 }
 
-template<typename containerT>
-bool PmergeMe<containerT>::myLess(pendMain sequenceElement, containerT<int> toCompare)
+template <template <typename, typename> class containerT>
+bool PmergeMe<containerT>::myLess(pendMain<typename PmergeMe<containerT>::containerInt> sequenceElement, containerInt toCompare)
 {
 	comparison_counter_++;
 	if (sequenceElement.main_.back() < toCompare.back())

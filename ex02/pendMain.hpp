@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 13:57:10 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/24 18:48:12 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/24 18:49:15 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ class pendMain
 		void copyToMain(pendMain &other);
 };
 
-//# include "pendMain.tpp"
+# include "pendMain.tpp"
 #endif
