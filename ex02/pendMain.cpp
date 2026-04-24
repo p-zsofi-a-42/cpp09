@@ -79,10 +79,11 @@ void pendMain::divide(int current_pair_size_)
 	std::advance(middle_of_the_list_in_pair, current_pair_size_ / 2);
 
 	pend_.clear();
-	pend_.splice(pend_.begin(),
-					main_,
-					main_.begin(),
-					middle_of_the_list_in_pair);
+	while (main_.begin() != middle_of_the_list_in_pair)
+	{
+		pend_.push_back(*main_.begin());
+		main_.pop_front();
+	}
 }
 
 /** Fuses/inserts the "main" slot of the pair after the "pend" */
