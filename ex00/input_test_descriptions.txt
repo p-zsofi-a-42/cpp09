@@ -20,10 +20,11 @@ date | value
 2012-01-11 | -1						# negative
 2012-01-11 | -4294967286			# int underflow to valid 10
 2012-01-1 |							# missing value
-2001-1-1 | 1						# year before the dataset
-1-1-1 | 1							# year too early
+2012-01-1 |     					# missing value but spaces
 2022-01-11 | idk					# value not value
 2012-01-11 | .2						# bad float format
+2001-1-1 | 1						# year before the dataset
+1-1-1 | 1							# year too early
 idk | 1								# date not date
 2022 | 1							# date not complete
 2022-1 | 1							# date not complete
