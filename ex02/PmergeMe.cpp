@@ -244,8 +244,8 @@ void PmergeMe::insertPend()
 			// in case this node was originally an unpaired one, we don!t need the empty node
 			if (it->main_.empty())
 			{
-				it = result_sequence_.end(); //to not invalidate iterator with the pop
 				result_sequence_.pop_back();
+				it = result_sequence_.end(); //to not invalidate iterator with the pop
 			}
 			else
 				it->pend_.clear();
