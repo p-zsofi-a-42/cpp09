@@ -270,9 +270,8 @@ void PmergeMe::insertUnpaired()
 {
 	if (!reserve_.empty() && reserve_.begin()->pend_.size() == current_pair_size_)
 	{
-		result_sequence_.splice(result_sequence_.end(),
-								reserve_,
-								reserve_.begin());
+		result_sequence_.push_back(reserve_.front());
+		reserve_.pop_front();
 	}
 
 	/*🪲*/ if (DEBUG) {std::cout << "After reserve insertion\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
@@ -295,8 +294,8 @@ void PmergeMe::part2()
 	else
 	{
 		sort_sequence_.clear();
-		for (my_pair_list::iterator it = result_sequence_.begin(); it != result_sequence_.end(); it++)
-			sort_sequence_.splice(sort_sequence_.end(), it->main_);
+			if (!it->main_.empty())
+				sort_sequence_.push_back(*it->main_.begin());
 		current_pair_size_ = 0;
 	}
 
