@@ -13,6 +13,6 @@ merge insert explanation:https://dev.to/emuminov/human-explanation-and-step-by-s
 ex00
 [X] bad notation .2
 ex01
-[ ] negatives as args
+[X] negatives as args
 [X] bigger than 10 as args
-[ ] 1 1 1 --
+[X] 1 1 1 --
