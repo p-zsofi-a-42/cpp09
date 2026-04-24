@@ -1,10 +1,10 @@
 #----------------------------------FILES----------------------------------------
 SRC_MAN	=	\
 			main.cpp\
-			PmergeMe.cpp\
 			Jacobstahl.cpp\
-			pendMain.cpp\
 			printer.cpp\
+#			PmergeMe.cpp\
+#			pendMain.cpp\
 #			tests.cpp\
 
 OBJ_DIR		= build

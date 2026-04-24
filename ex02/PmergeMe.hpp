@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 20:00:57 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/24 18:48:03 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sstream>		//stringstream
 # include <string>
 # include <list>
+# include <deque>
 # include <algorithm>
 # include <fstream>		//EOF
 # include "colors.hpp"
@@ -30,13 +31,16 @@
 #  define DEBUG false
 # endif
 
+template <template <typename, typename> class containerT>
 class PmergeMe
 {
 	private:
 		PmergeMe();
 
-		typedef std::list< pendMain >	my_pair_list;
-		std::list<int>	sort_sequence_;
+		typedef containerT<int, std::allocator<int> > containerInt;
+		typedef containerT< pendMain<containerInt>, std::allocator<pendMain<containerInt> > > my_pair_list;
+		
+		containerInt	sort_sequence_;
 		my_pair_list	result_sequence_;
 		my_pair_list	reserve_;
 
@@ -59,13 +63,13 @@ class PmergeMe
 		struct compare
 		{
 			PmergeMe	*obj;
-			bool		operator()(pendMain sequenceElement, std::list<int> toCompare);
+			bool		operator()(pendMain<containerInt> sequenceElement, containerInt toCompare);
 		} functor;
 
-		bool 	myLess(pendMain sequenceElement, std::list<int> toCompare);
-		void	safeAdvance(my_pair_list::iterator &it, size_t Jacobsthal_insertion);
-		void	decremetUntilPendFound(my_pair_list::iterator &it);
-		void	incremetUntilPendFound(my_pair_list::iterator &it);
+		bool 	myLess(pendMain<containerInt> sequenceElement, containerInt toCompare);
+		void	safeAdvance(typename my_pair_list::iterator &it, size_t Jacobsthal_insertion);
+		void	decremetUntilPendFound(typename my_pair_list::iterator &it);
+		void	incremetUntilPendFound(typename my_pair_list::iterator &it);
 
 	public:
 		PmergeMe(std::stringstream &input);
@@ -76,9 +80,10 @@ class PmergeMe
 
 		void	sort();
 		int						getComparisonCounter() const;
-		const std::list<int> &	getSortSequence() const;
+		const containerInt &	getSortSequence() const;
 		struct timeval			getExecuionTime() const;
 };
 
+//# include "PmergeMe.tpp"
 #endif
 
