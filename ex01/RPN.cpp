@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:37:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 16:28:39 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/24 14:32:24 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ RPN::RPN(std::string input)
 	}
 	catch(const std::exception& e)
 	{
+		std::cerr << e.what() << std::endl;
 		//Clearing the whole stack
 		while (!expr.empty())
 			expr.pop();
