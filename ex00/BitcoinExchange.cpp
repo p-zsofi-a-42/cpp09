@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/23 20:51:29 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/24 13:56:51 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ float BtcExchng::processValue(std::stringstream &row_stream)
 	if (is_stream_empty == EOF)
 		throw (std::runtime_error("Value is missing"));
 
+	// consuming whitespaces
+	row_stream >> std::ws;
  	int first_char = row_stream.peek();
 	if (first_char == '.')
 		throw (std::runtime_error("Value has a bad float format"));
