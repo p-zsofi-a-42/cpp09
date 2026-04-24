@@ -31,6 +31,8 @@ RPN::RPN(std::string input)
 			if (std::isdigit(input_stream.peek()))
 			{
 				input_stream >> num;
+				if (num >= 10)
+					throw(std::runtime_error("Value greater than 10"));
 				expr.push(num);
 			}
 			else
