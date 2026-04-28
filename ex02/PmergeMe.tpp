@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 15:49:39 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 15:56:13 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,9 @@ void PmergeMe<containerT>::compareAndFlip()
 		/*🪲*/ if (DEBUG)	{std::cout << "first: " << it->pend_.back() << " second: " << it->main_.back() << std::endl;}
 	}
 	/*🪲*/ if (DEBUG)	{std::cout << "result: ";
-				std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair());
-				std::for_each(reserve_.begin(), reserve_.end(), myPrintPair());
-				std::cout << std::endl;	}
+	/*🪲*/				std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair());
+	/*🪲*/				std::for_each(reserve_.begin(), reserve_.end(), myPrintPair());
+	/*🪲*/				std::cout << std::endl;	}
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
