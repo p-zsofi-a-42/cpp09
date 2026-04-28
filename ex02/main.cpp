@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:41:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 14:46:24 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 15:02:38 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int main(int argc, char **argv)
 	{
 		// Sorting with list container
 		PmergeMe<std::list> test(input);
+		std::list<int> BeforeSorting = test.getSortSequence();
 		test.sort();
 		struct timeval exec_time = test.getExecuionTime();
 
@@ -40,7 +41,7 @@ int main(int argc, char **argv)
 
 		// Using the list version for printing result
 		std::cout << "Before: ";
-		std::for_each(test.getSortSequence().begin(), test.getSortSequence().end(), myPrintInt);
+		std::for_each(BeforeSorting.begin(), BeforeSorting.end(), myPrintInt);
 		std::cout << std::endl;
 
 		std::cout << "After:  ";
