@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:09:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 14:34:20 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 16:44:37 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ class PmergeMe
 		void formFirstPairs();
 		//part2
 		void divide();
+		void insertPendSection(typename my_pair_list::iterator &it, size_t &Jacobsthal_insertion);
 		void insertPend();
 		void insertUnpaired();
 		void part2();

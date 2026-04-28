@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 16:13:58 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 16:41:18 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,36 @@ void PmergeMe<containerT>::divide()
  * Uses Jacobstahl sequence to optimize this process
  */
 template <template <typename, typename> class containerT>
+void PmergeMe<containerT>::insertPendSection(typename PmergeMe::my_pair_list::iterator &it, size_t &Jacobsthal_insertion)
+{
+	pendMain<typename PmergeMe::containerInt> inserted_pend;
+	
+	while (Jacobsthal_insertion != 0 && !it->pend_.empty())
+	{
+		//it pend becomes the new main
+		inserted_pend = pendMain<typename PmergeMe::containerInt>::pairEmptyPend(it->pend_);
+		/*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair()(inserted_pend); std::cout << std::endl;}
+		result_sequence_.insert(std::lower_bound(result_sequence_.begin(), it, it->pend_, functor),
+								inserted_pend);
+		// in case this node was originally an unpaired one, we don!t need the empty node
+		if (it->main_.empty())
+		{
+			result_sequence_.pop_back();
+			it = result_sequence_.end(); //to not invalidate iterator with the pop
+		}
+		else
+			it->pend_.clear();
+		if (--Jacobsthal_insertion)
+			decremetUntilPendFound(it);
+		
+		/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair()); std::cout << std::endl;}
+	}
+}
+
+/** Inserts (finds the correct place) for each pend element (.first() of each pair)
+ * Uses Jacobstahl sequence to optimize this process
+ */
+template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::insertPend()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
@@ -236,7 +266,6 @@ void PmergeMe<containerT>::insertPend()
 	size_t Jacob_n = 2; //helper to keep track of which element of the J.sequence we!re using for our insertion logic
 	size_t Jacobsthal_insertion; // how many elements we're inserting on this insertion round
 	
-	pendMain<typename PmergeMe::containerInt> inserted_pend;
 	while (it != result_sequence_.end())
 	{
 		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
@@ -245,27 +274,10 @@ void PmergeMe<containerT>::insertPend()
 		// Advance ahed for reverse insertion
 		safeAdvance(it, Jacobsthal_insertion);
 
-		// Insert all pend elements (stored in it.pend_) into the result sequence. Inserted elements will have an empty list as .pend_() 
-		while (Jacobsthal_insertion != 0 && !it->pend_.empty())
-		{
-			//it pend becomes the new main
-			inserted_pend = pendMain<typename PmergeMe::containerInt>::pairEmptyPend(it->pend_);
-			/*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair()(inserted_pend); std::cout << std::endl;}
-			result_sequence_.insert(std::lower_bound(result_sequence_.begin(), it, it->pend_, functor),
-									inserted_pend);
-			// in case this node was originally an unpaired one, we don!t need the empty node
-			if (it->main_.empty())
-			{
-				result_sequence_.pop_back();
-				it = result_sequence_.end(); //to not invalidate iterator with the pop
-			}
-			else
-				it->pend_.clear();
-			if (--Jacobsthal_insertion)
-				decremetUntilPendFound(it);
-			
-			/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair()); std::cout << std::endl;}
-		}
+		// Insert as many as "J._insertion pend elements (stored in it.pend_) into the result sequence. Inserted elements will have an empty list as .pend_() 
+		insertPendSection(it, Jacobsthal_insertion);
+
+		// Iterate ahead, find an unprocessed pend
 		incremetUntilPendFound(it);
 		Jacob_n++;
 	}
