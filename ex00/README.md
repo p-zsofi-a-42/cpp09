@@ -1,17 +1,17 @@
 > [!NOTE]
-> *This project is IN PROGRESS and is done by Zsofia A. Palotas as part of the 42 School common core curriculum*
+> *This project is done by Zsofia A. Palotas as part of the 42 School common core curriculum*
 
 # Summary
-In this project we calculate the price of a BitCoin transaction based on the exchange rate and the amount bought<br />
-Both the excange rates and transactions has to be provided as an argument<br />
+In this project we calculate the price of BitCoin transactions based on the exchange rate and the amount bought<br />
+The excange rates are stored in data.csv<br />
+The transactions have to be provided as an argument in a file<br />
 
-## Current state
-For easy testing the program doesn't take a cutom input file yet.<br />
-Files are processed and input.txt is evaluated.br />
-Currently testing...
-
+# Running
+```
+./btc input.txt
+```
 # Tester
-There are no tests for this project.
+Tests for this project can be added by expanding the input.txt file.
 
 [//]: # (Tests for this projects are located in the tests/tests_ex00 subdirectory<br />)
 [//]: # (More tests can be added with arbitrary name and *.input* extension<br />)

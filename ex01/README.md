@@ -15,8 +15,8 @@ Enter your expression as a single argument
 # Tester
 Tests for this projects are located in the tests/tests_ex01 subdirectory<br />
 More tests can be added with arbitrary name and *.input* extension<br />
-Write your expected result in an *.expected* file with the same name<br />
-Run from the root directory: 
+You have to write your expected result **manually** in an *.expected* file with the same name<br />
+<br />Run from the root directory: 
 ```
 ./tester.sh
 ```
