@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 18:05:11 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 15:51:59 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 15:55:15 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ struct myPrintPair
 		void operator()(const pendMain<containerT>& value) const;
 };
 
-//#include "printer.tpp"
+#include "printer.tpp"
 
 #endif
