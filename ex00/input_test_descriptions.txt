@@ -36,6 +36,9 @@ idk | 1								# date not date
 2022-1-x | 3						# day is wrong
 2022-x-1 | 3						# month is wrong
 x-1-1 | 3							# year is wrong
+2011-02- 3 | 1						# space before day
+2011- 02-3 | 1						# space before month
+ 2011-02-3 | 1						# space before year
 2022-01-99999 | 1					# day out of range
 2022-99999-01 | 1					# month out of range
 99999-01-01 | 1						# year out of range

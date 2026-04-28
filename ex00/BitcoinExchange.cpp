@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 14:16:38 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 16:52:50 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ BtcExchng &BtcExchng::operator=(const BtcExchng &other)
 void static my_get_time(std::stringstream &cell_date, std::tm &date)
 {
 	char dash1, dash2;
-	cell_date >> date.tm_year >> dash1 >> date.tm_mon >> dash2 >> date.tm_mday;
+	cell_date >> std::noskipws >> date.tm_year >> dash1 >> date.tm_mon >> dash2 >> date.tm_mday;
 	if (cell_date.fail())
 		throw (std::runtime_error("Date misformatted"));
 	if (date.tm_year && (dash1 != '-' || dash2 != '-'))
