@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/24 13:56:51 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 14:16:38 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void static my_get_time(std::stringstream &cell_date, std::tm &date)
 /** @throws if date is invalid/misformatted */
 time_t BtcExchng::processDate(std::stringstream &cell_date)
 {
+	if (cell_date.peek() == EOF)
+		throw (std::runtime_error(""));
 	std::tm date = {};
 	my_get_time(cell_date, date);
 	std::tm date_double_check = date;
@@ -105,8 +107,7 @@ time_t BtcExchng::processDate(std::stringstream &cell_date)
 /** @throws if value is invalid/misformatted */
 float BtcExchng::processValue(std::stringstream &row_stream)
 {
-	int is_stream_empty = row_stream.peek();
-	if (is_stream_empty == EOF)
+	if (row_stream.peek() == EOF)
 		throw (std::runtime_error("Value is missing"));
 
 	// consuming whitespaces

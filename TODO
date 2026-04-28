@@ -16,3 +16,5 @@ ex01
 [X] negatives as args
 [X] bigger than 10 as args
 [X] 1 1 1 --
+
+[X] empty line in database is valid
