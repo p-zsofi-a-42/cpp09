@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:41:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/24 18:16:32 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 14:46:24 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,30 +28,29 @@ int main(int argc, char **argv)
 	std::stringstream input2(input.str());
 	try
 	{
+		// Sorting with list container
 		PmergeMe<std::list> test(input);
+		test.sort();
+		struct timeval exec_time = test.getExecuionTime();
 
+		// Sorting with deque container
+		PmergeMe<std::deque> dequeTest(input2);
+		dequeTest.sort();
+		struct timeval deque_exec_time = dequeTest.getExecuionTime();
+
+		// Using the list version for printing result
 		std::cout << "Before: ";
 		std::for_each(test.getSortSequence().begin(), test.getSortSequence().end(), myPrintInt);
 		std::cout << std::endl;
-
-		test.sort();
 
 		std::cout << "After:  ";
 		std::for_each(test.getSortSequence().begin(), test.getSortSequence().end(), myPrintInt);
 		std::cout << std::endl;
 
-		struct timeval exec_time = test.getExecuionTime();
-
 		std::cout << "\ntime with std::list " 
 					<< exec_time.tv_sec << " seconds "
 					<< exec_time.tv_usec << " microseconds "
 					<< std::endl;
-
-		// Sortin wit other container
-		PmergeMe<std::deque> dequeTest(input2);
-		dequeTest.sort();
-		struct timeval deque_exec_time = dequeTest.getExecuionTime();
-
 		std::cout << "time with std::deque "
 					<< deque_exec_time.tv_sec << " seconds "
 					<< deque_exec_time.tv_usec << " microseconds "
