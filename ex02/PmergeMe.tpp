@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 14:34:26 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 15:49:39 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void PmergeMe<containerT>::formFirstPairs() // only on first lvl
 			result_sequence_.push_back(pendMain<typename PmergeMe<containerT>::containerInt>::pair(temp_it_list, temp_next_list));
 			it++; //needs to iterate here too not just in the loop to skip the "next"
 			
-			// /*🪲*/ if (DEBUG)	{std::cout <<"forming pairs: "<< std::endl;	myPrintPair(result_sequence_.back()); std::cout << std::endl;}
+			/*🪲*/ if (DEBUG)	{std::cout <<"forming pairs: "<< std::endl;	myPrintPair()(result_sequence_.back()); std::cout << std::endl;}
 		}
 		else
 		{
@@ -117,10 +117,10 @@ void PmergeMe<containerT>::compareAndFlip()
 	
 		/*🪲*/ if (DEBUG)	{std::cout << "first: " << it->pend_.back() << " second: " << it->main_.back() << std::endl;}
 	}
-	// /*🪲*/ if (DEBUG)	{std::cout << "result: ";
-	// 			std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair);
-	// 			std::for_each(reserve_.begin(), reserve_.end(), myPrintPair);
-	// 			std::cout << std::endl;	}
+	/*🪲*/ if (DEBUG)	{std::cout << "result: ";
+				std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair());
+				std::for_each(reserve_.begin(), reserve_.end(), myPrintPair());
+				std::cout << std::endl;	}
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
@@ -250,7 +250,7 @@ void PmergeMe<containerT>::insertPend()
 		{
 			//it pend becomes the new main
 			inserted_pend = pendMain<typename PmergeMe<containerT>::containerInt>::pairEmptyPend(it->pend_);
-			// /*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair(inserted_pend); std::cout << std::endl;}
+			/*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair()(inserted_pend); std::cout << std::endl;}
 			result_sequence_.insert(std::lower_bound(result_sequence_.begin(), it, it->pend_, functor),
 									inserted_pend);
 			// in case this node was originally an unpaired one, we don!t need the empty node
@@ -264,7 +264,7 @@ void PmergeMe<containerT>::insertPend()
 			if (--Jacobsthal_insertion)
 				decremetUntilPendFound(it);
 			
-			// /*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
+			/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair()); std::cout << std::endl;}
 		}
 		incremetUntilPendFound(it);
 		Jacob_n++;
@@ -286,14 +286,14 @@ void PmergeMe<containerT>::insertUnpaired()
 		result_sequence_.push_back(reserve_.front());
 		reserve_.pop_front();
 	}
-	// /*🪲*/ if (DEBUG) {std::cout << "After reserve insertion\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
+	/*🪲*/ if (DEBUG) {std::cout << "After reserve insertion\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair()); std::cout << std::endl;}
 }
 
 template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::part2()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << " pair size: "<< current_pair_size_<< std::endl;}
-	// /*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cout << "start\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair()); std::cout << std::endl;}
 
 	if (!result_sequence_.empty())
 	{
@@ -313,7 +313,7 @@ void PmergeMe<containerT>::part2()
 		current_pair_size_ = 0;
 	}
 
-	// /*🪲*/ if (DEBUG)	{std::cout << "RESULT\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair); std::cout << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cout << "RESULT\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair()); std::cout << std::endl;}
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 

@@ -2,10 +2,6 @@
 SRC_MAN	=	\
 			main.cpp\
 			Jacobstahl.cpp\
-			printer.cpp\
-#			PmergeMe.cpp\
-#			pendMain.cpp\
-#			tests.cpp\
 
 OBJ_DIR		= build
 BUG_DIR		= build_debug

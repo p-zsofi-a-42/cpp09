@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 18:05:11 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 14:23:45 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 15:51:59 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,19 @@
 
 # include <iostream>
 # include <list>
+# include <deque>
 # include <algorithm>
 # include "pendMain.hpp"
 
 void	myPrint(int value);
 void	myPrintInt(int value);
-void	myPrintPair(pendMain<std::list<int> >value);
-void	myPrintListList(std::list< std::list<int> > listList, std::string id);
+
+struct myPrintPair
+{
+	template <typename containerT>
+		void operator()(const pendMain<containerT>& value) const;
+};
+
+//#include "printer.tpp"
 
 #endif
