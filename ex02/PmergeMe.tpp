@@ -308,8 +308,10 @@ void PmergeMe<containerT>::part2()
 	{
 		sort_sequence_.clear();
 		for (typename PmergeMe::my_pair_list::iterator it = result_sequence_.begin(); it != result_sequence_.end(); it++)
+		{
 			if (!it->main_.empty())
 				sort_sequence_.push_back(*it->main_.begin());
+		}
 		current_pair_size_ = 0;
 	}
 
