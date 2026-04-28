@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 15:56:13 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/28 16:13:58 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,28 +75,28 @@ void PmergeMe<containerT>::formFirstPairs() // only on first lvl
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
-	typename PmergeMe<containerT>::containerInt::iterator it;
-	typename PmergeMe<containerT>::containerInt::iterator next;
+	typename PmergeMe::containerInt::iterator it;
+	typename PmergeMe::containerInt::iterator next;
 	for (it = sort_sequence_.begin(); it != sort_sequence_.end(); it++)
 	{
 		next = it;
 		next++;
 		if (next != sort_sequence_.end())
 		{
-			typename PmergeMe<containerT>::containerInt temp_it_list;
+			typename PmergeMe::containerInt temp_it_list;
 			temp_it_list.push_back(*it);
-			typename PmergeMe<containerT>::containerInt temp_next_list;
+			typename PmergeMe::containerInt temp_next_list;
 			temp_next_list.push_back(*next);
-			result_sequence_.push_back(pendMain<typename PmergeMe<containerT>::containerInt>::pair(temp_it_list, temp_next_list));
+			result_sequence_.push_back(pendMain<typename PmergeMe::containerInt>::pair(temp_it_list, temp_next_list));
 			it++; //needs to iterate here too not just in the loop to skip the "next"
 			
 			/*🪲*/ if (DEBUG)	{std::cout <<"forming pairs: "<< std::endl;	myPrintPair()(result_sequence_.back()); std::cout << std::endl;}
 		}
 		else
 		{
-			typename PmergeMe<containerT>::containerInt temp_it_list;
+			typename PmergeMe::containerInt temp_it_list;
 			temp_it_list.push_back(*it);
-			reserve_.push_front(pendMain<typename PmergeMe<containerT>::containerInt>::pairEmptyMain(temp_it_list)); //after this loop condition will end the loop
+			reserve_.push_front(pendMain<typename PmergeMe::containerInt>::pairEmptyMain(temp_it_list)); //after this loop condition will end the loop
 		}
 	}
 	
@@ -108,7 +108,7 @@ void PmergeMe<containerT>::compareAndFlip()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
-	typename PmergeMe<containerT>::my_pair_list::iterator it;
+	typename PmergeMe::my_pair_list::iterator it;
 	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 	{
 		if (it->pend_.back() > it->main_.back())
@@ -129,8 +129,8 @@ void PmergeMe<containerT>::mergePairs()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
-	typename PmergeMe<containerT>::my_pair_list::iterator it;
-	typename PmergeMe<containerT>::my_pair_list::iterator next;
+	typename PmergeMe::my_pair_list::iterator it;
+	typename PmergeMe::my_pair_list::iterator next;
 	// Fusing the current pair together into the "pend_" slot of the pair
 	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 		it->merge();
@@ -148,7 +148,7 @@ void PmergeMe<containerT>::mergePairs()
 		}
 		else
 		{
-			reserve_.push_front(pendMain<typename PmergeMe<containerT>::containerInt>::pairEmptyMain(it->pend_));
+			reserve_.push_front(pendMain<typename PmergeMe::containerInt>::pairEmptyMain(it->pend_));
 			result_sequence_.pop_back();
 			break;
 		}
@@ -213,7 +213,7 @@ void PmergeMe<containerT>::divide()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 
-	typename PmergeMe<containerT>::my_pair_list::iterator it;	
+	typename PmergeMe::my_pair_list::iterator it;	
 	// Halves every main_ element and creates a new, smaller pend and main from it
 	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 		it->divide(current_pair_size_);
@@ -230,13 +230,13 @@ void PmergeMe<containerT>::insertPend()
 {
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
-	typename PmergeMe<containerT>::my_pair_list::iterator it = result_sequence_.begin();
-	typename PmergeMe<containerT>::containerInt emptyList;
+	typename PmergeMe::my_pair_list::iterator it = result_sequence_.begin();
+	typename PmergeMe::containerInt emptyList;
 
 	size_t Jacob_n = 2; //helper to keep track of which element of the J.sequence we!re using for our insertion logic
 	size_t Jacobsthal_insertion; // how many elements we're inserting on this insertion round
 	
-	pendMain<typename PmergeMe<containerT>::containerInt> inserted_pend;
+	pendMain<typename PmergeMe::containerInt> inserted_pend;
 	while (it != result_sequence_.end())
 	{
 		Jacobsthal_insertion = Jacobstahl::insertion_n(Jacob_n);
@@ -249,7 +249,7 @@ void PmergeMe<containerT>::insertPend()
 		while (Jacobsthal_insertion != 0 && !it->pend_.empty())
 		{
 			//it pend becomes the new main
-			inserted_pend = pendMain<typename PmergeMe<containerT>::containerInt>::pairEmptyPend(it->pend_);
+			inserted_pend = pendMain<typename PmergeMe::containerInt>::pairEmptyPend(it->pend_);
 			/*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair()(inserted_pend); std::cout << std::endl;}
 			result_sequence_.insert(std::lower_bound(result_sequence_.begin(), it, it->pend_, functor),
 									inserted_pend);
@@ -307,7 +307,7 @@ void PmergeMe<containerT>::part2()
 	else
 	{
 		sort_sequence_.clear();
-		for (typename PmergeMe<containerT>::my_pair_list::iterator it = result_sequence_.begin(); it != result_sequence_.end(); it++)
+		for (typename PmergeMe::my_pair_list::iterator it = result_sequence_.begin(); it != result_sequence_.end(); it++)
 			if (!it->main_.empty())
 				sort_sequence_.push_back(*it->main_.begin());
 		current_pair_size_ = 0;
