@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 16:52:50 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/29 16:25:17 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,20 +147,22 @@ void BtcExchng::readPrices(const std::string prices)
 		std::string			row;
 		std::getline(file_to_read, row);
 		std::stringstream	row_stream(row);
-
-		std::string			cell;
-		getline(row_stream, cell, ',');
-		std::stringstream	cell_date(cell);
-		try
+		if (row_stream.peek() != EOF)
 		{
-			time_t date_converted =	processDate(cell_date);
-			float cell_price = processValue(row_stream);
+			std::string			cell;
+			getline(row_stream, cell, ',');
+			std::stringstream	cell_date(cell);
+			try
+			{
+				time_t date_converted =	processDate(cell_date);
+				float cell_price = processValue(row_stream);
 
-			price_.insert(std::make_pair(date_converted, cell_price));
-		}
-		catch(const std::exception& e)
-		{
-			std::cerr << e.what() << '\n';
+				price_.insert(std::make_pair(date_converted, cell_price));
+			}
+			catch(const std::exception& e)
+			{
+				std::cerr << e.what() << '\n';
+			}
 		}
 	}
 	file_to_read.close();
@@ -185,23 +187,26 @@ void BtcExchng::readTransactions(const std::string transactions)
 		std::getline(file_to_read, row);
 		std::stringstream	row_stream(row);
 
-		std::string			cell;
-		getline(row_stream, cell, '|');
-		std::stringstream	cell_date(cell);
-		try
+		if (row_stream.peek() != EOF)
 		{
-			time_t date_converted =	processDate(cell_date);
-			float cell_amount = processValue(row_stream);
-			if (cell_amount > 1000)
-				throw (std::runtime_error("Value is too high"));
-			float cost = calculateTransaction(date_converted, cell_amount);
+			std::string			cell;
+			getline(row_stream, cell, '|');
+			std::stringstream	cell_date(cell);
+			try
+			{
+				time_t date_converted =	processDate(cell_date);
+				float cell_amount = processValue(row_stream);
+				if (cell_amount > 1000)
+					throw (std::runtime_error("Value is too high"));
+				float cost = calculateTransaction(date_converted, cell_amount);
 
-			transaction_.insert(std::make_pair(date_converted, cost)); //saving correct transactions
-		}
-		catch(const std::exception& e)
-		{
-			if (DEBUG) 	std::cerr << counter << " ";
-			std::cerr << RED << "Invalid transaction: " << e.what() << WHITE << " (" << row << ")" << ENDCLR << '\n';
+				transaction_.insert(std::make_pair(date_converted, cost)); //saving correct transactions
+			}
+			catch(const std::exception& e)
+			{
+				if (DEBUG) 	std::cerr << counter << " ";
+				std::cerr << RED << "Invalid transaction: " << e.what() << WHITE << " (" << row << ")" << ENDCLR << '\n';
+			}
 		}
 	}
 	file_to_read.close();
