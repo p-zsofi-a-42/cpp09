@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:37:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/29 16:39:57 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/29 17:16:46 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ RPN::RPN(std::string input)
 
 	try
 	{
-		while (input_stream.peek() != -1)
+		while (input_stream.peek() != EOF)
 		{
 			//consuming whitespaces
 			input_stream >> std::ws;
@@ -52,7 +52,7 @@ RPN::RPN(std::string input)
 				input_stream.get(c);
 			}
 			if (!std::isspace(input_stream.peek()) 
-				&& input_stream.peek() != -1)
+				&& input_stream.peek() != EOF)
 				throw(std::runtime_error("Invalid expression, values are not separated by space"));
 			//consuming whitespaces
 			input_stream >> std::ws;

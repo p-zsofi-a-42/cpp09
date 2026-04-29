@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:32:45 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/24 18:52:12 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/29 17:16:32 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <algorithm>
 # include <climits>
 # include "colors.hpp"
+
+# define EOF -1
 
 class RPN
 {
