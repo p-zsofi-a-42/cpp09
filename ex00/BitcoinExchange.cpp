@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/29 16:25:17 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/29 17:15:14 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void BtcExchng::readPrices(const std::string prices)
 		if (row_stream.peek() != EOF)
 		{
 			std::string			cell;
-			getline(row_stream, cell, ',');
+			std::getline(row_stream, cell, ',');
 			std::stringstream	cell_date(cell);
 			try
 			{
@@ -190,7 +190,7 @@ void BtcExchng::readTransactions(const std::string transactions)
 		if (row_stream.peek() != EOF)
 		{
 			std::string			cell;
-			getline(row_stream, cell, '|');
+			std::getline(row_stream, cell, '|');
 			std::stringstream	cell_date(cell);
 			try
 			{
