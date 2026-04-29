@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 17:37:00 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/24 15:32:52 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/29 16:39:57 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ void RPN::division()
 
 	divisor = expr.top();
 	expr.pop();
+	if (divisor == 0)
+		throw(std::runtime_error("Division by 0"));
 	divident = expr.top();
 	expr.pop();
 	expr.push(divident/divisor);
