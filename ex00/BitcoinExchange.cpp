@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/29 17:15:14 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/29 17:24:54 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ void BtcExchng::readPrices(const std::string prices)
 	//Discarding first, header line
 	std::string  temp;
 	std::getline(file_to_read, temp, '\n');
+	if (file_to_read.eof())
+		throw (std::runtime_error("Empty database"));
 	while (!file_to_read.eof() && !file_to_read.fail())
 	{
 		std::string			row;
@@ -180,6 +182,8 @@ void BtcExchng::readTransactions(const std::string transactions)
 	//Discarding first, header line
 	std::string 	temp;
 	std::getline(file_to_read, temp, '\n');
+	if (file_to_read.eof())
+		throw (std::runtime_error("No transactions in the file"));
 	while (!file_to_read.eof() && !file_to_read.fail())
 	{
 		counter++;
