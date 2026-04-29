@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:11:30 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/29 17:24:54 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/29 17:26:36 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ void BtcExchng::readTransactions(const std::string transactions)
 float BtcExchng::calculateTransaction(time_t date, float amount)
 {
 	std::cout << std::fixed;
-	std::cout.precision(1);
+	std::cout.precision(2);
 			
 	std::map<time_t, float>::iterator exchange_rate_data;
 	exchange_rate_data = price_.upper_bound(date); //the first date  after it
