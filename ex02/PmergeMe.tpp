@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 16:41:18 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/04/29 16:57:34 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,7 +355,11 @@ struct timeval PmergeMe<containerT>::getExecuionTime() const
 	struct timeval result;
 	result.tv_sec = time_now.tv_sec  - execution_start_.tv_sec;
 	result.tv_usec = time_now.tv_usec - execution_start_.tv_usec;
-
+	if (result.tv_usec < 0)
+	{
+		result.tv_sec += 1;
+		result.tv_usec += 1000000;
+	}
 	return result;
 }
 
