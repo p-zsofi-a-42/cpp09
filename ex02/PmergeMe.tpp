@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/29 17:17:45 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/05/04 13:50:59 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ PmergeMe<containerT>::PmergeMe(std::stringstream &input)
 
 	while (!input.eof() && !input.fail())
 	{
+		input >> std::ws;
+		if (input.peek() == '+')
+			throw (std::runtime_error("Element has sign"));
 		input >> element;
 		if (!input.fail())
 			sort_sequence_.push_back(element);
