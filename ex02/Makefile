@@ -16,7 +16,7 @@ BUG_DEPS 	= $(BUG_OBJ:.o=.d)
 PROG_NAME		= PmergeMe
 BUG_PROG_NAME	= $(PROG_NAME)_debug
 CXX				= c++
-C_FLAGS			= -Wall -Wextra -Werror -std=c++98 $(DEP_FLAGS)
+C_FLAGS			= -Wall -Wextra -Werror -std=c++98 -pedantic $(DEP_FLAGS)
 DEBUG_FLAGS		= $(C_FLAGS) -g -fsanitize=undefined,address -DDEBUG=1
 
 #---------------------------------COLORS----------------------------------------
