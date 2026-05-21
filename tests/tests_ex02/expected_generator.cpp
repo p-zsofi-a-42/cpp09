@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:41:13 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/15 21:02:38 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/05/22 14:20:56 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 		}
 	}
 	
-	std::cout << "Before: ";
+	std::cout << "Before:       ";
 	for (std::vector<int>::iterator it = expected.begin(); it != expected.end(); it++)
 		std::cout << *it << " ➝ ";
 	std::cout << std::endl;
@@ -62,9 +62,12 @@ int main(int argc, char **argv)
 	//Sorting with STL sort
 	std::sort(expected.begin(), expected.end());
 	
-	std::cout << "After:  ";
+	std::cout << "After: list:  ";
 	for (std::vector<int>::iterator it = expected.begin(); it != expected.end(); it++)
 		//std::cout << "[" << *it << "]";
+		std::cout << *it << " ➝ ";
+	std::cout << "\nAfter: deque: ";
+	for (std::vector<int>::iterator it = expected.begin(); it != expected.end(); it++)
 		std::cout << *it << " ➝ ";
 	std::cout << std::endl;
 

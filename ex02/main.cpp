@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:41:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/04/28 15:02:38 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/05/21 16:48:11 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ int main(int argc, char **argv)
 		struct timeval deque_exec_time = dequeTest.getExecuionTime();
 
 		// Using the list version for printing result
-		std::cout << "Before: ";
+		std::cout << "Before:       ";
 		std::for_each(BeforeSorting.begin(), BeforeSorting.end(), myPrintInt);
 		std::cout << std::endl;
 
-		std::cout << "After:  ";
+		std::cout << "After: list:  ";
 		std::for_each(test.getSortSequence().begin(), test.getSortSequence().end(), myPrintInt);
+		std::cout << std::endl;
+		std::cout << "After: deque: ";
+		std::for_each(dequeTest.getSortSequence().begin(), dequeTest.getSortSequence().end(), myPrintInt);
 		std::cout << std::endl;
 
 		std::cout << "\ntime with std::list " 
