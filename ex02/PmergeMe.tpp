@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 15:08:57 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/05/04 13:50:59 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/05/22 14:23:49 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ void PmergeMe<containerT>::mergePairs()
 		if (next != result_sequence_.end())
 		{
 			it->copyToMain(*next);
-			result_sequence_.erase(next);
+			it++;
 			//now we have a list of  pairs with doube the size
 		}
 		else
@@ -154,6 +154,15 @@ void PmergeMe<containerT>::mergePairs()
 			result_sequence_.pop_back();
 			break;
 		}
+	}
+	// deleting all those nodes that were copied int the main part of the previous node (cound have done it in the prev for loop but deque invalidates iterators on erase)
+	for (it = result_sequence_.begin(); it != result_sequence_.end(); it++)
+	{
+		if (it->main_.empty())
+		{
+			result_sequence_.erase(it);
+			it = result_sequence_.begin();
+		}	
 	}
 
 	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
@@ -199,6 +208,7 @@ void PmergeMe<containerT>::sort()
 	if (result_sequence_.empty() && !reserve_.empty())
 	{
 		result_sequence_ = reserve_;
+		reserve_.clear();
 		part2();
 	}
 	else if (current_pair_size_ != 0)
@@ -237,16 +247,26 @@ void PmergeMe<containerT>::insertPendSection(typename PmergeMe::my_pair_list::it
 		//it pend becomes the new main
 		inserted_pend = pendMain<typename PmergeMe::containerInt>::pairEmptyPend(it->pend_);
 		/*🪲*/ if (DEBUG)  {std::cout << "🍎inserting: " ; myPrintPair()(inserted_pend); std::cout << std::endl;}
-		result_sequence_.insert(std::lower_bound(result_sequence_.begin(), it, it->pend_, functor),
-								inserted_pend);
 		// in case this node was originally an unpaired one, we don!t need the empty node
 		if (it->main_.empty())
 		{
 			result_sequence_.pop_back();
 			it = result_sequence_.end(); //to not invalidate iterator with the pop
 		}
+		// keep only the man part erase the pend
 		else
 			it->pend_.clear();
+
+		// ATTENTION: node based containers are keeping iterators but for e.g deque invalidates iterators if inserted in the middle 
+		// looking for the place of the inserted pend which pend (the actual values) is now stored in its main
+		result_sequence_.insert(std::lower_bound(result_sequence_.begin(), it, inserted_pend.main_, functor),
+								inserted_pend);
+		
+		// extra step bc of how deque acts with iterators and insert (see 3l above)
+		it = result_sequence_.end();
+		it--;
+		while (!it->pend_.empty() && it != result_sequence_.begin())
+			it--;
 		if (--Jacobsthal_insertion)
 			decremetUntilPendFound(it);
 		

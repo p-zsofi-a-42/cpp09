@@ -6,7 +6,7 @@
 /*   By: zpalotas <zpalotas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/16 14:05:14 by zpalotas          #+#    #+#             */
-/*   Updated: 2026/05/21 16:30:18 by zpalotas         ###   ########.fr       */
+/*   Updated: 2026/05/22 13:47:21 by zpalotas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ template <typename containerInt>
 void pendMain<containerInt>::merge()
 {
 	pend_.insert(pend_.end(), main_.begin(), main_.end());
+	main_.clear();
 }
 
 template <typename containerInt>
