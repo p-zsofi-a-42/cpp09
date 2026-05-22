@@ -283,7 +283,7 @@ void PmergeMe<containerT>::insertPend()
 	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << std::endl;}
 	
 	typename PmergeMe::my_pair_list::iterator it = result_sequence_.begin();
-	typename PmergeMe::containerInt emptyList;
+//	typename PmergeMe::containerInt emptyList;
 
 	size_t Jacob_n = 2; //helper to keep track of which element of the J.sequence we!re using for our insertion logic
 	size_t Jacobsthal_insertion; // how many elements we're inserting on this insertion round
@@ -315,12 +315,14 @@ void PmergeMe<containerT>::insertPend()
 template <template <typename, typename> class containerT>
 void PmergeMe<containerT>::insertUnpaired()
 {
+	/*🪲*/ if (DEBUG)	{std::cerr << "⭐ Entered: " << __FUNCTION__ << "	on lvl: " << recursion_lvl_ << " pair size: "<< current_pair_size_<< std::endl;}
 	if (!reserve_.empty() && reserve_.begin()->pend_.size() == current_pair_size_)
 	{
 		result_sequence_.push_back(reserve_.front());
 		reserve_.pop_front();
 	}
 	/*🪲*/ if (DEBUG) {std::cout << "After reserve insertion\n";	std::for_each(result_sequence_.begin(), result_sequence_.end(), myPrintPair()); std::cout << std::endl;}
+	/*🪲*/ if (DEBUG)	{std::cerr << "🏁 Exited : " << __FUNCTION__ << std::endl;}
 }
 
 template <template <typename, typename> class containerT>
